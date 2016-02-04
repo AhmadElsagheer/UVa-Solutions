@@ -49,7 +49,7 @@ public class TeamQueue_UVa540 {
 
 class TeamQueue
 {
-	int[]  teamOf;
+	int[] teamOf;
 	int nxt;
 	Queue<Integer> queue;
 	Queue<Integer>[] team_queue;

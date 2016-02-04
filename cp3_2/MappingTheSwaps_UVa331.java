@@ -9,28 +9,20 @@ import java.util.StringTokenizer;
 public class MappingTheSwaps_UVa331 {
 
 	static int N;
-	static int minSwaps;
 	static int counter;
 	
-	static void backtrack(int swaps, int[] array)
+	static void backtrack(int[] array)
 	{
 		if(sorted(array))
 		{
-			if(swaps==minSwaps)
-				counter++;
-			else
-				if(swaps<minSwaps)
-				{
-					minSwaps = swaps;
-					counter = 1;
-				}
+			++counter;
 			return;
 		}
 		for(int i = 0; i < N - 1; i++)
 			if(array[i] > array[i+1])
 			{
 				swap(i,array);
-				backtrack(swaps+1,array);
+				backtrack(array);
 				swap(i,array);
 			}
 	}
@@ -65,9 +57,9 @@ public class MappingTheSwaps_UVa331 {
 			int[] array = new int[N];
 			for(int i = 0; i < N; i++)
 				array[i]  =  Integer.parseInt(st.nextToken());
-			minSwaps = 1000;
+			
 			counter = 0;
-			backtrack(0,array);
+			backtrack(array);
 			if(sorted(array))
 				out.printf("There are %d swap maps for input data set %d.\n",0,k++);
 			else

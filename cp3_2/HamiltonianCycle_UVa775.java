@@ -10,9 +10,7 @@ public class HamiltonianCycle_UVa775 {
 
 	static boolean[] visited;
 	static ArrayList<Integer>[] adjList;
-	static int[] sol;
-	static int[] trial;
-	static int N;
+	static int N, sol[], trial[];
 	
 	static boolean dfs(int u, int n, int root)
 	{

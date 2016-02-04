@@ -59,7 +59,8 @@ public class AngryProgrammers_UVa11506 {
 		out.flush();
 	}
 	
-	static int dinic()
+
+	static int dinic()						//O(V^2E)
 	{
 		int mf = 0;
 		while(bfs())
@@ -69,31 +70,28 @@ public class AngryProgrammers_UVa11506 {
 			while((f = dfs(s, INF)) != 0)
 				mf += f;
 		}
-		
 		return mf;
 	}
 	
+	
 	static boolean bfs()
 	{
-		Queue<Integer> q = new LinkedList<Integer>();
 		dist = new int[V];
 		Arrays.fill(dist, -1);
 		dist[s] = 0;
+		Queue<Integer> q = new LinkedList<Integer>();
 		q.add(s);
 		while(!q.isEmpty())
 		{
 			int u = q.remove();
 			if(u == t)
 				return true;
-			for(int i = 0; i < adjList[u].size(); ++i)
-			{
-				int v = adjList[u].get(i);
+			for(int v: adjList[u])
 				if(dist[v] == -1 && res[u][v] > 0)
 				{
 					dist[v] = dist[u] + 1;
 					q.add(v);
 				}
-			}
 		}
 		return false;
 	}
@@ -117,6 +115,7 @@ public class AngryProgrammers_UVa11506 {
 			}
 		}
 		return 0;
+		
 	}
 
 	static class Scanner 
