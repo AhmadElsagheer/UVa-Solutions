@@ -26,12 +26,18 @@ public class FullTank_UVa11367 {
 		while(!q.isEmpty())
 		{
 			Triple cur = q.remove();
+<<<<<<< HEAD
 			if(cur.city == E)
 				return cur.cost;
 
 			if(cur.cost > dist[cur.city][cur.fuel])
 				continue;
 			
+=======
+			if(cur.cost > dist[cur.city][cur.fuel])
+				continue;
+				
+>>>>>>> 39f869b7a0b14772c795150d9bb52127d820fece
 			for(int i = 0; i < adjList[cur.city].size(); i++)
 			{
 				Edge nxt = adjList[cur.city].get(i);
@@ -48,7 +54,11 @@ public class FullTank_UVa11367 {
 			}
 			
 		}
+<<<<<<< HEAD
 		return INF;
+=======
+		return dist[E][0];
+>>>>>>> 39f869b7a0b14772c795150d9bb52127d820fece
 	}
 	
 	public static void main(String[] args) throws IOException {
