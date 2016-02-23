@@ -1,64 +1,53 @@
-package cp3_3;
+package cp4_2;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class FillTheContainers_UVa11413 {
+public class SquareSums_UVa11470 {
+	
 
 	public static void main(String[] args) throws IOException {
 
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		while(sc.ready())
-		{
-			int n = sc.nextInt(), m = sc.nextInt();
-			int[] c = new int[n];
-			for(int i = 0; i < n; ++i)
-				c[i] = sc.nextInt();
-//			ans = -1: to indicate that no valid answer so far
-//			in this problem, there will always be a valid answer
-//			in other problems, we may end with no valid answers
-//			lo = 1: minimum possible capacity
-//			hi = 1e9: maximum possible capacity, in the worst case
-//			we will have too many vessels with large capacities
-//			and only one container
-			int ans = -1, lo = 1, hi = (int)1e9;
-			while(lo <= hi)
-			{
-				int mid = lo + (hi - lo) / 2;	//capacity to test
-				if(possible(c, n, m, mid))
-				{
-					ans = mid;		//mid is the best answer so far
-					hi = mid - 1;	//try to find a better one (we need min capacity)
-				}
-				else
-					lo = mid + 1;	//[lo,mid] are not valid, increase lo
-			}
-			out.println(ans);
-		}
 		
+		int tc = 1;
+		while(true)
+		{
+			int n = sc.nextInt();
+			
+			if(n == 0)
+				break;
+			int[][] a = new int[n][n];
+			for(int i = 0; i < n; ++i)
+				for(int j = 0; j < n; ++j)
+					a[i][j] = sc.nextInt();
+			out.printf("Case %d:", tc++);
+			for(int k = n, s = 0; k > 0; k -= 2, ++s)
+				out.printf(" %d", findSum(a, s, k));
+			out.println();
+		}
 		out.flush();
 		out.close();
-	}	
-	
-	//check whether the capacity being test is valid or not
-	static boolean possible(int[] c, int vessels, int containers, int testedCapacity)
-	{
-		int vesselIndex = 0,  curCap = testedCapacity;
-		while(vesselIndex < vessels && containers > 0)
-			if(c[vesselIndex] <= curCap)
-				curCap -= c[vesselIndex++];
-			else
-			{
-				curCap = testedCapacity;
-				--containers;
-			}
-		return vesselIndex == vessels;
 	}
-
+	
+	static int findSum(int[][] a, int s, int n)
+	{
+		if(n == 1)
+			return a[s][s];
+		int sum = 0;
+		for(int i = s; i < s + n; ++i)
+			sum += a[i][s] + a[i][s + n - 1];
+		for(int j = s + 1; j < s + n - 1; ++j)
+			sum += a[s][j] + a[s + n - 1][j];
+		return sum;
+	}
+	
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -74,16 +63,14 @@ public class FillTheContainers_UVa11413 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-
+		
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-
-		public boolean ready() throws IOException {return br.ready();}
-
-		public double nextDouble(String x) 
+		
+		public double nextDouble() throws IOException
 		{
-
+			String x = next();
 			StringBuilder sb = new StringBuilder("0");
 			double res = 0, f = 1;
 			boolean dec = false, neg = false;
@@ -109,6 +96,8 @@ public class FillTheContainers_UVa11413 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
+		
+		public boolean ready() throws IOException {return br.ready();}
 
 
 	}
