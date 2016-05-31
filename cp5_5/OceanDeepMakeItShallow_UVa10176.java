@@ -1,51 +1,46 @@
-package cp7_2;
-
+package cp5_5;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Graveryard_UVa1388 {
-	
-	static final double INF = 1e9;
-	
-	public static void main(String[] args) throws IOException {
-		
+
+public class OceanDeepMakeItShallow_UVa10176 {
+
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-	
+		int p = 131071;
 		while(sc.ready())
 		{
-			int n = sc.nextInt(), m = sc.nextInt();
-			double d = 10000;
-			double[] pos = new double[n];
-			pos[0] = 0.0;
-			for(int i = 1; i < n; i++) pos[i] = pos[i-1] + d / n;
-			
-			double[] newPos = new double[n+m];
-			newPos[0] = 0.0;
-			for(int i = 1; i < n + m; i++) newPos[i] = newPos[i-1] + d / (n + m);
-			 
-			double min = 0;
-			for(int i = 0, j = 0; i < n; i++)
+			ArrayList<Integer> binary = new ArrayList<Integer>();
+			boolean done = false;
+			while(!done)
 			{
-				int idx = j;
-				while(j < n + m)
-				{
-					if(Math.abs(newPos[j] - pos[i]) < Math.abs(newPos[idx] - pos[i]))
-						idx = j;
-					else if(newPos[j] > pos[i])
+				char[] s = sc.next().toCharArray();
+				for(int i = 0; i < s.length; ++i)
+					if(s[i] == '#')
+					{
+						done = true;
 						break;
-					++j;
-				}
-				min += Math.abs(newPos[idx] - pos[i]);			
+					}
+					else
+						binary.add(s[i] - '0');
 			}
-			out.printf("%.4f\n", min);
+			int f = 1, mod = 0;
+			for(int i = 0, size = binary.size(); i < size; ++i, f = (f<<1)%p)
+				mod = (mod + f * binary.get(i))%p;
+			out.println(mod == 0 ? "YES":"NO");
 		}
 		out.flush();
+		out.close();
+
 	}
+	
 	
 	static class Scanner 
 	{
@@ -62,11 +57,11 @@ public class Graveryard_UVa1388 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -82,7 +77,7 @@ public class Graveryard_UVa1388 {
 			for(int i = start; i < x.length(); i++)
 				if(x.charAt(i) == '.')
 				{
-					res = Integer.parseInt(sb.toString());
+					res = Long.parseLong(sb.toString());
 					sb = new StringBuilder("0");
 					dec = true;
 				}
@@ -92,10 +87,10 @@ public class Graveryard_UVa1388 {
 					if(dec)
 						f *= 10;
 				}
-			res += Integer.parseInt(sb.toString()) / f;
+			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

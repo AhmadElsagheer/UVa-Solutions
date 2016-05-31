@@ -14,7 +14,21 @@ public class ColourfulFlowers_UVa11152 {
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
+		while(sc.ready())
+		{
+			int a = sc.nextInt(), b = sc.nextInt(), c = sc.nextInt();
+			
+			Triangle t = new Triangle(a, b, c);
+			double r1 = t.rInCircle(), r2 = t.rCircumCircle(); 
+			double red = Math.PI * r1 * r1;
+			double violet = t.area() - red;
+			double yellow = Math.PI * r2 * r2 - (red + violet);
+			out.printf("%.4f %.4f %.4f\n", yellow , violet, red);
+		}
+		out.flush();
+		out.close();
 	}
+	
 	
 	static double circleArea(double r)
 	{

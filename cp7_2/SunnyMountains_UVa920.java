@@ -54,7 +54,7 @@ public class SunnyMountains_UVa920 {
 		{
 			if(Math.abs(x - p.x) > EPS)
 				return p.x > x ? 1 : -1;
-			return p.x > y ? 1 : -1;
+			return p.y > y ? 1 : -1;
 		}
 		
 		public double dist(Point p)

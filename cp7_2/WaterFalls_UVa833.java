@@ -5,13 +5,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.text.Format;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class WaterFalls_UVa833 {
-
+	/*
+	 * This solution is missing the case of two parallel line segments one above the other with the
+	 * lower segment having the greater maxY and minY. If the source is above the upper line segment
+	 * the algorithm will mistakenly consider the lower one to be hit first. To solve this problem,
+	 * one can simulate for every source consider the next hit to be the highest intersection with
+	 * the vertical line passing through the source point. Thanks for abdo_shabrawy and MostafaAbdullah.
+	 * 
+	 */
 	
 	public static void main(String[] args) throws IOException 
 	{

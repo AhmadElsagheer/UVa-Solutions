@@ -15,10 +15,13 @@ public class Divisibility_UVa10036 {
 	{
 		if(i==N)
 			return sumMod%k == 0?1:0;
+		
 		if(memo[i][sumMod]!=UNCAL)
 			return memo[i][sumMod];
+		
 		int pos = dp(i+1,fix(sumMod+numbers[i]));
 		int neg = dp(i+1,fix(sumMod-numbers[i]));
+		
 		return memo[i][sumMod] = neg | pos;
 	}
 	
@@ -45,6 +48,7 @@ public class Divisibility_UVa10036 {
 			memo = new int[N][k];
 			for(int i = 0; i < N; i++)
 				Arrays.fill(memo[i], UNCAL);
+			
 			if(dp(1,fix(numbers[0])%k)==1)
 				sb.append("Divisible\n");
 			else

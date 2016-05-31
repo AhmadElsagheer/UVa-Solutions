@@ -1,83 +1,96 @@
-package cp7_2;
-
+package cp4_7;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Stack;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
-public class AnEasyTask_UVa11068 {
 
-	static final double EPS = 1e-9;
+public class CloseRelatives_UVa11131 {
+
+	static TreeMap<String, Integer> map = new TreeMap<String, Integer>();
+	static String[] unmap = new String[5000];
+	static Stack<Integer> stack = new Stack<Integer>();
+
+	static int[][] p = new int[5000][10];
+	static int N;
 	
-	public static void main(String[] args) throws IOException {
-		
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		while(true)
+		
+		boolean oneList = true;
+		while(sc.ready())
 		{
-			int a1 = sc.nextInt(), b1 = sc.nextInt(), c1 = sc.nextInt(), a2 = sc.nextInt(), b2 = sc.nextInt(), c2 = sc.nextInt();
-			if(a1 == 0 && b1 == 0 && c1 == 0 && a2 == 0 && b2 == 0 && c2 == 0)
-				break;
-			Line l1 = new Line(a1, b1, c1), l2 = new Line(a2, b2, c2);
-			Point c = l1.intersect(l2);
-			if(c == null)
-				out.print("No fixed point exists.\n");
-			else
-				out.printf("The fixed point is at %.2f %.2f.\n", round(c.x), round(c.y));
+			String[] r = sc.nextLine().split(",");
+			Integer x = find(r[0]), y = find(r[1]);
+			p[x][0] = y;
+			for(int i = 2; i < r.length; ++i)
+			{
+				Integer z = find(r[i]);
+				p[x][i-1] = z;
+				oneList = false;
+			}
+		}
+		if(oneList)
+		{
+			out.print("1\n\n");
+			dfs(0, true);
+			printStack(out);
+		}
+		else
+		{
+			out.print("2\n\n");
+			dfs(0, true);
+			printStack(out);
+			out.println();
+			dfs(0, false);
+			printStack(out);
 		}
 		out.flush();
+		out.close();
+
 	}
 	
-	static double round(double d) { return Math.round(d * 100) / 100.0; }
-	
-	static class Point
+	static void dfs(int u, boolean goLeft)
 	{
-		double x, y;
-		
-		Point(double a, double b)
+		stack.push(u);
+		if(goLeft)
 		{
-			x = a; y = b;
+			for(int i = 0; i < 10; ++i)
+				if(p[u][i] != 0)
+					dfs(p[u][i], goLeft);
 		}
+		else
+		{
+			for(int i = 9; i >= 0; --i)
+				if(p[u][i] != 0)
+					dfs(p[u][i], goLeft);
+		}
+		
+		
+		
 	}
-	static class Line
+	
+	static void printStack(PrintWriter out)
 	{
-		double a, b, c;
-		
-		Line(double x, double y, double z)
+		while(!stack.isEmpty())
+			out.println(unmap[stack.pop()]);
+	}
+	
+	static Integer find(String s)
+	{
+		Integer x = map.get(s);
+		if(x == null)
 		{
-			if(Math.abs(y) < EPS)
-			{
-				a = 1.0; b = 0.0; c = -z / x;
-			}
-			else
-			{
-				a = x / y;
-				b = 1.0;
-				c = -z / y;
-			}
-						
+			map.put(s, x = N);
+			unmap[N++] = s;
 		}
-		
-		boolean parallel(Line l)
-		{
-			return Math.abs(a - l.a) < EPS && Math.abs(b - l.b) < EPS;
-		}
-		
-		Point intersect(Line l)
-		{
-			if(parallel(l)) return null;
-			double x = (b * l.c  - c * l.b) / (a * l.b - b * l.a);
-			double y;
-			if(Math.abs(b) > EPS)
-				y = - a * x - c;
-			else
-				y = - l.a * x - l.c;
-			return new Point(x, y);
-			
-		}
-		
+		return x;
 	}
 	static class Scanner 
 	{
@@ -94,11 +107,11 @@ public class AnEasyTask_UVa11068 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -114,7 +127,7 @@ public class AnEasyTask_UVa11068 {
 			for(int i = start; i < x.length(); i++)
 				if(x.charAt(i) == '.')
 				{
-					res = Integer.parseInt(sb.toString());
+					res = Long.parseLong(sb.toString());
 					sb = new StringBuilder("0");
 					dec = true;
 				}
@@ -124,10 +137,10 @@ public class AnEasyTask_UVa11068 {
 					if(dec)
 						f *= 10;
 				}
-			res += Integer.parseInt(sb.toString()) / f;
+			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 
