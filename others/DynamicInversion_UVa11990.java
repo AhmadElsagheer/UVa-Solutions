@@ -46,15 +46,14 @@ public class DynamicInversion_UVa11990 {
 	{
 		int N, levels;
 		long inversionIndex;
-		int[][] arr, indexOf;
-		long[][] inv;
+		int[][] arr, indexOf, inv;
 		
 		SegmentTree(int[] in, int l)
 		{
 			N = in.length - 1;
 			levels = l;
 			
-			inv = new long[levels][N + 1];
+			inv = new int[levels][N + 1];
 			indexOf = new int[levels][N + 1];
 			arr = new int[levels][N + 1];
 
@@ -72,7 +71,7 @@ public class DynamicInversion_UVa11990 {
 			int mid = b + e >> 1;
 			build(lvl + 1, b, mid);
 			build(lvl + 1, mid + 1, e);
-			long xInv = 0;
+			int xInv = 0;
 			for(int k = b, i = b, j = mid + 1; k <= e; ++k)
 			{
 				int x = i <= mid ? arr[lvl+1][i] : INF, y = j <= e ? arr[lvl+1][j] : INF;
@@ -110,7 +109,6 @@ public class DynamicInversion_UVa11990 {
 				return;
 			if(l <= b && e <= r)
 			{
-				//most work goes here
 				if(updateSmaller)
 				{
 					int ans = -1, lo = b, hi = e;
@@ -164,15 +162,6 @@ public class DynamicInversion_UVa11990 {
 			}	
 		}
 		
-		void increment(int lvl, int idx, long val)
-		{
-			while(idx <= N)
-			{
-				inv[lvl][idx] += val;
-				idx += idx & -idx;
-			}
-		}
-		
 		void remove(int val)
 		{
 			int sum = 0, lvl = levels;
@@ -182,6 +171,15 @@ public class DynamicInversion_UVa11990 {
 			int idx = indexOf[levels-1][val];
 			update(1, idx - 1, val, false);
 			update(idx + 1, N, val, true);
+		}
+		
+		void increment(int lvl, int idx, int val)
+		{
+			while(idx <= N)
+			{
+				inv[lvl][idx] += val;
+				idx += idx & -idx;
+			}
 		}
 		
 		int query(int lvl, int idx)
