@@ -20,7 +20,7 @@ public class SKYLINE_UVa1232 {
 			while(s-->0)
 			{
 				StringTokenizer st = new StringTokenizer(br.readLine());
-				int L = Integer.parseInt(st.nextToken());
+				int L = Integer.parseInt(st.nextToken()) + 1;
 				int R = Integer.parseInt(st.nextToken());
 				int H = Integer.parseInt(st.nextToken());
 				overlap += ST.query(L, R, H);
@@ -31,16 +31,8 @@ public class SKYLINE_UVa1232 {
 		}
 		System.out.print(sb);
 	}
-	
+
 	static class Node { int maxH, minH; Node(int a, int b) { maxH = a; minH = b; } }
-	
-	static class Query 
-	{ 
-		int overlap;
-		boolean leftTaken, rightTaken; 
-		
-		Query(int a, boolean b, boolean c) { overlap = a; leftTaken = b; rightTaken = c; } 
-	}
 
 	static class SegmentTree {
 
@@ -80,7 +72,7 @@ public class SKYLINE_UVa1232 {
 			update_range(node<<1,b,(b+e)/2,i,j,val);
 			update_range((node<<1)+1,(b+e)/2+1,e,i,j,val);
 			sTree[node] = new Node( Math.max(sTree[node<<1].maxH, sTree[node<<1|1].maxH), 
-									Math.min(sTree[node<<1].minH, sTree[node<<1|1].minH));
+					Math.min(sTree[node<<1].minH, sTree[node<<1|1].minH));
 		}
 		void propagate(int node, int b, int e)		
 		{
@@ -91,30 +83,25 @@ public class SKYLINE_UVa1232 {
 
 		int query(int i, int j, int val)
 		{
-			return query(1,1,N,i,j, val).overlap;
+			return query(1,1,N,i,j, val);
 		}
 
-		Query query(int node, int b, int e, int i, int j, int val)	// O(log n)
+		int query(int node, int b, int e, int i, int j, int val)	// O(log n)
 		{
 
 			if(i > e || j < b)
-				return new Query(0, false, false);
+				return 0;
 			if(b>= i && e <= j)
 			{
 				if(val < sTree[node].minH)
-					return new Query(0, false, false);
+					return  0;
 				if(val >= sTree[node].maxH)
-					return new Query(e - b, true, true);
+					return e - b + 1;
 			}
 
 			propagate(node, b, e);
 			int mid = b + e >> 1;
-			Query leftQuery = query(node<<1,b,mid,i,j,val);
-			Query rightQuery = query(node<<1|1,mid+1,e,i,j,val);
-			int cross = 0;
-			if(i <= mid && j > mid && (leftQuery.rightTaken || rightQuery.leftTaken))		//missing 1 unit distance
-				cross = 1;
-			return new Query(leftQuery.overlap + rightQuery.overlap + cross, leftQuery.leftTaken, rightQuery.rightTaken);
+			return query(node<<1,b,mid,i,j,val) + query(node<<1|1,mid+1,e,i,j,val);
 		}
 	}
 }
