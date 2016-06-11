@@ -51,8 +51,6 @@ public class AhoyPirates_UVa11402 {
 					sb.append("Q"+q+++": ").append(s.query(a,b)).append("\n");
 				else
 					s.update_range(a,b,c);
-				
-				
 			}
 			
 		}
@@ -82,9 +80,10 @@ class SegmentTree
 			sTree[node] = array[b];
 		else
 		{
-			build(node<<1,b,(b+e)/2);
-			build((node<<1)+1,(b+e)/2+1,e);
-			sTree[node] = sTree[node<<1] + sTree[(node<<1)+1];
+			int mid = b + e >> 1;
+			build(node<<1,b,mid);
+			build(node<<1|1,mid+1,e);
+			sTree[node] = sTree[node<<1] + sTree[node<<1|1];
 		}
 	}
 	
@@ -135,19 +134,21 @@ class SegmentTree
 		}
 		else
 		{
+			int mid = b + e >> 1;
 			propagate(node,b,e);
-			update_range(node<<1,b,(b+e)/2,i,j,opr);
-			update_range((node<<1)+1,(b+e)/2+1,e,i,j,opr);
-			sTree[node] = sTree[node<<1] + sTree[(node<<1)+1];
+			update_range(node<<1,b,mid,i,j,opr);
+			update_range(node<<1|1,mid+1,e,i,j,opr);
+			sTree[node] = sTree[node<<1] + sTree[node<<1|1];
 		}
 	}
 	
 	void propagate(int node, int b, int e)
 	{
+		int mid = b + e >> 1;
 		update_lazy(node<<1,lazy[node]);
 		update_lazy((node<<1)+1,lazy[node]);
-		update_opr(node<<1,b,(b+e)/2,lazy[node]);
-		update_opr((node<<1)+1,(b+e)/2+1,e,lazy[node]);
+		update_opr(node<<1,b,mid,lazy[node]);
+		update_opr(node<<1|1,mid+1,e,lazy[node]);
 		lazy[node] = 0;
 	}
 	
@@ -162,9 +163,9 @@ class SegmentTree
 			return 0;
 		if(i <= b && j >= e)
 			return sTree[node];
-		
+		int mid = b + e >> 1;
 		propagate(node,b,e);
-		return query(node<<1,b,(b+e)/2,i,j) + query((node<<1)+1,(b+e)/2+1,e,i,j);
+		return query(node<<1,b,mid,i,j) + query(node<<1|1,mid+1,e,i,j);
 	}
 	
 }

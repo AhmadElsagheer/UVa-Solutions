@@ -12,6 +12,7 @@ public class SKYLINE_UVa1232 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		int TC = Integer.parseInt(new StringTokenizer(br.readLine()).nextToken());
+
 		while(TC-->0)
 		{
 			int s = Integer.parseInt(new StringTokenizer(br.readLine()).nextToken());
@@ -41,8 +42,7 @@ public class SKYLINE_UVa1232 {
 
 		SegmentTree()		
 		{
-			N = 1;
-			while(N < 100000) N <<= 1;
+			N = 1<<17; 
 			sTree = new Node[N<<1];
 			for(int i = 0; i < N<<1; ++i)
 				sTree[i] = new Node(0, 0);
@@ -59,25 +59,28 @@ public class SKYLINE_UVa1232 {
 
 			if(i > e || j < b)		
 				return;
+			
+			Node cur = sTree[node];
+			if(val < cur.minH)
+				return;
 			if(b >= i && e <= j)		
 			{
-				Node cur = sTree[node];
 				cur.maxH = Math.max(cur.maxH, val);
 				cur.minH = Math.max(cur.minH, val);
 				lazy[node] = Math.max(lazy[node], val);
 				return;	
 			}							
-
-			propagate(node,b,e);
-			update_range(node<<1,b,(b+e)/2,i,j,val);
-			update_range((node<<1)+1,(b+e)/2+1,e,i,j,val);
-			sTree[node] = new Node( Math.max(sTree[node<<1].maxH, sTree[node<<1|1].maxH), 
-					Math.min(sTree[node<<1].minH, sTree[node<<1|1].minH));
+			int mid = b + e >> 1;
+			propagate(node,b, mid, e);
+			update_range(node<<1,b, mid, i, j, val);
+			update_range(node<<1|1, mid + 1, e, i, j, val);
+			sTree[node].maxH = Math.max(sTree[node<<1].maxH, sTree[node<<1|1].maxH);
+			sTree[node].minH = Math.min(sTree[node<<1].minH, sTree[node<<1|1].minH);
 		}
-		void propagate(int node, int b, int e)		
+		void propagate(int node, int b, int mid, int e)		
 		{
-			update_range(node<<1,b,(b+e)/2,b,e,lazy[node]);
-			update_range((node<<1)+1,(b+e)/2+1,e,b,e,lazy[node]);
+			update_range(node<<1,b,mid,b,e,lazy[node]);
+			update_range(node<<1|1,mid+1,e,b,e,lazy[node]);
 			lazy[node] = 0;
 		}
 
@@ -99,8 +102,8 @@ public class SKYLINE_UVa1232 {
 					return e - b + 1;
 			}
 
-			propagate(node, b, e);
 			int mid = b + e >> 1;
+			propagate(node, b, mid, e);
 			return query(node<<1,b,mid,i,j,val) + query(node<<1|1,mid+1,e,i,j,val);
 		}
 	}
