@@ -1,40 +1,63 @@
-package cp5_4;
-
-
+package cp5_2;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class PolynomialShowdown_UVa392 {
+
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
+	
 		while(sc.ready())
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			boolean first = true;
+			String res = "";
+			for(int i = 8; i >= 0; --i)
+			{
+				res += format(i, sc.nextInt(), first);
+				if(!res.isEmpty())
+					first = false;
+			}
+			if(res.isEmpty())
+				res = "0";
+			out.println(res);
 		}
 		out.flush();
+		out.close();
 	}
 	
-	static double log10(long n)
+	static String format(int deg, int coeff, boolean first)
 	{
-		return Math.log(n) / Math.log(10);
+		String term = "";
+		char sign = '+';
+		if(coeff != 0)
+		{
+			sign = coeff < 0 ? '-' : '+';
+			if(deg != 0)
+				term = deg == 1 ? "x" : "x^" + deg;
+			if(Math.abs(coeff) == 1)
+				term = (deg != 0 ? "" : Math.abs(coeff)) + term;
+			else
+				term = Math.abs(coeff) + term;
+			
+			if(first)
+			{
+				if(sign == '-')
+					term = sign + term;
+			}
+			else
+				term = " " + sign + " " + term;
+			
+		}
+		
+		return term;
 	}
 
 	static class Scanner 
@@ -42,7 +65,9 @@ public class FindTheWays_UVa10219 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+
+		public Scanner(FileReader r){    br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
@@ -52,11 +77,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,7 +110,7 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

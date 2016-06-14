@@ -1,40 +1,31 @@
-package cp5_4;
-
-
+package cp5_2;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class SkewBinary_UVa575 {
+
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		while(sc.ready())
+		while(true)
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			char[] s = sc.next().toCharArray();
+			if(s.length == 1 && s[0] == '0')
+				break;
+			int res = 0;
+			for(int k = 1; k <= s.length; ++k)
+				res += (s[s.length-k] - '0') * ((1<<k) - 1);
+			out.println(res);
 		}
 		out.flush();
-	}
-	
-	static double log10(long n)
-	{
-		return Math.log(n) / Math.log(10);
+		out.close();
 	}
 
 	static class Scanner 
@@ -42,7 +33,9 @@ public class FindTheWays_UVa10219 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+
+		public Scanner(FileReader r){    br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
@@ -52,11 +45,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,7 +78,7 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

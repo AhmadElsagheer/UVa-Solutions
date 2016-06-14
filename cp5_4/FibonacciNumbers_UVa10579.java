@@ -1,42 +1,32 @@
 package cp5_4;
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class FibonacciNumbers_UVa10579 {
+
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
+		BigInteger[] fib = new BigInteger[10000];
+		fib[0] = BigInteger.ZERO;
+		fib[1] = BigInteger.ONE;
+		for(int i = 2; i < 10000; ++i)
+			fib[i] = fib[i-1].add(fib[i-2]);
 		while(sc.ready())
-		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
-		}
+			out.println(fib[sc.nextInt()]);
 		out.flush();
+		out.close();
+
 	}
 	
-	static double log10(long n)
-	{
-		return Math.log(n) / Math.log(10);
-	}
-
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -52,11 +42,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,7 +75,7 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

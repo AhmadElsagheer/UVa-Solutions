@@ -91,7 +91,6 @@ public class SKYLINE_UVa1232 {
 
 		int query(int node, int b, int e, int i, int j, int val)	// O(log n)
 		{
-
 			if(i > e || j < b)
 				return 0;
 			if(b>= i && e <= j)

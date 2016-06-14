@@ -1,40 +1,42 @@
-package cp5_4;
-
-
+package cp5_2;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class TheCollatzSequence_UVa694 {
+
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		while(sc.ready())
+		int t = 1;
+		while(true)
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			long A = sc.nextLong(), L = sc.nextLong(), B = A;
+			if(A < 0)
+				break;
+			int terms = 1;
+			while(A != 1)
+			{
+				if((A & 1) == 1)
+					A = 3 * A + 1;
+				else
+					A >>= 1;
+				
+				if(A > L)
+					break;
+				++terms;
+			}
+			out.printf("Case %d: A = %d, limit = %d, number of terms = %d\n", t++, B, L, terms);
 		}
 		out.flush();
-	}
-	
-	static double log10(long n)
-	{
-		return Math.log(n) / Math.log(10);
+		out.close();
 	}
 
 	static class Scanner 
@@ -42,7 +44,9 @@ public class FindTheWays_UVa10219 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+
+		public Scanner(FileReader r){    br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
@@ -52,11 +56,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,7 +89,7 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 
