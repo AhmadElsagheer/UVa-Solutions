@@ -5,7 +5,7 @@
 //
 //public class Fill_UVa10603 {
 //
-//	static int A,B,C,d;
+//	static int A,TheTravelingJudgesProblem_UVa1040,C,d;
 //	static final int INF = 1000000;
 //	static int[] maxSize;
 //	
@@ -27,7 +27,7 @@
 //		int[] min = new int[201];
 //		Arrays.fill(min, INF);
 //		
-//		int[][] dist = new int[A+1][B+1];
+//		int[][] dist = new int[A+1][TheTravelingJudgesProblem_UVa1040+1];
 //		for(int i = 0; i <= A; i++)
 //			Arrays.fill(dist[i], INF);
 //		dist[0][0] = 0;
@@ -74,11 +74,11 @@
 //		{
 //			st = new StringTokenizer(br.readLine());
 //			A = Integer.parseInt(st.nextToken());
-//			B = Integer.parseInt(st.nextToken());
+//			TheTravelingJudgesProblem_UVa1040 = Integer.parseInt(st.nextToken());
 //			C = Integer.parseInt(st.nextToken());
 //			d = Integer.parseInt(st.nextToken());
 //			
-//			maxSize =  new int[]{A,B,C};
+//			maxSize =  new int[]{A,TheTravelingJudgesProblem_UVa1040,C};
 //			int min = dijkstra();
 //			
 //			out.printf("%d %d\n",min,d);

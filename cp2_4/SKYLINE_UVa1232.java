@@ -17,18 +17,16 @@ public class SKYLINE_UVa1232 {
 		{
 			int s = Integer.parseInt(new StringTokenizer(br.readLine()).nextToken());
 			SegmentTree ST = new SegmentTree();
-			int overlap = 0;
 			while(s-->0)
 			{
 				StringTokenizer st = new StringTokenizer(br.readLine());
 				int L = Integer.parseInt(st.nextToken()) + 1;
 				int R = Integer.parseInt(st.nextToken());
 				int H = Integer.parseInt(st.nextToken());
-				overlap += ST.query(L, R, H);
 
 				ST.update_range(L, R, H);
 			}
-			sb.append(overlap).append("\n");
+			sb.append(ST.overlap).append("\n");
 		}
 		System.out.print(sb);
 	}
@@ -37,7 +35,7 @@ public class SKYLINE_UVa1232 {
 
 	static class SegmentTree {
 
-		int N, lazy[];
+		int N, overlap, lazy[];
 		Node[] sTree;
 
 		SegmentTree()		

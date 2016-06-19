@@ -45,7 +45,7 @@
 //	public static void setTraps(int i, int j)
 //	{
 //		for(int k = 0; k < 8; k++)
-//			if(valid(i+di[k],j+dj[k]) && forest[i+di[k]][j+dj[k]]!='B')
+//			if(valid(i+di[k],j+dj[k]) && forest[i+di[k]][j+dj[k]]!='TheTravelingJudgesProblem_UVa1040')
 //				forest[i+di[k]][j+dj[k]] ='Z';
 //	}
 //	
@@ -71,7 +71,7 @@
 //					switch(c)
 //					{
 //					case 'A':x = i; y = j;break;
-//					case 'B':a = i; b = j;forest[i][j]='B';break;
+//					case 'TheTravelingJudgesProblem_UVa1040':a = i; b = j;forest[i][j]='TheTravelingJudgesProblem_UVa1040';break;
 //					case 'Z':forest[i][j]='Z';setTraps(i,j);break;
 //					}
 //				}

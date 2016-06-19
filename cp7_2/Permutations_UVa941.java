@@ -1,4 +1,4 @@
-package cp5_2;
+package cp7_2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,41 +6,48 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
+public class Permutations_UVa941 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(sc.ready())
+		
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
-				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+			char[] s = sc.next().toCharArray();
+			long k = sc.nextLong();
+			
+			int[] f = new int[26];
+			for(char c: s)
+				f[c-'a']++;
+			
+			int[] facNum = new int[s.length];
+			for(int i = 1; i <= s.length; k /= i, ++i)
+				facNum[s.length - i] = (int) (k % i);
+			
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < s.length; ++i)
+			{
+				int z = facNum[i];
+				for(int j = 0; j < 26; ++j)
+				{
+					if(f[j] == 0)
+						continue;
+					if(f[j] > z)
+					{
+						sb.append((char) (j + 'a'));
+						f[j]--;
+						break;
+					}
+					z -= f[j];
+				}
+			}
+			out.println(sb);
+			
 		}
 		out.flush();
 		out.close();
@@ -51,9 +58,9 @@ public class SimplySubsets_UVa496 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

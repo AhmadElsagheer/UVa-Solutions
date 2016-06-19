@@ -1,46 +1,77 @@
-package cp5_2;
+package cp4_4;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
+public class KrochanskaIsHere_UVa11792 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(sc.ready())
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
-				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+			int N = sc.nextInt(), S = sc.nextInt();
+			ArrayList<Integer>[] adjList = new ArrayList[N];
+			int[] importance = new int[N];
+			for(int i = 0; i < N; ++i)
+				adjList[i] = new ArrayList<Integer>();
+			while(S-->0)
+			{
+				int lst = -1;
+				while(true)
+				{
+					int cur = sc.nextInt() - 1;
+					if(cur == -1)
+						break;
+					importance[cur]++;
+					if(lst != -1)
+					{
+						adjList[lst].add(cur);
+						adjList[cur].add(lst);
+					}
+					lst = cur;
+				}
+			}
+			
+			int ans = -1, min = (int)1e9;
+			for(int i = 0; i < N; ++i)
+				if(importance[i] > 1)
+				{
+					int cur = 0;
+					Queue<Integer> q = new LinkedList<Integer>();
+					int[] dist = new int[N];
+					Arrays.fill(dist, -1);
+					q.add(i); dist[i] = 0;
+					while(!q.isEmpty())
+					{
+						int u = q.remove();
+						if(importance[u] > 1)
+							cur += dist[u];
+						for(int v: adjList[u])
+							if(dist[v] == -1)
+							{
+								dist[v] = dist[u] + 1;
+								q.add(v);
+							}
+					}
+					if(cur < min)
+					{
+						min = cur;
+						ans = i + 1;
+					}
+				}
+			out.printf("Krochanska is in: %d\n", ans);
 		}
 		out.flush();
 		out.close();

@@ -1,46 +1,91 @@
-package cp5_2;
+package cp8_3;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
+public class GameOfEuler_UVa10536 {
+
+	static int[] memo;
+
+	static int dp(int board)
+	{
+		if(Integer.bitCount(board) == 16)
+			return 1;
+		if(memo[board] != -1)
+			return memo[board];
+		int ret = 0, x1, x2, y1, y2;
+		for(int i = 0; ret == 0 && i < 16; ++i)
+			if((board & 1<<i) == 0)
+			{
+				//try single
+				ret |= dp(board | 1<<i) ^ 1;
+				//try right
+				x1 = rightCell(i, 1);
+				if(x1 != -1 && (board & 1<<x1) == 0)
+				{
+					// 1 right
+					if(i%4 != 1)
+						ret |= dp(board | 1<<i | 1<<x1) ^ 1;
+					// 2 right
+					x2 = rightCell(i, 2);
+					if(x2 != -1 && (board & 1<<x2) == 0)
+						ret |= dp(board | 1<<i | 1<<x1 | 1<<x2) ^ 1;
+				}
+				//try down
+				y1 = downCell(i, 1);
+				if(y1 != -1 && (board & 1<<y1) == 0)
+				{
+					// 1 down
+					if(i / 4 != 1)
+						ret |= dp(board | 1<<i | 1<<y1) ^ 1;
+					// 2 down
+					y2 = downCell(i, 2);
+					if(y2 != -1 && (board & 1<<y2) == 0)
+						ret |= dp(board | 1<<i | 1<<y1 | 1<<y2) ^ 1;
+				}
+			}
+
+		return memo[board] = ret;
+	}
+
+	static int rightCell(int idx, int diff)
+	{
+		if(idx % 4 + diff >= 4)
+			return -1;
+		return idx + diff;
+	}
+
+	static int downCell(int idx, int diff)
+	{
+		if(idx / 4 + diff >= 4)
+			return -1;
+		return (idx / 4 + diff) * 4 + idx % 4;
+	}
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(sc.ready())
+		memo = new int[1<<16];
+		Arrays.fill(memo, -1);
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
-				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+			int board = 0;
+			for(int i = 0; i < 4; ++i)
+			{
+				char[] s = sc.next().toCharArray();
+				for(int j = 0; j < 4; ++j)
+					if(s[j] == 'X')
+						board |= 1<<(i * 4 + j);
+			}
+			out.println(dp(board) == 1 ? "WINNING" : "LOSING");
 		}
 		out.flush();
 		out.close();

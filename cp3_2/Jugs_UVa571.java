@@ -78,8 +78,8 @@ public class Jugs_UVa571 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		map =new TreeMap<Integer,String>();
-		map.put(1, "fill A");map.put(2, "fill B");map.put(3, "empty A");
-		map.put(4, "empty B");map.put(5, "pour A B");map.put(6, "pour B A");
+		map.put(1, "fill A");map.put(2, "fill TheTravelingJudgesProblem_UVa1040");map.put(3, "empty A");
+		map.put(4, "empty TheTravelingJudgesProblem_UVa1040");map.put(5, "pour A TheTravelingJudgesProblem_UVa1040");map.put(6, "pour TheTravelingJudgesProblem_UVa1040 A");
 		while(br.ready())
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());

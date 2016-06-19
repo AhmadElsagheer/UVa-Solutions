@@ -13,19 +13,18 @@ public class ExpressionBracketing_UVa10312 {
 	
 	static long[][] f;
 	
-	static long dp(int idx, int n)
+	static long dp(int isPrefix, int n)
 	{
-		if(n - idx == 1 || idx == n || n <= 2)
+		if(n  <= 1)
 			return 1;
-		if(f[idx][n] != -1)
-			return f[idx][n];
+		if(f[isPrefix][n] != -1)
+			return f[isPrefix][n];
 		long c = 0;
-		for(int k = 1; idx + k < n; ++k)
-			c += dp(0, k) * dp(idx + k, n);
-		if(idx != 0)
-			c += dp(0, n - idx);
-		return f[idx][n] = c;
-		
+		for(int k = 1; k < n; ++k)
+			c += dp(1, k) * dp(0, n - k);
+		if(isPrefix == 0)
+			c <<= 1;
+		return f[isPrefix][n] = c;
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -33,9 +32,9 @@ public class ExpressionBracketing_UVa10312 {
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		f = new long[27][27];
-		for(int i = 0; i < 27; ++i)
-			Arrays.fill(f[i], -1);
+		f = new long[2][27];
+		Arrays.fill(f[0], -1);
+		Arrays.fill(f[1], -1);
 		
 		
 		long[] cat = new long[27];
@@ -46,7 +45,7 @@ public class ExpressionBracketing_UVa10312 {
 		while(sc.ready())
 		{
 			int n = sc.nextInt();		
-			out.println(dp(0, n) - cat[n-1]);
+			out.println(dp(1, n) - cat[n-1]);
 		}
 		out.flush();
 	}

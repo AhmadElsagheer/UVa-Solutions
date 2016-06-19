@@ -1,4 +1,4 @@
-package cp5_2;
+package v103;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,54 +6,51 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
-
+public class TheLottery_UVa10325 {
+	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
+		
 		while(sc.ready())
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
+			int N = sc.nextInt(), M = sc.nextInt();
+			int[] a = new int[M];
+			for(int i = 0; i < M; ++i)
+				a[i] = sc.nextInt();
+			long ans = N;
+			for(int i = 1; i < 1<<M; ++i)
+			{
+				long p = 1;
+				for(int j = 0; p <= N && j < M; ++j)
+					if((i & 1<<j) != 0)
+						p = lcm(p, a[j]);
+				if(Integer.bitCount(i)%2 == 1)
+					ans -= N / p;
 				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+					ans += N / p;
+			}
+			out.println(ans);
 		}
 		out.flush();
 		out.close();
 	}
+	
+	static long gcd(long a, long b) { return b == 0 ? a : gcd(b, a%b); }
+	
+	static long lcm(long a, long b) { return a / gcd(a, b) * b; }
 
 	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

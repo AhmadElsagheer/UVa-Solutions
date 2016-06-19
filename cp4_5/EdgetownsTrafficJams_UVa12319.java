@@ -1,49 +1,74 @@
-package cp5_2;
+package cp4_5;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
+public class EdgetownsTrafficJams_UVa12319 {
+	
+	static final int INF = (int)1e6;
+	
+	static void floyd(int V, int[][] adjMat)
+	{
+		for(int k = 0; k < V; ++k)
+			for(int i = 0; i < V; ++i)
+				for(int j = 0; j < V; ++j)
+					adjMat[i][j] = Math.min(adjMat[i][k] + adjMat[k][j], adjMat[i][j]);
+	}
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 
-		while(sc.ready())
+		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
-				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+			int N = sc.nextInt();
+			if(N == 0)
+				break;
+			int[][] graph1 = build(N, sc), graph2 = build(N, sc);
+			if(accept(N, graph1, graph2, sc.nextInt(), sc.nextInt()))
+				out.println("Yes");
+			else
+				out.println("No");
 		}
+		
 		out.flush();
 		out.close();
+	}
+	
+	static boolean accept(int N, int[][] x, int[][] y, int A, int B)
+	{
+		for(int i = 0; i < N; ++i)
+			for(int j = 0; j < N; ++j)
+				if(i != j && y[i][j] > x[i][j] * A + B)
+					return false;
+		return true;
+	}
+	
+	static int[][] build(int N, Scanner sc) throws IOException
+	{
+		int[][] graph = new int[N][N];
+		for(int i = 0; i < N; ++i)
+			Arrays.fill(graph[i], INF);
+		
+		for(int i = 0; i < N; ++i)
+		{
+			StringTokenizer st = new StringTokenizer(sc.nextLine());
+			int u = Integer.parseInt(st.nextToken()) - 1;
+			while(st.hasMoreTokens())
+			{
+				int v = Integer.parseInt(st.nextToken()) - 1;
+				graph[u][v] = 1;
+			}
+		}
+		floyd(N, graph);
+		return graph;
 	}
 
 	static class Scanner 
@@ -51,9 +76,9 @@ public class SimplySubsets_UVa496 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

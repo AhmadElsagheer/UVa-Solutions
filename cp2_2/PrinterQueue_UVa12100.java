@@ -1,45 +1,63 @@
-package cp5_4;
+package cp2_2;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 
-public class FiBinaryNumber_UVa11089 {
+public class PrinterQueue_UVa12100 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		int[] fib = new int[45];
-		fib[1] = 1;
-		for(int i = 2; i < 45; ++i)
-			fib[i] = fib[i-1] + fib[i-2];
-
 		int tc = sc.nextInt();
 		while(tc-->0)
 		{
-			int n = sc.nextInt();
-			StringBuilder sb = new StringBuilder();
-			for(int i = 44; i > 1; --i)
-				if(n >= fib[i])
-				{
-					sb.append(1);
-					n -= fib[i];
-				}
+			int n = sc.nextInt(), m = sc.nextInt();
+			int[] a = new int[n];
+			for(int i = 0; i < n; ++i)
+				a[i] = sc.nextInt();
+			int ans = 0;
+			while(true)
+			{
+				++ans;
+				int nxt = -1, p = 0, k = 0;
+				for(int i = 0; i < n; ++i)
+					if(a[i] > p)
+					{
+						p = a[i];
+						nxt = i;
+					}
+				if(nxt == m)
+					break;
+				if(m > nxt)
+					m -= nxt + 1;
 				else
-					if(sb.length() != 0)
-						sb.append(0);
-			out.println(sb);
+					m += n - nxt - 1;
+				int[] b = new int[n-1];
+				for(int i = nxt + 1; i < n; ++i)
+					b[k++] = a[i];
+				for(int i = 0; i < nxt; ++i)
+					b[k++] = a[i];
+				a = b;
+				--n;
+			}
+			out.println(ans);
+			
 		}
 		out.flush();
 		out.close();
 	}
-	
-	static class Scanner 
+
+	static class Scanner
 	{
 		StringTokenizer st;
 		BufferedReader br;
@@ -61,31 +79,7 @@ public class FiBinaryNumber_UVa11089 {
 
 		public double nextDouble() throws IOException
 		{
-			String x = next();
-			StringBuilder sb = new StringBuilder("0");
-			double res = 0, f = 1;
-			boolean dec = false, neg = false;
-			int start = 0;
-			if(x.charAt(0) == '-')
-			{
-				neg = true;
-				start++;
-			}
-			for(int i = start; i < x.length(); i++)
-				if(x.charAt(i) == '.')
-				{
-					res = Long.parseLong(sb.toString());
-					sb = new StringBuilder("0");
-					dec = true;
-				}
-				else
-				{
-					sb.append(x.charAt(i));
-					if(dec)
-						f *= 10;
-				}
-			res += Long.parseLong(sb.toString()) / f;
-			return res * (neg?-1:1);
+			return Double.parseDouble(next());
 		}
 
 		public boolean ready() throws IOException {return br.ready();}

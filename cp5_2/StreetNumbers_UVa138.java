@@ -6,41 +6,36 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
+public class StreetNumbers_UVa138 {
+
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(sc.ready())
+		
+		// can be hardcoded
+		long x = 1, h = 2, y = 3, nxt = 4;
+		int i = 10;
+		while(i-- > 0)
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
-				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+			
+			while(x != y)
+			{
+				while(x < y)
+				{
+					x += h++;
+					y -= h;
+				}
+				
+				while(x > y)
+					y += nxt++;
+			}
+			
+			out.printf("%10d%10d\n", h, (nxt - 1));
+			y += nxt++;
 		}
 		out.flush();
 		out.close();
@@ -51,9 +46,9 @@ public class SimplySubsets_UVa496 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

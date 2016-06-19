@@ -6,41 +6,46 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
-
+public class JackAndJill_UVa697 {
+	
+	static final double EPS = 1e-11, g = 32.2;
+	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(sc.ready())
+		
+		int tc = 1;
+		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
-				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+			double UP = sc.nextDouble();
+			if(UP < EPS)
+				break;
+			if(tc != 1)
+				out.println();
+			double R = sc.nextDouble() / 24, L = sc.nextDouble() / 12, B = sc.nextDouble(), P = sc.nextDouble() / 12,
+					DOWN  = sc.nextDouble(), V = sc.nextDouble();
+			double V2 = V, L1 = L * 12, ans = 0.0;
+			while(V2 > EPS)
+			{
+				double t1 = Math.sqrt(2 * L * g) / g;
+				double remV = Math.min(V2, B);
+				double t2 = L / P;
+				L += remV / (Math.PI * R * R);
+				ans += UP + DOWN + t1 + t2;
+				V2 -= remV;
+			}
+			out.printf("Scenario %d:\n", tc++);
+			out.printf("     up hill           %8.2f sec\n", UP);
+			out.printf("     well diameter     %8.2f in\n", R * 24);
+			out.printf("     water level       %8.2f in\n", L1);
+			out.printf("     bucket volume     %8.2f cu ft\n", B);
+			out.printf("     bucket ascent rate%8.2f in/sec\n", P * 12);
+			out.printf("     down hill         %8.2f sec\n", DOWN);
+			out.printf("     required volume   %8.2f cu ft\n", V);
+			out.printf("     TIME REQUIRED     %8.2f sec\n", ans);
 		}
 		out.flush();
 		out.close();
@@ -51,9 +56,9 @@ public class SimplySubsets_UVa496 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
