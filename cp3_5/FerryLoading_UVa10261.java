@@ -2,86 +2,116 @@ package cp3_5;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class FerryLoading_UVa10261 {
 
-	static int[][] memo;
-	static int nCars,L, carLength[], cumLength[];
-	static final int INF = 100000;
-	static final int UNCAL = -1;
-	static int[][][] next;
+	static StringBuilder sb;
+	static int nCars, carLength[], memo[][];
 	
-	public static int dp(int car, int portRem)
+	static int dp(int car, int portRem, int starboardRem)
 	{
-		int starboardRem = L*2 - portRem - cumLength[car-1];
-		if(starboardRem<0 || portRem <0)
-			return -INF;
-		
-		if(car==nCars+1)
+		if(car == nCars)
 			return 0;
 		
-		if(carLength[car]>portRem && carLength[car]>starboardRem)
-			return 0;
-		
-		if(memo[car][portRem]!=UNCAL)
+		if(memo[car][portRem] != -1)
 			return memo[car][portRem];
-	
-		int port = 1 + dp(car+1, portRem-carLength[car]);
-		int starboard = 1 + dp(car+1, portRem);
-		if(port>=starboard)
-		{
-			next[car][portRem][0] = 0;		//port
-			next[car][portRem][1] = portRem - carLength[car];
-		}
-		else
-		{
-			next[car][portRem][0] = 1;		//starboard
-			next[car][portRem][1] = portRem;
-		}
+		
+		int port = 0, starboard = 0, curLen = carLength[car];
+		
+		if(curLen <= portRem)		//put in the port side
+			port = 1 + dp(car + 1, portRem - curLen, starboardRem);
+		
+		if(curLen <= starboardRem)	//put in the startboard side
+			starboard = 1 + dp(car + 1, portRem, starboardRem - curLen);
+		
 		return memo[car][portRem] = Math.max(port,starboard);
 	}
 	
-	
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	static void print(int car, int portRem, int starboardRem)
+	{
+		if(car == nCars)
+			return;
 		
+		int optimal = dp(car, portRem, starboardRem), curLen = carLength[car];
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		
-		int TC = Integer.parseInt(new StringTokenizer(br.readLine()).nextToken());
-		while(TC-->0)
+		if(curLen <= portRem)
 		{
-			br.readLine();
-			L = Integer.parseInt(new StringTokenizer(br.readLine()).nextToken()) * 100;
-			int length;
-			carLength = new int[500]; cumLength = new int[500]; nCars = 0;
-			while((length=Integer.parseInt(new StringTokenizer(br.readLine()).nextToken()))!=0)
+			int port = 1 + dp(car + 1, portRem - curLen, starboardRem);
+			if(optimal == port)
 			{
-				carLength[++nCars] = length;
-				cumLength[nCars] = cumLength[nCars-1] + length;
+				sb.append("port\n");
+				print(car + 1, portRem - curLen, starboardRem);
+				return;
 			}
-			memo = new int[nCars+1][L+1];
-			for(int i = 0; i < nCars + 1; i++)
-				Arrays.fill(memo[i], UNCAL);
-			next = new int[nCars+1][L+1][2];
-			int cars = dp(1,L);
-			sb.append(cars+"\n");int x = L;
-			for(int i = 1; i <= cars; i++)
+		}
+		
+		if(curLen <= starboardRem)
+		{
+			int starboard = 1 + dp(car + 1, portRem, starboardRem - curLen);
+			if(optimal == starboard)
 			{
-				if(next[i][x][0]==0)
-					sb.append("port\n");
-				else
-					sb.append("starboard\n");
-				x = next[i][x][1];
+				sb.append("starboard\n");
+				print(car + 1, portRem, starboardRem - curLen);
+				return;
 			}
-			if(TC!=0)
+		}
+		
+	}
+	
+	public static void main(String[] args) throws NumberFormatException, IOException 
+	{	
+		Scanner sc = new Scanner(System.in);
+		sb = new StringBuilder();
+		
+		int tc = sc.nextInt();
+		while(tc-- > 0)
+		{
+			int L = sc.nextInt() * 100;
+			carLength = new int[500]; 
+			nCars = 0;
+			
+			while(true)
+			{
+				int curLen = sc.nextInt();
+				if(curLen == 0)
+					break;
+				carLength[nCars++] = curLen;
+			}
+			
+			memo = new int[nCars][L+1];
+			for(int i = 0; i < nCars; i++)
+				Arrays.fill(memo[i], -1);
+	
+			sb.append(dp(0, L, L)+"\n");
+			print(0, L, L);
+			
+			if(tc != 0)
 				sb.append("\n");
 		}
 		System.out.print(sb);
 		
 	}
 
+	
+	
+	static class Scanner 
+	{
+		StringTokenizer st;
+		BufferedReader br;
+
+		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+
+		public String next() throws IOException 
+		{
+			while (st == null || !st.hasMoreTokens()) 
+				st = new StringTokenizer(br.readLine());
+			return st.nextToken();
+		}
+
+		public int nextInt() throws IOException {return Integer.parseInt(next());}
+	}
 }
