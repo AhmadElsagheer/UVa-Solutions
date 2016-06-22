@@ -1,40 +1,65 @@
-package cp5_4;
-
-
+package v105;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class WakingUpBrain_UVa10507 {
+	
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		while(sc.ready())	
+	
+		while(sc.ready())
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			int N = sc.nextInt(), M = sc.nextInt();
+			boolean[][] adjMat = new boolean[26][26];
+			int[] wakeUp = new int[26];
+			for(char c: sc.next().toCharArray())
+				wakeUp[c-'A'] = 2;
+			while(M-->0)
+			{
+				char[] e = sc.next().toCharArray();
+				int u = e[0] - 'A', v = e[1] - 'A';
+				adjMat[u][v] = adjMat[v][u] = true;
+				wakeUp[u] |= 1;
+				wakeUp[v] |= 1;
+			}
+			
+			int W = 3, ans = 0;
+			Stack<Integer> stack = new Stack<Integer>();
+			while(W != N)
+			{
+				for(int i = 0; i < 26; ++i)
+					if(wakeUp[i] == 1)
+					{
+						int supp = 0;
+						for(int j = 0; j < 26; ++j)
+							if(adjMat[i][j] && (wakeUp[j] & 2) != 0)
+								++supp;
+						if(supp >= 3)
+							stack.push(i);
+					}
+				if(stack.isEmpty())
+					break;
+				W += stack.size();
+				while(!stack.isEmpty())
+					wakeUp[stack.pop()] |= 2;
+				++ans;
+			}
+			
+			if(W != N)
+				out.println("THIS BRAIN NEVER WAKES UP");
+			else
+				out.printf("WAKE UP IN, %d, YEARS\n", ans);
 		}
 		out.flush();
-	}
-	
-	static double log10(long n)
-	{
-		return Math.log(n) / Math.log(10);
+		out.close();
 	}
 
 	static class Scanner 
@@ -52,11 +77,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,8 +110,15 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
+		
+		public boolean nextEmpty() throws IOException
+		{
+			String s = br.readLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 
 
 	}

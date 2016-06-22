@@ -1,40 +1,84 @@
-package cp5_4;
-
-
+package cp8_4;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class Permutation_UVa11525 {
+	
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
+		StringBuilder sb = new StringBuilder();
 		
-		while(sc.ready())	
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			int k = sc.nextInt();
+			SegmentTree st = new SegmentTree(k);
+			while(k-->0)
+			{
+				int idx = sc.nextInt() + 1, q = st.kthNumber(idx);
+				sb.append(q).append(k == 0 ? '\n' : ' ');
+				st.clear(q);
+			}
 		}
+		out.print(sb);
 		out.flush();
+		out.close();
 	}
 	
-	static double log10(long n)
+	static class SegmentTree
 	{
-		return Math.log(n) / Math.log(10);
+		int[] sTree;
+		int N;
+		
+		SegmentTree(int k)
+		{
+			N = 1;
+			while(N < k)
+				N <<= 1;
+			sTree = new int[N<<1];
+			build();
+		}
+		
+		void build()
+		{
+			Arrays.fill(sTree, 1);
+			for(int i = N - 1; i > 0; --i)
+				sTree[i] = sTree[i<<1] + sTree[i<<1|1];
+		}
+		
+		void clear(int idx)
+		{
+			idx += N - 1;
+			sTree[idx] = 0;
+			while(idx > 1)
+			{
+				idx >>= 1;
+				sTree[idx] = sTree[idx<<1] + sTree[idx<<1|1];
+			}
+		}
+		
+		int kthNumber(int k)
+		{
+			return kthNumber(1, 1, N, k);
+		}
+		
+		int kthNumber(int node, int b, int e, int k)
+		{
+			if(b == e)
+				return b;
+			int mid = b + e >> 1;
+			if(sTree[node<<1] >= k)
+				return kthNumber(node<<1, b, mid, k);
+			return kthNumber(node<<1|1, mid + 1, e, k - sTree[node<<1]);
+		}
 	}
 
 	static class Scanner 
@@ -52,11 +96,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,7 +129,7 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

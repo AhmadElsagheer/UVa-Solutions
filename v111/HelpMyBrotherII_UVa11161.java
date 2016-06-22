@@ -1,40 +1,43 @@
-package cp5_4;
-
-
+package v111;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class HelpMyBrotherII_UVa11161 {
+
+	
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		while(sc.ready())	
+		BigInteger[] fib = new BigInteger[1501], a = new BigInteger[1501];
+		fib[1] = fib[2] = BigInteger.ONE;
+		a[1] = BigInteger.ZERO;
+		a[2] = BigInteger.ONE;
+		BigInteger first = BigInteger.ONE;
+		for(int i = 3; i <= 1500; ++i)
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			fib[i] = fib[i-1].add(fib[i-2]);
+			first = first.add(fib[i-1]);
+			a[i] = first.add(fib[i].subtract(BigInteger.ONE).divide(BigInteger.valueOf(2)));
+		}
+		
+		int tc = 1;
+		while(true)
+		{
+			int n = sc.nextInt();
+			if(n == 0)
+				break;
+			out.printf("Set %d:\n%d\n", tc++, a[n]);
 		}
 		out.flush();
-	}
-	
-	static double log10(long n)
-	{
-		return Math.log(n) / Math.log(10);
+		out.close();
 	}
 
 	static class Scanner 
@@ -52,11 +55,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,8 +88,15 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
+
+		public boolean nextEmpty() throws IOException
+		{
+			String s = br.readLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 
 
 	}

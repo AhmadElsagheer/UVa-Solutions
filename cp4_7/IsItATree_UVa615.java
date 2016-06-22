@@ -1,40 +1,79 @@
-package cp5_4;
-
-
+package cp4_7;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
-public class FindTheWays_UVa10219 {
-	
-	
-	public static void main(String[] args) throws IOException {
 
+public class IsItATree_UVa615 {
+	
+	static boolean dfs(Node u)
+	{
+		u.visited = true;
+		for(Node v: u.children)
+			if(v.visited || !dfs(v))
+				return false;
+		return true;
+	}
+	
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		while(sc.ready())	
+		int tc = 1;
+		while(true)
 		{
-			long n = sc.nextLong(), k = sc.nextLong();
-
-			if(n - k < k)
-				k = n - k;
-			double digits = 0;
-			for(long i = n; i > n - k; --i)
-				digits += log10(i);
-			for(long i = k; i > 1; --i)
-				digits -= log10(i);
-			out.format("%d\n", Math.round(Math.floor(digits)) + 1);
+			
+			int u = sc.nextInt() - 1, v = sc.nextInt() - 1;
+			if(u < -1)
+				break;
+			TreeMap<Integer, Node> map = new TreeMap<Integer, Node>();
+			
+			while(u != -1 && v != -1)
+			{
+				Node x = map.get(u), y = map.get(v);
+				if(x == null)
+					map.put(u, x = new Node());
+				if(y == null)
+					map.put(v, y = new Node());
+				x.children.add(y);
+				y.isRoot = false;
+				u = sc.nextInt() - 1;
+				v = sc.nextInt() - 1;
+			}
+			
+			Node root = null;
+			boolean isTree = true;
+			for(Node node: map.values())
+				if(node.isRoot)
+				{
+					root = node;
+					break;
+				}
+			if(map.size() > 1 && (root == null || !dfs(root)))
+				isTree = false;
+			
+			for(Node node: map.values())
+				if(!node.visited)
+					isTree = false;
+			if(isTree)
+				out.printf("Case %d is a tree.\n", tc++);
+			else
+				out.printf("Case %d is not a tree.\n", tc++);
 		}
 		out.flush();
+		out.close();
 	}
 	
-	static double log10(long n)
+	static class Node
 	{
-		return Math.log(n) / Math.log(10);
+		boolean isRoot = true, visited;
+		ArrayList<Node> children = new ArrayList<Node>();
 	}
 
 	static class Scanner 
@@ -52,11 +91,11 @@ public class FindTheWays_UVa10219 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -85,7 +124,7 @@ public class FindTheWays_UVa10219 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 
