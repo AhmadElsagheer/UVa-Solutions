@@ -6,8 +6,6 @@ import java.util.StringTokenizer;
 
 
 public class AhoyPirates_UVa11402 {
-
-	
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		

@@ -14,14 +14,14 @@ public class StringPopping_UVa1261 {
 		if(checked.contains(x.toString()))
 			return false;
 		checked.add(x.toString());
-		if(x.length()==0)
+		if(x.length() == 0)
 			return true;
 		for(int i = 0; i < x.length(); i++)
 		{
 			char c = x.charAt(i);
 			int j = i + 1;
 			for(; j < x.length(); j++)
-				if(x.charAt(j)!=c)
+				if(x.charAt(j) != c)
 					break;
 			if(j - i < 2)
 				continue;
