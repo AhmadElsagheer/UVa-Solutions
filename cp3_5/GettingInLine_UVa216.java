@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class GettingInLine_UVa216 {

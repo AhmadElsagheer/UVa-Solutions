@@ -1,7 +1,12 @@
 package cp4_4;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 public class NumberMaze_UVa929 {
 
 	static int[][] maze;

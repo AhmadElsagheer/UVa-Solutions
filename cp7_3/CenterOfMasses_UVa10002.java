@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 public class CenterOfMasses_UVa10002 {
 	

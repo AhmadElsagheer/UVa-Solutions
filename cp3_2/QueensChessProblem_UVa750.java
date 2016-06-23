@@ -1,7 +1,7 @@
 package cp3_2;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class QueensChessProblem_UVa750 {
 

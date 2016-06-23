@@ -1,8 +1,11 @@
 package cp3_2;
 
 	
-import java.io.*; 
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 public class Dart_a_Mania_Uva735{
 	
 	public static void main(String[] args) throws IOException

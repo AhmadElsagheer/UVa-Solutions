@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.text.Format;
 import java.util.StringTokenizer;
 
 public class FourthPoint_UVa10242 {

@@ -1,6 +1,8 @@
 package cp4_2;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class TheSameGame_UVa758 {
 

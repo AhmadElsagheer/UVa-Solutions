@@ -1,7 +1,9 @@
 package cp8_3;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class ACORN_UVa4106 {
 

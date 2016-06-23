@@ -1,6 +1,9 @@
 package cp3_5;
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class ExactChange_UVa11517 {
 

@@ -1,6 +1,8 @@
 package cp2_2;
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 public class FreeSpots_UVa10703 {
 
 	public static void main(String[] args) throws IOException {

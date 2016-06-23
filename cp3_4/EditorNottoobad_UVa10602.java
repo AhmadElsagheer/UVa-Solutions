@@ -3,7 +3,6 @@ package cp3_4;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class EditorNottoobad_UVa10602 {
 

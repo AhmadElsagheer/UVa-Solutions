@@ -1,6 +1,6 @@
 package cp3_2;
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
 public class TheSultanSuccessors_UVa167 {
 
 	static int[] col;

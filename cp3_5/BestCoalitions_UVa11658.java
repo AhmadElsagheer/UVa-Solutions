@@ -1,7 +1,10 @@
 package cp3_5;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
-import java.util.*;
-import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class BestCoalitions_UVa11658 {
 

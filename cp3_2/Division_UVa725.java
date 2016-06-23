@@ -2,9 +2,9 @@ package cp3_2;
 
 
 	
-import java.io.*; 
-import java.text.DecimalFormat;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 public class Division_UVa725 {
 	
 	public static void main(String[] args) throws IOException

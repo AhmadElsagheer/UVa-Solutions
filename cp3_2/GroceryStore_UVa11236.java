@@ -1,7 +1,7 @@
 package cp3_2;
 
 
-import java.io.*; 
+import java.io.IOException;
 import java.text.DecimalFormat;
 public class GroceryStore_UVa11236{
 	

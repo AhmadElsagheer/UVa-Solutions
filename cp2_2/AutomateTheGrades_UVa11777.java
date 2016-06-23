@@ -1,7 +1,7 @@
 package cp2_2;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class AutomateTheGrades_UVa11777 {
 

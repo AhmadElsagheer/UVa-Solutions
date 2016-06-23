@@ -1,7 +1,8 @@
 package cp5_5;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class DistancePrimes_UVa10140 {
 	

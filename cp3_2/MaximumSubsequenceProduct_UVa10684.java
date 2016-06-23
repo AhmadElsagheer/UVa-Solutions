@@ -1,9 +1,10 @@
 package cp3_2;
 
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class MaximumSubsequenceProduct_UVa10684 {
 		

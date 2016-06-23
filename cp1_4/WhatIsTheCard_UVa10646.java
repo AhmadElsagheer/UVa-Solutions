@@ -1,7 +1,8 @@
 package cp1_4;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class WhatIsTheCard_UVa10646 {
 

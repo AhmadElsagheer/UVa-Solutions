@@ -1,7 +1,9 @@
 package cp4_4;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class PlayingWithWheelsUVa10067 {
 
