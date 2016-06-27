@@ -1,93 +1,101 @@
 package v105;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-
 public class TheOuroborosProblem_UVa10506 {
 
+	static int N, M, L;
+	static int[] seq;
+	static int[] used;
 	
-	public static void main(String[] args) throws IOException 
+	static boolean bt(int idx)
 	{
-//		Scanner sc = new Scanner(System.in);
-		Scanner sc = new Scanner(new FileReader("TheTravelingJudgesProblem_UVa1040-large.in"));
-		PrintWriter out = new PrintWriter(new FileWriter("problem_B.out"));
-//		PrintWriter out = new PrintWriter(System.out);
-		
-		int tc = sc.nextInt();
-		for(int t = 1; t <= tc; ++t)
+		if(idx == L)
 		{
-			char[] s = sc.next().toCharArray();
-			int ans = 0;
-			while(!happy(s))
+			boolean res = true;
+			for(int i = L - M + 1; i < L; ++i)
 			{
-				if(s[0] == '+')
-					flip(s, getFirst(s));
-				else
-					flip(s, getLast(s));
-				++ans;
+				int p = 0;
+				for(int j = 0; j < M; ++j)
+					p = p * N + seq[(i + j)%L];
+				if(used[p] != 0)
+					res = false;
+				used[p]++;
 			}
-							
-			out.printf("Case #%d: %d\n", t, ans);
+			
+			for(int i = L - M + 1; i < L; ++i)
+			{
+				int p = 0;
+				for(int j = 0; j < M; ++j)
+					p = p * N + seq[(i + j)%L];
+				used[p]--;
+			}
+			return res;
 		}
+		for(int i = 0; i < N; ++i)
+		{
+			seq[idx] = i;
+			if(idx >= M - 1)
+			{
+				int p = 0;
+				for(int j = idx - M + 1; j <= idx; ++j)
+					p = p * N + seq[j];
+				if(used[p] == 0)
+				{
+					used[p] = 1;
+					if(bt(idx + 1))
+						return true;					
+					used[p] = 0;
+				}
+			}
+			else
+				if(bt(idx + 1))
+					return true;
+		}
+		return false;
+	}
+	
+	public static void sol() throws Exception 
+	{
+		Scanner sc = new Scanner(System.in); 
+		PrintWriter out = new PrintWriter(System.out);
+		StringBuilder sb = new StringBuilder();
+
+		while(sc.ready())
+		{
+			M = sc.nextInt(); N = sc.nextInt(); L = 1;
+			for(int i = 0; i < M; ++i)
+				L *= N;
+			seq = new int[L];
+			used = new int[L];
+			bt(0);
+			for(int x: seq)
+				sb.append(x);
+			sb.append("\n");
+		}
+		out.print(sb);
 		out.flush();
 		out.close();
-
-	}
-	
-	static char revert(char x)
-	{
-		return x == '+' ? '-' : '+';
-	}
-	
-	static void flip(char[] s, int idx)
-	{
-		for(int i = 0, j = idx; i <= j; ++i, --j)
-		{
-			char tmp = revert(s[i]);
-			s[i] = revert(s[j]);
-			s[j] = tmp;
-		}
-	}
-	
-	static int getLast(char[] s)
-	{
-		int i = s.length - 1;
-		while(s[i] == '+')
-			--i;
-		return i;
-	}
-	
-	static int getFirst(char[] s)
-	{
-		int i = 0;
-		while(s[i] == '+')
-			++i;
-		return i-1;
-	}
-	
-	static boolean happy(char[] s)
-	{
-		for(char x: s)
-			if(x != '+')
-				return false;
-		return true;
 	}
 
+	
+	public static void main(String[] args) 
+	{
+		new Thread(null, new Runnable() { public void run() {try {sol();} catch (Exception e) {
+			}}}, "2",1<<26).start();
+	}
+	
 	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
 		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
-		
-		public Scanner(FileReader r){	br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
@@ -133,6 +141,11 @@ public class TheOuroborosProblem_UVa10506 {
 
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		public boolean nextEmpty() throws IOException
+		{
+			String s = nextLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 	}
 }
