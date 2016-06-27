@@ -49,8 +49,6 @@ public class CallingCircles_UVa247 {
 				x.push(v-1);
 				if(v==u)
 					break;
-				
-				
 			}
 			SCC.push(x);
 			

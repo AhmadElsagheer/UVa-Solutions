@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class NumberPaths_UVa125 {
+public class NumberingPaths_UVa125 {
 
 	static int[][] adjMat;
 	static int N;
@@ -89,10 +89,7 @@ public class NumberPaths_UVa125 {
 		out.flush();
 		out.close();
 	}
-
-
-
-
+	
 	static class Scanner 
 	{
 		StringTokenizer st;

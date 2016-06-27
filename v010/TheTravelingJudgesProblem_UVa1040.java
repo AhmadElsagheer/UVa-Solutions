@@ -19,7 +19,6 @@ public class TheTravelingJudgesProblem_UVa1040 {
 	
 	static Deque<Integer> deque;
 	static ArrayList<Edge>[] adjList;
-
 	
 	static boolean dfs(int u, int p)
 	{
