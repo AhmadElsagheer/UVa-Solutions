@@ -1,37 +1,40 @@
-package cp5_4;
-
+package v116;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class SmallFactors_UVa11621 {
 
-	
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws Exception 
+	{
+		Scanner sc = new Scanner(System.in); 
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+
+		while(true)
+		{
+			long M = sc.nextLong(), N = Long.MAX_VALUE;
+			if(M == 0)
+				break;
+			long x = 1, y;
+			while(true)
+			{
+				y = x;
+				while(y < M)
+					y *= 3;
+				N = Math.min(N, y);
+				if(x > M)
+					break;
+				x <<= 1;
+			}
+			out.println(N);
+		}
 		out.flush();
+		out.close();
 	}
-	
 
 	static class Scanner 
 	{
@@ -48,11 +51,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +84,14 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		public boolean nextEmpty() throws IOException
+		{
+			String s = nextLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 	}
 }

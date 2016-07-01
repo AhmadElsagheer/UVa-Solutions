@@ -1,37 +1,39 @@
-package cp5_4;
-
-
+package v101;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class EuclidProblem_UVa10104 {
 
+	static int x, y, d;
 	
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+	static void extendedEuclid(int a, int b)
+	{
+		if(b == 0) { x = 1; y = 0; d = a; return; }
+		extendedEuclid(b, a%b);
+		int x1 = y;
+		int y1 = x - a / b * y;
+		x = x1;
+		y = y1;
 	}
 	
+	public static void main(String[] args) throws IOException 
+	{
+		Scanner sc = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(System.out);
+
+//		while(sc.ready())
+		{
+			int a = sc.nextInt(), b = sc.nextInt();
+			extendedEuclid(a, b);
+			out.printf("%d %d %d\n", x, y, d);
+		}
+		out.flush();
+		out.close();
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +50,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,7 +83,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

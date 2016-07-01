@@ -1,37 +1,48 @@
-package cp5_4;
-
-
+package v109;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
 
-	
-	public static void main(String[] args) throws IOException {
+public class AnotherNewFunction_UVa10990 {
 
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+	static final int upperBound = 2000000;
+	static int[] phi;
+	
+	static void modifiedSieve(int N)
+	{
+		phi = new int[N];
+		for(int i = 1; i < N; ++i)
+			phi[i] = i;
+		for(int i = 2; i <  N; ++i)
+			if(phi[i] == i)
+				for(int j = i; j < N; j += i)
+					phi[j] -= phi[j] / i;
 	}
 	
+	public static void main(String[] args) throws IOException 
+	{
+		Scanner sc = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(System.out);
+
+		modifiedSieve(upperBound + 1);
+		phi[1] = 0;
+		for(int i = 2; i <= upperBound; ++i)
+				phi[i] = 1 + phi[phi[i]];
+		for(int i = 1; i <= upperBound; ++i)
+			phi[i] += phi[i-1];
+		int tc = sc.nextInt();
+		while(tc-->0)
+		{
+			int l = sc.nextInt(), r = sc.nextInt();
+			out.println(phi[r] - phi[l-1]);
+		}
+		out.flush();
+		out.close();
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +59,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,7 +92,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

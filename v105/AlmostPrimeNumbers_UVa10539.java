@@ -1,37 +1,86 @@
-package cp5_4;
-
-
+package v105;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class AlmostPrimeNumbers_UVa10539 {
 
-	
+	static final long upperBound = (long)1e12;
 	public static void main(String[] args) throws IOException {
 
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
+		sieve(1000000);
+		long[] almostPrime = new long[1011537];
+		int nxt = 0;
 		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+		for(int p: primes)
+		{
+			long pp = (long) p * p;
+			while(pp <= upperBound)
+			{
+				almostPrime[nxt++] = pp;
+				pp *= p;
+			}
+		}
+		Arrays.sort(almostPrime);
+		
+		int n = sc.nextInt();
+		while(n-->0)
+		{
+			long lb = sc.nextLong(), ub = sc.nextLong();
+			int lo = 0, hi = 1011536, ans1 = 1011537, ans2 = -1;
+			while(lo <= hi)
+			{
+				int mid = lo + (hi - lo) / 2;
+				if(almostPrime[mid] >= lb)
+				{
+					ans1 = mid;
+					hi = mid - 1;
+				}
+				else
+					lo = mid + 1;
+			}
+			
+			lo = 0; hi = 1011536;
+			while(lo <= hi)
+			{
+				int mid = lo + (hi - lo) / 2;
+				if(almostPrime[mid] <= ub)
+				{
+					ans2 = mid;
+					lo = mid + 1;
+				}
+				else
+					hi = mid - 1;
+			}
+			out.println(ans2 - ans1 + 1);
+		}
+		
 		out.flush();
-	}
+		out.close();
+	}	
+
+	static ArrayList<Integer> primes;
 	
+	static void sieve(int N)
+	{
+		primes = new ArrayList<Integer>(3000);
+		boolean[] isComposite = new boolean[N];
+		for(int i = 2; i < N; ++i)
+			if(!isComposite[i])
+			{
+				primes.add(i);
+				if((long) i * i < N)
+					for(int j = i * i; j < N; j += i)
+						isComposite[j] = true;
+			}
+	}
 
 	static class Scanner 
 	{
@@ -48,14 +97,16 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
+
+		public boolean ready() throws IOException {return br.ready();}
 		
-		public double nextDouble() throws IOException
+		public double nextDouble(String x) 
 		{
-			String x = next();
+
 			StringBuilder sb = new StringBuilder("0");
 			double res = 0, f = 1;
 			boolean dec = false, neg = false;
@@ -81,8 +132,6 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
-		public boolean ready() throws IOException {return br.ready();}
 
 
 	}

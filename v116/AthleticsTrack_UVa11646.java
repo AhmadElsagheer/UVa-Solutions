@@ -1,38 +1,36 @@
-package cp5_4;
-
-
+package v116;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class AthleticsTrack_UVa11646 {
 
-	
 	public static void main(String[] args) throws IOException {
 
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
-	}
 	
+		int tc = 1;
+		
+		while(sc.ready())
+		{
+			int L = sc.nextInt();
+			sc.next();
+			int W = sc.nextInt();
+			double theta = Math.PI - 2 * Math.atan((double) L / W);
+			double c = (theta * W) / (2 * Math.sin(theta / 2)) ;
+			double x = 200 / (L + c);
+			out.format("Case %d: %.10f %.10f\n", tc++, L * x, W * x);
+		}
+		
+		out.flush();
+		out.close();
+	}	
 
+	
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -48,14 +46,16 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
+
+		public boolean ready() throws IOException {return br.ready();}
 		
-		public double nextDouble() throws IOException
+		public double nextDouble(String x) 
 		{
-			String x = next();
+
 			StringBuilder sb = new StringBuilder("0");
 			double res = 0, f = 1;
 			boolean dec = false, neg = false;
@@ -81,8 +81,6 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
-		public boolean ready() throws IOException {return br.ready();}
 
 
 	}

@@ -1,37 +1,71 @@
-package cp5_4;
-
-
+package v120;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
 
-	
-	public static void main(String[] args) throws IOException {
+public class Divisors_UVa12043 {
 
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+	static int[] numDiv, sumDiv;
+	
+	static void modifiedSieve(int N)
+	{
+		numDiv = new int[N];
+		sumDiv = new int[N];
+		Arrays.fill(numDiv, 1);
+		Arrays.fill(sumDiv, 1);
+		for(int i = 2; i < N; ++i)
+			if(numDiv[i] == 1)
+				for(int j = i; j < N; j += i)
+				{
+					int e = 0, k = j;
+					while(k % i == 0) { k /= i; ++e; }
+					numDiv[j] *= e + 1;
+					sumDiv[j] *= (int)((pow(i, e + 1) - 1) / (i - 1));
+				}
 	}
 	
+	static long pow(long p, int e)
+	{
+		long res = 1;
+		while(e > 0)
+		{
+			if((e & 1) == 1)
+				res *= p;
+			p *= p;
+			e >>= 1;
+		}
+		return res;
+	}
+	
+	public static void main(String[] args) throws IOException 
+	{
+		Scanner sc = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(System.out);
+		modifiedSieve(100001);
+		int tc = sc.nextInt();
+		while(tc-->0)
+		{
+			int a = sc.nextInt(), b = sc.nextInt(), k = sc.nextInt();
+			long x = 0, y = 0;
+			while(a <= b)
+			{
+				if(a % k == 0)
+				{
+					x += numDiv[a];
+					y += sumDiv[a];
+				}
+				++a;
+			}
+			out.println(x + " " + y);
+		}
+		out.flush();
+		out.close();
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +82,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,7 +115,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

@@ -1,38 +1,64 @@
-package cp5_4;
-
-
+package v108;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class Maze_UVa10890 {
 
+	static int[] x, y;
+	static int N, T, collected, min;
 	
-	public static void main(String[] args) throws IOException {
-
+	static void bt(int i, int j, int S, int dist)
+	{
+		int cur = dist + (N - 1 - i) + (N - 1 - j);
+		if(cur >= min)
+			return;
+		if(S == 0)
+		{
+			if(cur < min)
+				min = cur;
+			return;
+		}
+		for(int k = 0; k < T; ++k)
+			if((collected & 1<<k) == 0)
+			{
+				collected |= 1<<k;
+				bt(x[k], y[k], S - 1, dist + Math.abs(x[k] - i) + Math.abs(y[k] - j));
+				collected &= ~(1<<k);
+			}
+	}
+	
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
-	}
+		int tc = 1;
+		while(true)
+		{
+			N = sc.nextInt(); T = sc.nextInt();
+			int S = sc.nextInt();
+			if(N == 0)
+				break;
+			x = new int[T];
+			y = new int[T];
+			for(int i = 0; i < T; ++i)
+			{
+				x[i] = sc.nextInt();
+				y[i] = sc.nextInt();
+			}
+			min = Integer.MAX_VALUE;
+			collected = 0;
+			bt(0, 0, S, 0);
+			out.printf("Case %d: %d\n", tc++, min);
+		}
 	
-
+		out.flush();
+		out.close();
+	}
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -48,11 +74,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +107,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
-
-
 	}
 }

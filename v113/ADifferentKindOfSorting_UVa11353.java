@@ -1,37 +1,78 @@
-package cp5_4;
-
+package v113;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class ADifferentKindOfSorting_UVa11353 {
 
+	static final int upperBound = (int)2e6;
+	static int[] pf;
 	
-	public static void main(String[] args) throws IOException {
+	static void sieve(int N)
+	{
+		pf = new int[N];
+		boolean[] isComposite = new boolean[N];
 
-		Scanner sc = new Scanner(System.in);
+		pf[1] = 1;
+		for(int i = 2; i < N; ++i)
+			if(!isComposite[i])
+			{
+				++pf[i];
+				for(int j = i<<1; j < N; j += i)
+				{
+					isComposite[j] = true;
+					int x = j;
+					while(x % i == 0)
+					{
+						++pf[j];
+						x /= i;
+					}
+				}
+			}
+	}
+
+	public static void main(String[] args) throws Exception 
+	{
+		Scanner sc = new Scanner(System.in); 
 		PrintWriter out = new PrintWriter(System.out);
+	
+		sieve(upperBound + 1);
+		Num[] ans = new Num[upperBound];
 		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+		for(int i = 1; i <= upperBound; ++i)
+			ans[i-1] = new Num(i, pf[i]);
+		Arrays.sort(ans);
+		
+		int tc = 1;
+		while(true)
+		{
+			int N = sc.nextInt();
+			if(N == 0)
+				break;
+			out.printf("Case %d: %d\n", tc++, ans[N-1].val);
+		}
 		out.flush();
+		out.close();
 	}
 	
+	static class Num implements Comparable<Num>
+	{
+		int val, pf;
+		
+		Num(int x, int y) { val = x; pf = y; }
+		
+		public int compareTo(Num n)
+		{
+			if(pf != n.pf)
+				return pf - n.pf;
+			return val - n.val;
+		}
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +89,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +122,14 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		public boolean nextEmpty() throws IOException
+		{
+			String s = nextLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 	}
 }

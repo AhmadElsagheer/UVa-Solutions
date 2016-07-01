@@ -1,37 +1,62 @@
-package cp5_4;
-
-
+package v010;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
+public class ACarefulApproach_UVa1079 {
 	
-
+	static final double EPS = 1e-9;
 	
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+	static int n, a[], b[];
+	
+	static boolean test(int landed, double time, double gap)
+	{
+		if(landed == (1<<n) - 1)
+			return true;
+		for(int i = 0; i < n; ++i)
+			if((landed & 1<<i) == 0 && time < b[i] + EPS)
+				if(test(landed | 1 << i, Math.max(time, a[i]) + gap, gap))
+					return true;
+		return false;
 	}
 	
+	public static void main(String[] args) throws IOException 
+	{
+		Scanner sc = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(System.out);
+
+		int tc = 1;
+		while(true)
+		{
+			n = sc.nextInt();
+			if(n == 0)
+				break;
+			a = new int[n]; b = new int[n];
+			for(int i = 0; i < n; ++i)
+			{
+				a[i] = sc.nextInt();
+				b[i] = sc.nextInt();
+			}
+			
+			double ans = -1, lo = 0, hi = 200000.0;
+			for(int i = 0; i < 100; ++i)
+			{
+				double gap = (lo + hi) / 2;
+				if(test(0, 0, gap / 60.0))
+					ans = lo = gap;
+				else
+					hi = gap;
+			}
+			int ss = (int) Math.round(ans), mm = ss / 60;
+			ss %= 60;
+			out.printf("Case %d: %d:%02d\n", tc++, mm, ss);
+		}
+		out.flush();
+		out.close();
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +73,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,7 +106,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

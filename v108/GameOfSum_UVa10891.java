@@ -1,37 +1,60 @@
-package cp5_4;
-
-
+package v108;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class GameOfSum_UVa10891 {
 
+	static final int INF = (int)2e9;
+	static int N, A[];
+	static Integer memo[][][];
 	
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+	static int dp(int t, int i, int j)
+	{
+		if(i == j)
+			return A[i];
+		if(i > j)
+			return 0;
+		if(memo[t][i][j] != null)
+			return memo[t][i][j];
+		int ret = -INF;
+		for(int k = i, sum = 0; k <= j; ++k)
+		{
+			sum += A[k];
+			ret = Math.max(ret, sum - dp(t ^ 1, k + 1, j));
+		}
+		for(int k = j, sum = 0; k >= i; --k)
+		{
+			sum += A[k];
+			ret = Math.max(ret, sum - dp(t ^ 1, i, k - 1));
+		}
+		return memo[t][i][j] = ret;
 	}
 	
+	public static void main(String[] args) throws Exception 
+	{
+		Scanner sc = new Scanner(System.in); 
+		PrintWriter out = new PrintWriter(System.out);
+
+		while(true)
+		{
+			N = sc.nextInt();
+			if(N == 0)
+				break;
+			A = new int[N];
+			for(int i = 0; i < N; ++i)
+				A[i] = sc.nextInt();
+			
+			memo = new Integer[2][N][N];
+			out.println(dp(0, 0, N - 1));
+		}
+
+		out.flush();
+		out.close();
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +71,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +104,14 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		public boolean nextEmpty() throws IOException
+		{
+			String s = nextLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 	}
 }

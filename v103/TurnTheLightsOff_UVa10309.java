@@ -1,37 +1,82 @@
-package cp5_4;
-
-
+package v103;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
 
-	
-	public static void main(String[] args) throws IOException {
+public class TurnTheLightsOff_UVa10309 {
 
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+
+		while(true)
+		{
+			String s = sc.next();
+			if(s.equals("end"))
+				break;
+			int[][] gridOrg = new int[10][10];
+			for(int i = 0; i < 10; ++i)
+			{
+				char[] t = sc.next().toCharArray();
+				for(int j = 0; j < 10; ++j)
+						gridOrg[i][j] = t[j] == '#' ? 0 : 1;
+			}
+			
+			int min = 100000;
+			for(int k = 0; k < 1024; ++k)
+			{
+				int[][] grid = new int[10][10];
+				for(int i = 0; i < 10; ++i)
+					grid[i] = Arrays.copyOf(gridOrg[i], 10);
+				
+				for(int j = 0; j < 10; ++j)
+					if((k & 1<<j) != 0)
+					{
+
+						grid[0][j] ^= 1;
+						grid[1][j] ^= 1;
+						if(j > 0)
+							grid[0][j-1] ^= 1;
+						if(j < 9)
+							grid[0][j+1] ^= 1;
+					}
+				int ans = Integer.bitCount(k);
+				for(int i = 0; i < 9; ++i)
+					for(int j = 0; j < 10; ++j)
+						if(grid[i][j] == 1)
+						{
+							++ans;
+							grid[i+1][j] ^= 1;
+							if(j > 0)
+								grid[i+1][j-1] ^= 1;
+							if(j < 9)
+								grid[i+1][j+1] ^= 1;
+							if(i < 8)
+								grid[i+2][j] ^= 1;
+						}
+				for(int j = 0; j < 10; ++j)
+					if(grid[9][j] == 1)
+					{
+						ans = -1;
+						break;
+					}
+				if(ans != -1)
+					min = Math.min(ans, min);
+			}
+			if(min == 100000)
+				min = -1;
+			out.printf("%s %d\n", s, min);
+			
+		}
 		out.flush();
+		out.close();
 	}
-	
 
 	static class Scanner 
 	{
@@ -48,11 +93,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,7 +126,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 

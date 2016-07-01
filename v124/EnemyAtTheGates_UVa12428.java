@@ -1,44 +1,58 @@
-package cp5_4;
-
+package v124;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
-
+public class EnemyAtTheGates_UVa12428 {
 	
 	public static void main(String[] args) throws IOException {
-
+	
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+	
+		int tc = sc.nextInt();
+		while(tc-->0)
+		{
+			int n = sc.nextInt();
+			long m = sc.nextLong();
+			m -= n - 1;
+			
+			int ans = -1, lo = 0, hi = n - 1;
+			while(lo <= hi)
+			{
+				int mid = lo + (hi - lo) / 2;
+				if((long)mid * (mid - 1) / 2 >= m)
+				{
+					ans = mid;
+					hi = mid - 1;
+				}
+				else
+					lo = mid + 1;
+			}
+			out.println(n - ans - 1);
+		}
 		out.flush();
+		out.close();
+		
+		
 	}
 	
-
+	
+	
 	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(FileReader fileReader) throws FileNotFoundException{	br = new BufferedReader(fileReader);}
+		
+		public Scanner(InputStream s) throws FileNotFoundException{	br = new BufferedReader(new InputStreamReader(s));}
 
 		public String next() throws IOException 
 		{
@@ -46,12 +60,6 @@ public class CountTheTrees_UVa10007 {
 				st = new StringTokenizer(br.readLine());
 			return st.nextToken();
 		}
-
-		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
-		public long nextLong() throws IOException {return Long.parseLong(next());}
-
-		public String nextLine() throws IOException {return br.readLine();}
 		
 		public double nextDouble() throws IOException
 		{
@@ -81,9 +89,19 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
-		public boolean ready() throws IOException {return br.ready();}
+
+
+		public int nextInt() throws IOException {return Integer.parseInt(next());}
+
+		public long nextLong() throws IOException {return Long.parseLong(next());}
+
+		public String nextLine() throws IOException {return br.readLine();}
+
+		public boolean ready() throws IOException {return br.ready(); }
 
 
 	}
+	
 }
+
+

@@ -1,38 +1,41 @@
-package cp5_4;
-
-
+package v102;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
-public class CountTheTrees_UVa10007 {
-	
+public class Babelfish_UVa10282 {
 
-	
-	public static void main(String[] args) throws IOException {
-
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
-	}
-	
 
+		TreeMap<String, String> dic = new TreeMap<String, String>();
+		
+		while(true)
+		{
+			String s = sc.nextLine();
+			if(s.isEmpty())
+				break;
+			StringTokenizer st = new StringTokenizer(s);
+			String x = st.nextToken(), y = st.nextToken();
+			dic.put(y, x);
+		}
+		
+		while(sc.ready())
+		{
+			String s = dic.get(sc.next());
+			if(s == null)
+				s = "eh";
+			out.println(s);
+		}
+		out.flush();
+		out.close();
+	}
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -48,11 +51,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +84,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
-
-
 	}
 }

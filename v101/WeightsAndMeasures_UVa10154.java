@@ -1,38 +1,65 @@
-package cp5_4;
-
-
+package v101;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
 
-	
-	public static void main(String[] args) throws IOException {
+public class WeightsAndMeasures_UVa10154 {
 
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
+
+	public static void main(String[] args) throws IOException 
+	{
 		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+		Scanner sc = new Scanner(System.in);
+	
+		ArrayList<Turtle> turtles = new ArrayList<Turtle>(5607);
+
+		while(sc.ready())
+		{
+			int w = sc.nextInt(), s = sc.nextInt();
+			if(s >= w)
+				turtles.add(new Turtle(w, s));
+		}
+		Collections.sort(turtles);
+		
+		
+		int[] dp = new int[5608];		//dp[j] => the smallest weight for a stack of j turtles
+		Arrays.fill(dp, Integer.MAX_VALUE);
+		dp[0] = 0;
+		int maxH = 0;
+		for(int i = 0; i < turtles.size(); i++)
+		{
+			Turtle t = turtles.get(i);
+			for(int j = maxH; j >= 0; j--)
+				if(t.w + dp[j] <= t.s && t.w + dp[j] < dp[j+1])
+				{
+					dp[j+1] = t.w + dp[j];
+					maxH = Math.max(maxH, j + 1);
+				}
+		}
+		System.out.println(maxH);
 	}
 	
+	static class Turtle implements Comparable<Turtle>
+	{
+		int w, s;
+		
+		Turtle(int x, int y) { w = x; s = y; }
+		
+		public int compareTo(Turtle t)
+		{
+			if(s != t.s) return s - t.s;
+			return w - t.w;
+		}
+		
 
+	}
+	
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -84,6 +111,10 @@ public class CountTheTrees_UVa10007 {
 		
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		int countTokens() throws IOException
+		{
+			st = new StringTokenizer(br.readLine());
+			return st.countTokens();
+		}
 	}
 }

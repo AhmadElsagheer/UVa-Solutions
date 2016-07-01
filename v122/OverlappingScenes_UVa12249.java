@@ -1,37 +1,72 @@
-package cp5_4;
-
+package v122;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class OverlappingScenes_UVa12249 {
 
+	static String[] scenes;
+	static int N, order[], minLength;
 	
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
-		out.flush();
+	static void bt(int idx, int used)
+	{
+		if(idx == N)
+		{
+			String res = "";
+			for(int x: order)
+				res = merge(res, scenes[x]);
+			minLength = Math.min(minLength, res.length());
+			return;
+		}
+		for(int i = 0; i < N; ++i)
+			if((used & 1<<i) == 0)
+			{
+				order[idx] = i;
+				bt(idx + 1, used | 1<<i);
+			}
 	}
 	
+	static String merge(String x, String y)
+	{
+		int maxMatch = 0;
+		for(int i = 0; i < x.length(); ++i)
+		{
+			int j = 0;
+			while(i + j < x.length() && j < y.length() && x.charAt(i + j) == y.charAt(j))
+				++j;
+			if(i + j == x.length())
+				maxMatch = Math.max(maxMatch, j);
+		}
+		return x.substring(0, x.length() - maxMatch) + y;
+	}
+	
+	public static void main(String[] args) throws Exception 
+	{
+		Scanner sc = new Scanner(System.in); 
+		PrintWriter out = new PrintWriter(System.out);
+
+		int tc = sc.nextInt();
+		for(int t = 1; t <= tc; ++t)
+		{
+			scenes = new String[N = sc.nextInt()];
+			minLength = 0;
+			for(int i = 0; i < N; ++i)
+			{
+				scenes[i] = sc.next();
+				minLength += scenes[i].length();
+			}
+			order = new int[N];
+			bt(0, 0);
+			out.printf("Case %d: %d\n", t, minLength);
+		}
+		
+		out.flush();
+		out.close();
+	}
 
 	static class Scanner 
 	{
@@ -48,11 +83,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +116,14 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		public boolean nextEmpty() throws IOException
+		{
+			String s = nextLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 	}
 }

@@ -1,37 +1,33 @@
-package cp5_4;
-
+package v003;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
-	
+public class PerfectCubes_UVa386 {
 
-	
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws Exception 
+	{
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+
+		for(int a = 2; a <= 200; ++a)
+			for(int b = 2; b <= a; ++b)
+				for(int c = b; b * b * b + c * c * c <= a * a * a; ++c)
+				{
+					int d3 = a * a * a - (b * b * b + c * c * c);
+					int d = (int) Math.pow(d3, 1.0 / 3.0);
+					if(d * d * d != d3)
+						++d;
+
+					if(d * d * d == d3 && d >= c)
+						out.printf("Cube = %d, Triple = (%d,%d,%d)\n", a, b, c, d);
+				}
 		out.flush();
+		out.close();
 	}
-	
 
 	static class Scanner 
 	{
@@ -48,11 +44,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,9 +77,14 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
-
+		public boolean nextEmpty() throws IOException
+		{
+			String s = nextLine();
+			st = new StringTokenizer(s);
+			return s.isEmpty();
+		}
 	}
 }

@@ -1,38 +1,66 @@
-package cp5_4;
-
-
+package v002;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class CountTheTrees_UVa10007 {
+public class Squares_UVa201 {
 	
-
-	
-	public static void main(String[] args) throws IOException {
-
+	public static void main(String[] args) throws IOException 
+	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		BigInteger[] fac = new BigInteger[301];
-		fac[0] = fac[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			fac[i] = fac[i-1].multiply(BigInteger.valueOf(i));
-		BigInteger[] cat = new BigInteger[301];
-		cat[0] = cat[1] = BigInteger.ONE;
-		for(int i = 2; i <= 300; ++i)
-			cat[i] = cat[i-1].multiply(BigInteger.valueOf((i<<1) * ((i<<1) - 1))).divide(BigInteger.valueOf(i * (i + 1)));
-		int n;
-		while((n = sc.nextInt()) != 0)
-			out.println(fac[n].multiply(cat[n]));
+
+		int tc = 1;
+		while(sc.ready())
+		{
+			if(tc != 1)
+				out.println("\n**********************************\n");
+			int n = sc.nextInt(), m = sc.nextInt();
+			int[] squares = new int[n];
+			boolean[][] H = new boolean[n][n], V = new boolean[n][n];
+			while(m-->0)
+			{
+				char c = sc.next().charAt(0);
+				int x = sc.nextInt() - 1, y = sc.nextInt() - 1;
+				if(c == 'H')
+					H[x][y] = true;
+				else
+					V[x][y] = true;
+			}
+			boolean found = false;
+			for(int k = 1; k < n; ++k)
+			{
+				int count = 0;
+				for(int i = 0; i + k < n; ++i)
+					for(int j = 0; j + k < n; ++j)
+					{
+						boolean possible = true;
+						for(int d = i; d < i + k; ++d)
+							possible &= V[j][d] && V[j+k][d];
+						for(int d = j; d < j + k; ++d)
+							possible &= H[i][d] && H[i+k][d];
+						if(possible)
+							++count;
+					}
+				if(count > 0)
+					found = true;
+				squares[k] = count;
+			}
+			out.printf("Problem #%d\n\n", tc++);
+			if(!found)
+				out.println("No completed squares can be found.");
+			else
+				for(int k = 1; k < n; ++k)
+					if(squares[k] != 0)
+						out.printf("%d square (s) of size %d\n", squares[k], k);
+		}
 		out.flush();
+		out.close();
 	}
 	
-
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -48,11 +76,11 @@ public class CountTheTrees_UVa10007 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-		
+
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-		
+
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -81,7 +109,7 @@ public class CountTheTrees_UVa10007 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-		
+
 		public boolean ready() throws IOException {return br.ready();}
 
 
