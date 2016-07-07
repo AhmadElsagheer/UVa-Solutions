@@ -22,7 +22,7 @@ public class BlobsInTheBoard_UVa11391 {
 		for(int idx = 0; idx < R * C; idx++)
 			if((board & (1<<idx)) != 0)
 			{
-				int  i = idx / C, j = idx%C;
+				int  i = idx / C, j = idx % C;
 				for(int k = 0; k < 8; k++)
 				{
 					int x = dx[k], y = dy[k];

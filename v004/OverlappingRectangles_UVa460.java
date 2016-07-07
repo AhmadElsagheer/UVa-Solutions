@@ -1,75 +1,54 @@
-package v001;
+package v004;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class FactorsAndFactorials_UVa160 {
-
-	static ArrayList<Integer> primes;
+public class OverlappingRectangles_UVa460 {
 	
-	static void sieve(int N)
-	{
-		boolean[] isComposite = new boolean[N];
-		primes = new ArrayList<Integer>(N / 10);
-		for(int i = 2; i < N; ++i)
-			if(!isComposite[i])
-			{
-				primes.add(i);
-				if(1l * i * i < N)
-					for(int j = i * i; j < N; j += i)
-						isComposite[j] = true;
-			}
-	}
-	
-	static void primeFactors(int N, int[] a)
-	{
-		int idx = 0, p = primes.get(0);
-		while(p * p <= N)
-		{
-			while(N % p == 0)
-			{
-				a[p]++;
-				N /= p;
-			}
-			
-			p = primes.get(++idx);
-		}
-		if(N != 1)
-			a[N]++;
-	}
-	
-	public static void main(String[] args) throws Exception 
-	{
-		Scanner sc = new Scanner(System.in); 
+	public static void main(String[] args) throws IOException {
+		
+		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		sieve(100);
-		while(true)
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
-				break;
-			int[] ans = new int[100];
-			for(int i = 2; i <= N; ++i)
-				primeFactors(i, ans);
-			out.printf("%3d! =", N);
+			Rectangle a = new Rectangle(new Point(sc.nextInt(), sc.nextInt()), new Point(sc.nextInt(), sc.nextInt()));
+			Rectangle b = new Rectangle(new Point(sc.nextInt(), sc.nextInt()), new Point(sc.nextInt(), sc.nextInt()));
 			
-			int k = 0;
-			for(int i = 2; i < 100; ++i)
-				if(ans[i] != 0)
-				{
-					if(k++ == 15)
-						out.printf("\n      ");
-					out.printf("%3d", ans[i]);
-				}
-			out.println();
+			Point ll = new Point(Math.max(a.ll.x, b.ll.x), Math.max(a.ll.y, b.ll.y));
+			Point ur = new Point(Math.min(a.ur.x, b.ur.x), Math.min(a.ur.y, b.ur.y));
+			if(ll.x != ur.x && ll.y != ur.y && a.contains(ll) && a.contains(ur) && b.contains(ll) && b.contains(ur))
+				out.printf("%d %d %d %d\n", ll.x, ll.y, ur.x, ur.y);
+			else
+				out.print("No Overlap\n");
+			if(tc != 0)
+				out.println();
 		}
 		out.flush();
-		out.close();
+	}
+	
+	static class Point
+	{
+		int x, y;
+		
+		Point(int a, int b) { x = a; y = b; }
+	}
+	
+	static class Rectangle
+	{
+		Point ll, ur;
+		
+		Rectangle(Point a, Point b) { ll = a; ur = b; }
+		
+		boolean contains(Point p)
+		{
+			return p.x <= ur.x && p.x >= ll.x && p.y <= ur.y && p.y >= ll.y;
+		}
 	}
 	
 	static class Scanner 
@@ -87,11 +66,11 @@ public class FactorsAndFactorials_UVa160 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-
+		
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-
+		
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -120,15 +99,8 @@ public class FactorsAndFactorials_UVa160 {
 			res += Long.parseLong(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-
+		
 		public boolean ready() throws IOException {return br.ready();}
-
-		public boolean nextEmpty() throws IOException
-		{
-			String s = br.readLine();
-			st = new StringTokenizer(s);
-			return s.isEmpty();
-		}
 
 
 	}

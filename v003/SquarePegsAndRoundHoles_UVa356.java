@@ -1,76 +1,65 @@
-package v001;
+package v003;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class FactorsAndFactorials_UVa160 {
+public class SquarePegsAndRoundHoles_UVa356 {
 
-	static ArrayList<Integer> primes;
+	static int[] dx = new int[] {0, 0, 1, 1};
+	static int[] dy = new int[] {0, 1, 0, 1};
 	
-	static void sieve(int N)
+	public static void main(String[] args) throws IOException 
 	{
-		boolean[] isComposite = new boolean[N];
-		primes = new ArrayList<Integer>(N / 10);
-		for(int i = 2; i < N; ++i)
-			if(!isComposite[i])
-			{
-				primes.add(i);
-				if(1l * i * i < N)
-					for(int j = i * i; j < N; j += i)
-						isComposite[j] = true;
-			}
-	}
-	
-	static void primeFactors(int N, int[] a)
-	{
-		int idx = 0, p = primes.get(0);
-		while(p * p <= N)
-		{
-			while(N % p == 0)
-			{
-				a[p]++;
-				N /= p;
-			}
-			
-			p = primes.get(++idx);
-		}
-		if(N != 1)
-			a[N]++;
-	}
-	
-	public static void main(String[] args) throws Exception 
-	{
-		Scanner sc = new Scanner(System.in); 
+		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		sieve(100);
-		while(true)
+	
+		boolean first = true;
+		while(sc.ready())
 		{
-			int N = sc.nextInt();
-			if(N == 0)
-				break;
-			int[] ans = new int[100];
-			for(int i = 2; i <= N; ++i)
-				primeFactors(i, ans);
-			out.printf("%3d! =", N);
-			
-			int k = 0;
-			for(int i = 2; i < 100; ++i)
-				if(ans[i] != 0)
+			if(first)
+				first = false;
+			else
+				out.println();
+			int n = sc.nextInt(), m = n<<1, d = m - 1, fullIn = 0, segIn = 0;
+			for(int i = 0; i < m; ++i)
+				for(int j = 0; j < m; ++j)
 				{
-					if(k++ == 15)
-						out.printf("\n      ");
-					out.printf("%3d", ans[i]);
+					int in = 0, on = 0;
+					for(int k = 0; k < 4; ++k)
+					{
+						int p = posToCircle(n, d, i + dx[k], j + dy[k]);
+						if(p == 1)
+							++in;
+						else if(p == 0)
+							++on;
+					}
+					if(in + on == 4)
+						++fullIn;
+					else if(in != 0)
+						++segIn;
 				}
-			out.println();
+			out.printf("In the case n = %d, %d cells contain segments of the circle.\n", n, segIn);
+			out.printf("There are %d cells completely contained in the circle.\n", fullIn);
+					
 		}
 		out.flush();
 		out.close();
 	}
+	
+	static int posToCircle(int n, int d, int x, int y)
+	{
+		int s = 4 * (sq(x - n) + sq(y - n));
+		if(s < d * d)
+			return 1;
+		if(s > d * d)
+			return -1;
+		return 0;
+	}
+	
+	static int sq(int x) { return x * x; }
 	
 	static class Scanner 
 	{
@@ -122,14 +111,5 @@ public class FactorsAndFactorials_UVa160 {
 		}
 
 		public boolean ready() throws IOException {return br.ready();}
-
-		public boolean nextEmpty() throws IOException
-		{
-			String s = br.readLine();
-			st = new StringTokenizer(s);
-			return s.isEmpty();
-		}
-
-
 	}
 }

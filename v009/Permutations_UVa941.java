@@ -1,83 +1,66 @@
-package v001;
+package v009;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class FactorsAndFactorials_UVa160 {
 
-	static ArrayList<Integer> primes;
-	
-	static void sieve(int N)
+public class Permutations_UVa941 {
+
+	public static void main(String[] args) throws IOException 
 	{
-		boolean[] isComposite = new boolean[N];
-		primes = new ArrayList<Integer>(N / 10);
-		for(int i = 2; i < N; ++i)
-			if(!isComposite[i])
-			{
-				primes.add(i);
-				if(1l * i * i < N)
-					for(int j = i * i; j < N; j += i)
-						isComposite[j] = true;
-			}
-	}
-	
-	static void primeFactors(int N, int[] a)
-	{
-		int idx = 0, p = primes.get(0);
-		while(p * p <= N)
-		{
-			while(N % p == 0)
-			{
-				a[p]++;
-				N /= p;
-			}
-			
-			p = primes.get(++idx);
-		}
-		if(N != 1)
-			a[N]++;
-	}
-	
-	public static void main(String[] args) throws Exception 
-	{
-		Scanner sc = new Scanner(System.in); 
+		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 		
-		sieve(100);
-		while(true)
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
-				break;
-			int[] ans = new int[100];
-			for(int i = 2; i <= N; ++i)
-				primeFactors(i, ans);
-			out.printf("%3d! =", N);
+			char[] s = sc.next().toCharArray();
+			long k = sc.nextLong();
 			
-			int k = 0;
-			for(int i = 2; i < 100; ++i)
-				if(ans[i] != 0)
+			int[] f = new int[26];
+			for(char c: s)
+				f[c-'a']++;
+			
+			int[] facNum = new int[s.length];
+			for(int i = 1; i <= s.length; k /= i, ++i)
+				facNum[s.length - i] = (int) (k % i);
+			
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < s.length; ++i)
+			{
+				int z = facNum[i];
+				for(int j = 0; j < 26; ++j)
 				{
-					if(k++ == 15)
-						out.printf("\n      ");
-					out.printf("%3d", ans[i]);
+					if(f[j] == 0)
+						continue;
+					if(f[j] > z)
+					{
+						sb.append((char) (j + 'a'));
+						f[j]--;
+						break;
+					}
+					z -= f[j];
 				}
-			out.println();
+			}
+			out.println(sb);
+			
 		}
 		out.flush();
 		out.close();
 	}
-	
+
 	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
+
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
@@ -122,13 +105,6 @@ public class FactorsAndFactorials_UVa160 {
 		}
 
 		public boolean ready() throws IOException {return br.ready();}
-
-		public boolean nextEmpty() throws IOException
-		{
-			String s = br.readLine();
-			st = new StringTokenizer(s);
-			return s.isEmpty();
-		}
 
 
 	}

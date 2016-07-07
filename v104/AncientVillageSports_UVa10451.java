@@ -1,77 +1,54 @@
-package v001;
+package v104;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class FactorsAndFactorials_UVa160 {
-
-	static ArrayList<Integer> primes;
+public class AncientVillageSports_UVa10451 {
 	
-	static void sieve(int N)
-	{
-		boolean[] isComposite = new boolean[N];
-		primes = new ArrayList<Integer>(N / 10);
-		for(int i = 2; i < N; ++i)
-			if(!isComposite[i])
-			{
-				primes.add(i);
-				if(1l * i * i < N)
-					for(int j = i * i; j < N; j += i)
-						isComposite[j] = true;
-			}
-	}
 	
-	static void primeFactors(int N, int[] a)
-	{
-		int idx = 0, p = primes.get(0);
-		while(p * p <= N)
-		{
-			while(N % p == 0)
-			{
-				a[p]++;
-				N /= p;
-			}
-			
-			p = primes.get(++idx);
-		}
-		if(N != 1)
-			a[N]++;
-	}
 	
-	public static void main(String[] args) throws Exception 
-	{
-		Scanner sc = new Scanner(System.in); 
-		PrintWriter out = new PrintWriter(System.out);
+	public static void main(String[] args) throws IOException {
 		
-		sieve(100);
+		Scanner sc = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(System.out);
+
+		int k = 1;
 		while(true)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
+			int n = sc.nextInt();
+			if(n < 3)
 				break;
-			int[] ans = new int[100];
-			for(int i = 2; i <= N; ++i)
-				primeFactors(i, ans);
-			out.printf("%3d! =", N);
+			double A = sc.nextDouble();
+			double r2 = radiusOuterCircle(A, n);
+			double r1 = r2 * Math.cos(degToRad((180.0 - 180.0 * (n - 2) / n) / 2));
 			
-			int k = 0;
-			for(int i = 2; i < 100; ++i)
-				if(ans[i] != 0)
-				{
-					if(k++ == 15)
-						out.printf("\n      ");
-					out.printf("%3d", ans[i]);
-				}
-			out.println();
+			out.printf("Case %d: %.5f %.5f\n", k++, area(r2) - A, A - area(r1));
 		}
 		out.flush();
-		out.close();
+	
 	}
 	
+	static double area(double r)
+	{
+		return Math.PI * r * r;
+	}
+	
+	
+	static double radiusOuterCircle(double A, int n)
+	{
+		double theta = 180 - (180.0 * (n - 2)) / n;
+		return Math.sqrt(A /(Math.PI *(1 - n * theta / 360.0) + n * Math.sin(degToRad(theta))/ 2.0));
+	}
+	
+	static double degToRad(double d)
+	{
+		return d * Math.PI / 180.0;
+	}
+			
 	static class Scanner 
 	{
 		StringTokenizer st;
@@ -87,11 +64,11 @@ public class FactorsAndFactorials_UVa160 {
 		}
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
-
+		
 		public long nextLong() throws IOException {return Long.parseLong(next());}
 
 		public String nextLine() throws IOException {return br.readLine();}
-
+		
 		public double nextDouble() throws IOException
 		{
 			String x = next();
@@ -107,7 +84,7 @@ public class FactorsAndFactorials_UVa160 {
 			for(int i = start; i < x.length(); i++)
 				if(x.charAt(i) == '.')
 				{
-					res = Long.parseLong(sb.toString());
+					res = Integer.parseInt(sb.toString());
 					sb = new StringBuilder("0");
 					dec = true;
 				}
@@ -117,18 +94,11 @@ public class FactorsAndFactorials_UVa160 {
 					if(dec)
 						f *= 10;
 				}
-			res += Long.parseLong(sb.toString()) / f;
+			res += Integer.parseInt(sb.toString()) / f;
 			return res * (neg?-1:1);
 		}
-
+		
 		public boolean ready() throws IOException {return br.ready();}
-
-		public boolean nextEmpty() throws IOException
-		{
-			String s = br.readLine();
-			st = new StringTokenizer(s);
-			return s.isEmpty();
-		}
 
 
 	}

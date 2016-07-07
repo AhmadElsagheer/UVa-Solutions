@@ -1,75 +1,48 @@
-package v001;
+package v115;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class FactorsAndFactorials_UVa160 {
+public class BlackboardBonanza_UVa11548 {
 
-	static ArrayList<Integer> primes;
 	
-	static void sieve(int N)
+	public static void main(String[] args) throws IOException 
 	{
-		boolean[] isComposite = new boolean[N];
-		primes = new ArrayList<Integer>(N / 10);
-		for(int i = 2; i < N; ++i)
-			if(!isComposite[i])
-			{
-				primes.add(i);
-				if(1l * i * i < N)
-					for(int j = i * i; j < N; j += i)
-						isComposite[j] = true;
-			}
-	}
-	
-	static void primeFactors(int N, int[] a)
-	{
-		int idx = 0, p = primes.get(0);
-		while(p * p <= N)
-		{
-			while(N % p == 0)
-			{
-				a[p]++;
-				N /= p;
-			}
-			
-			p = primes.get(++idx);
-		}
-		if(N != 1)
-			a[N]++;
-	}
-	
-	public static void main(String[] args) throws Exception 
-	{
-		Scanner sc = new Scanner(System.in); 
+		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		sieve(100);
-		while(true)
+	
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
-				break;
-			int[] ans = new int[100];
-			for(int i = 2; i <= N; ++i)
-				primeFactors(i, ans);
-			out.printf("%3d! =", N);
-			
-			int k = 0;
-			for(int i = 2; i < 100; ++i)
-				if(ans[i] != 0)
-				{
-					if(k++ == 15)
-						out.printf("\n      ");
-					out.printf("%3d", ans[i]);
-				}
-			out.println();
+			int ans = 0, n = sc.nextInt();
+			String[] words = new String[n];
+			for(int i = 0; i < n; ++i)
+				words[i] = sc.next();
+			for(int i = 0; i < n; ++i)
+				for(int j = i + 1; j < n; ++j)
+					ans = Math.max(ans, maxMatches(words[i], words[j]));
+			out.println(ans);
 		}
 		out.flush();
 		out.close();
+	}
+	
+	static int maxMatches(String x, String y)
+	{
+		int max = 0;
+		int lenX = x.length(), lenY = y.length();
+		for(int i = 0; i < lenX; ++i)
+			for(int j = 0, k = i, cur = 0; j < lenY; ++j, ++k)
+			{
+				if(k == lenX) { k = 0; cur = 0; }
+				if(x.charAt(k) == y.charAt(j))
+						++cur;
+				max = Math.max(max, cur);
+			}
+		return max;
 	}
 	
 	static class Scanner 
@@ -122,14 +95,5 @@ public class FactorsAndFactorials_UVa160 {
 		}
 
 		public boolean ready() throws IOException {return br.ready();}
-
-		public boolean nextEmpty() throws IOException
-		{
-			String s = br.readLine();
-			st = new StringTokenizer(s);
-			return s.isEmpty();
-		}
-
-
 	}
 }
