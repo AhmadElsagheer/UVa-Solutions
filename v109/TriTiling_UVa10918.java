@@ -1,4 +1,4 @@
-package cp5_4;
+package v109;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,6 +10,34 @@ import java.util.StringTokenizer;
 
 
 public class TriTiling_UVa10918 {
+	/*
+	 * Another nicer DP solution (By: omaryasser3)
+	 */
+    static void sol2() throws  Exception
+    {
+        Scanner sc = new Scanner(System.in);
+        PrintWriter out = new PrintWriter(System.out);
+        int complete [] = new int[31], missingSquare [] = new int[31];
+        complete[1] = missingSquare[0] = 0;
+        complete[0] = missingSquare[1] = 1 ; 
+        complete[2] = 3;
+        for (int i = 3 ; i < 31 ; ++i)
+        {
+            complete[i] = complete[i - 2] + 2 * missingSquare[i - 1];
+            missingSquare[i] = complete[i - 1] + missingSquare[i - 2];
+        }
+
+        while (true)
+        {
+            int n = sc.nextInt();
+            if (n == - 1) break;
+
+            out.printf("%d\n" , ((n & 1) == 1) ? 0 : complete[n] + missingSquare[n]);
+        }
+        out.flush();
+        out.close();
+    }
+    
 	
 	static int[][] memo;
 	
