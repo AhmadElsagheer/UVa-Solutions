@@ -1,4 +1,5 @@
-package v109;
+package v110;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,20 +8,9 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class HowManyDependencies_UVa10926 {
+public class TowardsZero_UVa11002 {
 
-	static int[][] adjList;
-	static boolean[] vis;
-
-	static int deps(int u)
-	{
-		vis[u] = true;
-		int ret = 1;
-		for(int v: adjList[u])
-			if(!vis[v])
-				ret += deps(v);
-		return ret;
-	}
+	static final int OFFSET = 3000;
 
 	public static void main(String[] args) throws IOException 
 	{
@@ -29,33 +19,53 @@ public class HowManyDependencies_UVa10926 {
 
 		while(true)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
+			int n = sc.nextInt(), m = n*2-1;
+			if(n == 0)
 				break;
-			adjList = new int[N][];
-			for(int i = 0; i < N; ++i)
+			int[][] board = new int[m][];
+			for(int i = 0, k = 1, d = 1; i < m; ++i, k += d)
 			{
-				int T = sc.nextInt();
-				adjList[i] = new int[T];
-				for(int j = 0; j < T; ++j)
-					adjList[i][j] = sc.nextInt() - 1;
+				board[i] = new int[k];
+				for(int j = 0; j < k; ++j)
+					board[i][j] = sc.nextInt();
+				if(i == n - 1)
+					d = -1;
 			}
-			int ans = -1, idx = -1;
-			for(int i = 0; i < N; ++i)
-			{
-				vis = new boolean[N];
-				int cur = deps(i);
-				if(cur > ans)
+
+			boolean[][][] dp = new boolean[m][n][OFFSET<<1|1];
+			dp[m-1][0][v(board[m-1][0])] = true;
+			for(int i = m - 2; i >= 0; --i)
+				for(int j = 0, end = board[i].length; j < end; ++j)
 				{
-					ans = cur;
-					idx = i;
+					int x = board[i][j];
+					for(int sum = -OFFSET; sum <= OFFSET; ++sum)
+					{
+						boolean y = false;
+						if(i < n - 1 && dp[i+1][j+1][v(sum)])
+							y = true;
+
+						if(dp[i+1][j][v(sum)])
+							y = true;
+
+						if(i >= n - 1 && j > 0 && dp[i+1][j-1][v(sum)])
+							y = true;
+						
+						if(y)
+							dp[i][j][v(sum+x)] = dp[i][j][v(sum-x)] = true;
+					}
 				}
-			}
-			out.println(idx + 1);
+
+			int ans = OFFSET;
+			for(int i = -OFFSET; i <= OFFSET; ++i)
+				if(dp[0][0][v(i)])
+					ans = Math.min(ans, Math.abs(i));
+			out.println(ans);
 		}
 		out.flush();
 		out.close();
 	}
+
+	static int v(int x) { return x + OFFSET; }
 
 	static class Scanner 
 	{
@@ -80,5 +90,6 @@ public class HowManyDependencies_UVa10926 {
 		public double nextDouble() throws IOException { return Double.parseDouble(next()); }
 
 		public boolean ready() throws IOException {return br.ready();}
+
 	}
 }

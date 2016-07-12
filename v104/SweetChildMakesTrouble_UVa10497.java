@@ -1,57 +1,39 @@
-package v109;
+package v104;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class HowManyDependencies_UVa10926 {
+public class SweetChildMakesTrouble_UVa10497 {
 
-	static int[][] adjList;
-	static boolean[] vis;
-
-	static int deps(int u)
+	static BigInteger[] memo = new BigInteger[801];
+	
+	static BigInteger D(int n)
 	{
-		vis[u] = true;
-		int ret = 1;
-		for(int v: adjList[u])
-			if(!vis[v])
-				ret += deps(v);
-		return ret;
+		if(n == 1)
+			return BigInteger.ZERO;
+		if(n == 0)
+			return BigInteger.ONE;
+		if(memo[n] != null)
+			return memo[n];
+		return memo[n] = BigInteger.valueOf(n-1).multiply(D(n - 1).add(D(n - 2)));
 	}
-
+	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
+	
 		while(true)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
+			int n = sc.nextInt();
+			if(n == -1)
 				break;
-			adjList = new int[N][];
-			for(int i = 0; i < N; ++i)
-			{
-				int T = sc.nextInt();
-				adjList[i] = new int[T];
-				for(int j = 0; j < T; ++j)
-					adjList[i][j] = sc.nextInt() - 1;
-			}
-			int ans = -1, idx = -1;
-			for(int i = 0; i < N; ++i)
-			{
-				vis = new boolean[N];
-				int cur = deps(i);
-				if(cur > ans)
-				{
-					ans = cur;
-					idx = i;
-				}
-			}
-			out.println(idx + 1);
+			out.println(D(n));
 		}
 		out.flush();
 		out.close();
@@ -80,5 +62,6 @@ public class HowManyDependencies_UVa10926 {
 		public double nextDouble() throws IOException { return Double.parseDouble(next()); }
 
 		public boolean ready() throws IOException {return br.ready();}
+
 	}
 }

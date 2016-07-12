@@ -1,61 +1,71 @@
-package v109;
+package v106;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class HowManyDependencies_UVa10926 {
+public class Coprimes_UVa10637 {
 
-	static int[][] adjList;
-	static boolean[] vis;
+	static StringBuilder sb = new StringBuilder();
+	static int t, seq[], gcd[][];
 
-	static int deps(int u)
+	static void generate(int idx, int val, int n)
 	{
-		vis[u] = true;
-		int ret = 1;
-		for(int v: adjList[u])
-			if(!vis[v])
-				ret += deps(v);
-		return ret;
+		if(idx == t)
+		{
+			if(n == 0)
+			{
+				for(int i = 0; i < t - 1; ++i)
+					sb.append(seq[i]+" ");
+				sb.append(seq[t-1]+"\n");
+			}
+			return;
+		}
+		if(val > n)
+			return;
+
+		boolean possible = true;
+		for(int i = 0; i < idx; ++i)
+			if(gcd[seq[i]][val] != 1)
+			{
+				possible = false;
+				break;
+			}
+		if(possible)
+		{
+			seq[idx] = val;
+			generate(idx + 1, val, n - val);
+		}
+		generate(idx, val + 1, n);		
 	}
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(true)
+		gcd = new int[101][101];
+		for(int i = 1; i <= 100; ++i)
+			for(int j = 1; j <= 100; ++j)
+				gcd[i][j] = gcd(i, j);
+		
+		int tc = sc.nextInt();
+		for(int tt = 1; tt <= tc; ++tt)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
-				break;
-			adjList = new int[N][];
-			for(int i = 0; i < N; ++i)
-			{
-				int T = sc.nextInt();
-				adjList[i] = new int[T];
-				for(int j = 0; j < T; ++j)
-					adjList[i][j] = sc.nextInt() - 1;
-			}
-			int ans = -1, idx = -1;
-			for(int i = 0; i < N; ++i)
-			{
-				vis = new boolean[N];
-				int cur = deps(i);
-				if(cur > ans)
-				{
-					ans = cur;
-					idx = i;
-				}
-			}
-			out.println(idx + 1);
+			sb.append("Case "+tt+":\n");
+			int n = sc.nextInt();
+			t = sc.nextInt();
+			seq = new int[t];
+			generate(0, 1, n);
 		}
+		out.print(sb);
 		out.flush();
 		out.close();
 	}
+
+	static int gcd(int a, int b) { return b == 0 ? a : gcd(b, a%b); }
 
 	static class Scanner 
 	{
@@ -80,5 +90,6 @@ public class HowManyDependencies_UVa10926 {
 		public double nextDouble() throws IOException { return Double.parseDouble(next()); }
 
 		public boolean ready() throws IOException {return br.ready();}
+
 	}
 }

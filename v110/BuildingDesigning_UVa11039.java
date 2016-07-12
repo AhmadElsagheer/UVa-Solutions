@@ -1,60 +1,63 @@
-package v109;
+package v110;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
-public class HowManyDependencies_UVa10926 {
-
-	static int[][] adjList;
-	static boolean[] vis;
-
-	static int deps(int u)
-	{
-		vis[u] = true;
-		int ret = 1;
-		for(int v: adjList[u])
-			if(!vis[v])
-				ret += deps(v);
-		return ret;
-	}
-
+public class BuildingDesigning_UVa11039 {
+	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
-		while(true)
+		
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
-				break;
-			adjList = new int[N][];
-			for(int i = 0; i < N; ++i)
+			int n = sc.nextInt();
+			ArrayList<Integer> red = new ArrayList<Integer>(n);
+			ArrayList<Integer> blue = new ArrayList<Integer>(n);
+			while(n-->0)
 			{
-				int T = sc.nextInt();
-				adjList[i] = new int[T];
-				for(int j = 0; j < T; ++j)
-					adjList[i][j] = sc.nextInt() - 1;
+				int x = sc.nextInt();
+				if(x < 0)
+					red.add(-x);
+				else
+					blue.add(x);
 			}
-			int ans = -1, idx = -1;
-			for(int i = 0; i < N; ++i)
-			{
-				vis = new boolean[N];
-				int cur = deps(i);
-				if(cur > ans)
-				{
-					ans = cur;
-					idx = i;
-				}
-			}
-			out.println(idx + 1);
+			Collections.sort(red);
+			Collections.sort(blue);
+			out.println(Math.max(getMax(red, blue), getMax(blue, red)));
 		}
 		out.flush();
 		out.close();
+	}
+	
+	static int getMax(ArrayList<Integer> x, ArrayList<Integer> y)
+	{
+		int i = 0, j = 0, lst = 0, ans = 0;
+		while(true)
+		{
+			while(i < x.size() && x.get(i) <= lst)
+				++i;
+			if(i == x.size())
+				break;
+			++ans;
+			lst = x.get(i++);
+			
+			while(j < y.size() && y.get(j) <= lst)
+				++j;
+			if(j == y.size())
+				break;
+			++ans;
+			lst = y.get(j++);
+		}
+		return ans;
 	}
 
 	static class Scanner 
@@ -80,5 +83,6 @@ public class HowManyDependencies_UVa10926 {
 		public double nextDouble() throws IOException { return Double.parseDouble(next()); }
 
 		public boolean ready() throws IOException {return br.ready();}
+
 	}
 }

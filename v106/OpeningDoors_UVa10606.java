@@ -1,57 +1,42 @@
-package v109;
+package v106;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-public class HowManyDependencies_UVa10926 {
+public class OpeningDoors_UVa10606 {
 
-	static int[][] adjList;
-	static boolean[] vis;
-
-	static int deps(int u)
-	{
-		vis[u] = true;
-		int ret = 1;
-		for(int v: adjList[u])
-			if(!vis[v])
-				ret += deps(v);
-		return ret;
-	}
-
+	static final BigInteger TWO = BigInteger.valueOf(2);
+	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
+		
 		while(true)
 		{
-			int N = sc.nextInt();
-			if(N == 0)
+			String s = sc.next();
+			if(s.equals("0"))
 				break;
-			adjList = new int[N][];
-			for(int i = 0; i < N; ++i)
+			BigInteger num = new BigInteger(s);
+			BigInteger ans = null, lo = BigInteger.ZERO, hi = num;
+			while(lo.compareTo(hi) <= 0)
 			{
-				int T = sc.nextInt();
-				adjList[i] = new int[T];
-				for(int j = 0; j < T; ++j)
-					adjList[i][j] = sc.nextInt() - 1;
-			}
-			int ans = -1, idx = -1;
-			for(int i = 0; i < N; ++i)
-			{
-				vis = new boolean[N];
-				int cur = deps(i);
-				if(cur > ans)
+				BigInteger mid = lo.add(hi).divide(TWO);
+				BigInteger mid2 = mid.multiply(mid);
+				if(mid2.compareTo(num) <= 0)
 				{
-					ans = cur;
-					idx = i;
+					ans = mid2;
+					lo = mid.add(BigInteger.ONE);
 				}
+				else
+					hi = mid.subtract(BigInteger.ONE);
 			}
-			out.println(idx + 1);
+			out.println(ans);
 		}
 		out.flush();
 		out.close();
@@ -80,5 +65,6 @@ public class HowManyDependencies_UVa10926 {
 		public double nextDouble() throws IOException { return Double.parseDouble(next()); }
 
 		public boolean ready() throws IOException {return br.ready();}
+
 	}
 }
