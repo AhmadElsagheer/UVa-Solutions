@@ -7,10 +7,10 @@
 
 **Solution 1** sort questions based on difficulty and leaked questions come first in case of a tie. Then, loop on questions. 
 If the current question is not leaked (and incorrect), add it to some variable `x`. If it is leaked (and correct) at `x` to the result.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/AutomaticCheaterDetection.java)
 
 **Solution 2** instead of sorting, count questions of every difficulty (as `d <= 10`) and loop on the difficulty array.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/AutomaticCheaterDetection2.java)
 
 **Complexity** `O(T * Q)` or `O(T * Q log Q)`
 
@@ -20,7 +20,7 @@ If the current question is not leaked (and incorrect), add it to some variable `
 
 **Solution** make a set for months with 31 days and map every day to an index in order. Loop starting from the current day
 for `x` times where `x` is the number of days in the input month. Use modulo to circulate and count. Don't forget to handle `FEB` case.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/CountingWeekendDays.java)
 
 **Complexity** `O(T)`
 
@@ -46,7 +46,7 @@ the minimum weight of lengths that are powers of two starting from any node u an
 task, but this time we will be updating the sparse table not querying it. At the end of the day, we will propagate any updated values
 residing in lengths > 1 to smallers lengths and consequently every node will have the correct value. Note that edge weights are
 represented in the tree on the node considered as a child with respect to each edge.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/TollManagement.java)
 
 **Complexity** `O(T * M * log N)`
 
@@ -58,7 +58,7 @@ represented in the tree on the node considered as a child with respect to each e
 exist at least once, then LCP cannot be 0. If some character exists exactly once, you can make a string using it only and LCP will be 1.
 
 **Solution** check which character has the smallest frequency and print it.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/Owllen.java)
 
 **Complexity** `O(T * N)`
 
@@ -70,7 +70,7 @@ exist at least once, then LCP cannot be 0. If some character exists exactly once
 
 **Solution**  preprocess using a modified sieve to count the sum of divisors and compute cumulative sum at the same time.
 Each test can be answered now in `O(1)`.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/SumOfMSLCM.java)
 
 **Complexity** `O(N * log N * log log N)`
 
@@ -87,7 +87,7 @@ sum. We will do something similar to 2D max range sum that runs in `O(n^3)`. Bru
 and c2 (right column) and let's find r1 and r2 such that subrectangle with opposite corners (c1, r1) and (c2, r2) has non-negative
 sum and maximum area. Make a cumulative array for rows `prefixR` using RSQ obtained from cumulative-column sum and build a segment tree on this array.
 Now, for every r2, we need to find r1 < r2 such that `prefixR[r2] - prefixR[r1-1] >= 0`. This is done with RMQ on the segment tree.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/UniqueParty.java)
 
 **Complexity** `O(T * Q * C^2 * R * log R)`
 
@@ -102,7 +102,7 @@ This can be using DP with bitmask and moving with an index on the number digits.
 This can be using knapsack and bitmasks. You will decide for every subset element which digits to take and we have already calculated
 valid numbers using these digits, so we will mark these digits as used, go an solve the same problem for remaining elements. Multiplying
 the count of valid numbers for every element will yield the required result for this subset size.
-[Source Code](link here)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/NumberedCards.java)
 
 **Complexity** `O(4^B * B) where B is the base (here B = 10)
 
