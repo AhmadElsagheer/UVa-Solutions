@@ -99,9 +99,7 @@ Now, for every r2, we need to find r1 < r2 such that `prefixR[r2] - prefixR[r1-1
 
 **Solution** Compute for every subset of the digits {0, 1,...9} how many numbers <= N that contain digits only in this subset.
 This can be using DP with bitmask and moving with an index on the number digits. Now, let's count required subsets for each possible size.
-This can be using knapsack and bitmasks. You will decide for every subset element which digits to take and we have already calculated
-valid numbers using these digits, so we will mark these digits as used, go an solve the same problem for remaining elements. Multiplying
-the count of valid numbers for every element will yield the required result for this subset size.
+This can be done using knapsack and bitmasks. You will decide for every subset element which digits to take and we have already calculated valid numbers using these digits, so we will mark these digits as used, go an solve the same problem for remaining elements. Multiplying the count of valid numbers for every element will yield the required result for this subset size.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/NumberedCards.java)
 
 **Complexity** `O(4^B * B)` where B is the base (here B = 10)
