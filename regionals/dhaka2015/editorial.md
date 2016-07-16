@@ -104,7 +104,7 @@ valid numbers using these digits, so we will mark these digits as used, go an so
 the count of valid numbers for every element will yield the required result for this subset size.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/NumberedCards.java)
 
-**Complexity** `O(4^B * B) where B is the base (here B = 10)
+**Complexity** `O(4^B * B)` where B is the base (here B = 10)
 
 ---
 If anyone can get codes for remaining problems, that will be great!
