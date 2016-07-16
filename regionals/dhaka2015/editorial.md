@@ -111,7 +111,8 @@ Let's now count the number of points in each region of those 4.
 The first observation is, for (0, 0) to be optimum, this condition should hold cnt[0] + cnt[3] = cnt[1] + cnt[2].
 And similarily we can divide this equation into 2 equations:<br>
 - cnt[1] = cnt[3]
-- cnt[0] = cnt[2]<br>
+- cnt[0] = cnt[2]
+
 and this is kind of intuitive because if region 3 has 1 point more than region 1 then the optimal point would be somewhere between (0, 0) and the nearst point to it, but not (0, 0) itself.
  
 So, now we can solve the problem for 2 Quaderants. In how many ways you can pick 2x points (x from one quaderant and x from the other one) from quaderants 1 and 3?
