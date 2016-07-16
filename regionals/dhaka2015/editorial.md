@@ -92,6 +92,55 @@ Now, for every r2, we need to find r1 < r2 such that `prefixR[r2] - prefixR[r1-1
 **Complexity** `O(T * Q * C^2 * R * log R)`
 
 ---
+### H - Design New Capital
+
+**Tags** Counting + Polynomial multiplication (Fast Fourier Transform)
+
+**Solution** [By Khalid Jamal](http://codeforces.com/profile/Safrout). Well, we need the point (0, 0) to be the centre of the universe to satisfy the optimum property described in the problem statement. Let's divide the universe then into 4 quaderants.
+```
+        |        
+  (-,+) |  (+,+) 
+    0   |    1   
+--------|--------
+        |        
+  (-,-) |  (+,-) 
+    3   |    2   
+        |      
+```
+Let's now count the number of points in each region of those 4.
+The first observation is, for (0, 0) to be optimum, this condition should hold cnt[0] + cnt[3] = cnt[1] + cnt[2].
+And similarily we can divide this equation into 2 equations:<br>
+- cnt[1] = cnt[3]
+- cnt[0] = cnt[2]<br>
+and this is kind of intuitive because if region 3 has 1 point more than region 1 then the optimal point would be somewhere between (0, 0) and the nearst point to it, but not (0, 0) itself.
+ 
+So, now we can solve the problem for 2 Quaderants. In how many ways you can pick 2x points (x from one quaderant and x from the other one) from quaderants 1 and 3?
+The answer is nCr(cnt[1], x) * nCr(cnt[3], x). Iterate over all possible 2x to get that.
+We also can do that for the other 2 Quaderants.
+ 
+Now we want to solve our original problem, to get the number of ways to choose i points from all the quaderants.
+Now we will construct 2 polynomials poly1 and poly2<br>
+P1 = 1 + nCr(cnt[1], 1) * nCr(cnt[3], 1) * X^2 + nCr(cnt[1], 2) * nCr(cnt[3], 2) * X^4 + ....... (Till the 1st time you hit x > cnt[1]  or cnt[3]).<br>
+P2 = 1 + nCr(cnt[0], 1) * nCr(cnt[2], 1) * X^2 + nCr(cnt[0], 2) * nCr(cnt[2], 2) * X^4 + ....... (Till the 1st time you hit x > cnt[0]  or cnt[2]).
+ 
+Now, think about it a bit, if you will multiply the 2 polynomials P1 and P2, the the coefficients of the powers of X from X^1 till X^n are the answer to the problem.
+ 
+Now comes another problem, The naive way take `O(n^2)` to multiply to polynomials.
+The good thing is that we can use the Fast Fourier algorithm to multiply 2 polynomials in `O(n*logn)`.
+ 
+But here comes another problem, the FFT algorithm relies on complex numbers and doubles, however the problem needs some modular arithmetic and we all know "modular arithmetic can't be done with doubles"
+Here will need a special version of the FFT called the Number Theoretic Transform (or NTT), it is basically a FFT but with out complex numbers and doubles.
+ 
+To do so, we need to find for our given mod which is 7340033 some thing which is called an 2nth primitive root of unity (read the convolution theorem if you want to know about this).
+ 
+Thank God this prime number is the same prime that e-maxx (and most of the people) use it for their NTT codes so you can just blindly take the e-maxx NTT code (but if the mod will change you will need to change some constants related to the convolution theorem).
+ 
+I think yes the judges were lazy to get another prime and another 2nth primitive root of unity :D
+
+[Source Code](http://ideone.com/xT9HEN)
+ 
+
+---
 ### I - Numbered Cards
 **Tags** DP (knapsack, bitmasks), combinatorics
 
