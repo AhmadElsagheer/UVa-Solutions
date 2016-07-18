@@ -26,6 +26,7 @@ public class AtennaPlacement_UVa10349 {
 		int ver = dp(r, c + 1, msk | (1<<c)) + 1;
 		return memo[r][c][msk] = Math.min(hor, ver);
 	}
+	
 	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
