@@ -1,4 +1,4 @@
-package cp5_5;
+package v101;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,38 +7,27 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class BigMod_UVa374 {
-
-	public static void main(String[] args) throws IOException 
+public class Ones_UVa10127 {
+	
+	public static void main(String[] args) throws Exception 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
 		while(sc.ready())
 		{
-			int B = sc.nextInt(), P = sc.nextInt(), M = sc.nextInt();
-			out.println(fastExp(B, P, M));
+			int n = sc.nextInt();
+			int mod = 1, f = 10%n, ones = 1;
+			while(mod%n != 0)
+			{
+				mod = (mod + f)%n;
+				f = (f * 10)%n;
+				++ones;
+			}
+			out.println(ones);
 		}
 		out.flush();
 		out.close();
 
-	}
-	
-	static int fastExp(int base, int pow, int mod)
-	{
-		int res = 1;
-		for(int i = 0; i < 32; ++i)
-			if((pow & 1<<i) != 0)
-				res = (res * fastExpHelper(base, i, mod))%mod;
-		return res;
-	}
-	
-	static int fastExpHelper(int base, int idx, int mod)
-	{
-		if(idx == 0)
-			return base%mod;
-		int ans = fastExpHelper(base, idx - 1, mod);
-		return (ans * ans)%mod;
 	}
 	
 	static class Scanner 

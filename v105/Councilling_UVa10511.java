@@ -1,4 +1,4 @@
-package cp4_6;
+package v105;
 
 
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-public class Councilling {
+public class Councilling_UVa10511 {
 	
 	static ArrayList<Integer>[] adjList;
 	static int V, p[], res[][];

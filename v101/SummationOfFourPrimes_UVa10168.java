@@ -1,56 +1,73 @@
-package cp5_5;
+package v101;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
-public class EnumeratingRationalNumbers_UVa11327 {
+public class SummationOfFourPrimes_UVa10168 {
 
-	static int phi(int n)
+	static int[] primes;
+	static boolean[] isPrime;
+	
+	static void sieve(int N)
 	{
-		if(n == 1) return 2;
-		
-		int res = n;
-		for(int i = 2; i * i <= n; i++)
-			if(n%i == 0)
+		int nxt = 0;
+		primes = new int[664579];
+		isPrime = new boolean[N + 1];
+		Arrays.fill(isPrime, true);
+		isPrime[0] = isPrime[1] = false;
+		for(int i = 2; i <= N; i++)
+			if(isPrime[i])
 			{
-				res -= res / i;
-				while(n%i == 0) n /= i;
+				primes[nxt++] = i;
+				if((long) i * i <= N)
+					for(int j = i * i; j <= N; j += i)
+						isPrime[j] = false;
 			}
-		if(n > 1)
-			res -= res / n;
-		return res;
 	}
 	
-	static int gcd(int a, int b) {return b == 0 ? a : gcd(b, a%b);}
+	static int find3(int n)
+	{
+		for(int p : primes)
+			if(isPrime[p] && isPrime[n-p])
+				return p;
+		return -1;
+	}
 	public static void main(String[] args) throws IOException {
+		
+		sieve(10000000);
 		
 		Scanner sc = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
-		int[] phi = new int[200001];
-		for(int i = 1; i <= 200000; i++)
-			phi[i] = phi(i);
-		while(true)
+		
+		while(sc.ready())
 		{
-			long k = sc.nextLong();
-			if(k == 0) break;
-			for(int i = 1; i <= 200000; i++)
-				if(phi[i] < k)
-					k -= phi[i];
+			int n = sc.nextInt();
+			if(n < 8)
+				sb.append("Impossible.\n");
+			else
+				if(n%2 == 0)
+				{
+					int third = find3(n - 4);
+					sb.append("2 2 "+third+" "+(n-4-third)+"\n");
+				}
 				else
 				{
-					for(int j = 0; j <= i; j++)
-						if(gcd(i,j) == 1)
-							if(k==1) { sb.append(j+"/"+i+"\n"); break; }
-							else k--;
-					break;
+					int third = find3(n - 5);
+					sb.append("2 3 "+third+" "+(n-5-third)+"\n");
 				}
+			
+			
 		}
 		System.out.print(sb);
+		
 	}
-	static class Scanner {
+	
+	static class Scanner 
+	{
 		StringTokenizer st;
 		BufferedReader br;
 

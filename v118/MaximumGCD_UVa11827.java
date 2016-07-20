@@ -1,4 +1,4 @@
-package cp5_5;
+package v118;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,36 +6,31 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 
-public class IrreducableBasicFractions_UVa10179 {
+public class MaximumGCD_UVa11827 {
 
 	public static void main(String[] args) throws IOException {
 		
-		
 		Scanner sc = new Scanner(System.in);
-		StringBuilder sb = new StringBuilder();
-		while(true)
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			int n = sc.nextInt();
-			if(n == 0) break;
-			sb.append(phi(n)+"\n");
+			String[] in = sc.nextLine().split(" ");
+			int[] a = new int[in.length];
+			for(int i = 0; i < a.length; i++)
+				a[i] = Integer.parseInt(in[i]);
+			int max = 1;
+			for(int i = 0; i < a.length; i++)
+				for(int j = i + 1; j < a.length; j++)
+					max = Math.max(max, gcd(a[i], a[j]));
+			System.out.println(max);
 		}
-		System.out.print(sb);
+		
 	}
 	
-	static int phi(int n)
+	static int gcd(int a, int b) { return b == 0 ? a : gcd(b, a%b); }
+	
+	static class Scanner 
 	{
-		int res = n;
-		for(long i = 2; i * i <= n; i++ )
-			if(n%i == 0)
-			{
-				res -= res / i;
-				while(n%i == 0) n /= i;
-			}
-		if(n > 1)
-			res -= res / n;
-		return res;
-	}
-	static class Scanner {
 		StringTokenizer st;
 		BufferedReader br;
 

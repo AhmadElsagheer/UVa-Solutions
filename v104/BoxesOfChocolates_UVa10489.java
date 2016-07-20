@@ -1,4 +1,4 @@
-package cp5_5;
+package v104;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,28 +7,25 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class SoftwareCRC_UVa128 {
+public class BoxesOfChocolates_UVa10489 {
 
-	static final int mod = 34943;
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 	
-		while(true)
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			char[] s = sc.nextLine().toCharArray();
-			if(s.length == 1 && s[0] == '#')
-				break;
-			long val = 0;
-			for(char c: s)
-				val = ((val<<8) + c)%mod;	
-			val = (val<<16)%mod;
-			val = (mod - val)%mod;
-			String ans = Integer.toHexString((int)val).toUpperCase();
-			while(ans.length() != 4)
-				ans = "0" + ans;
-			out.println(ans.substring(0, 2) + " " + ans.substring(2));
+			int n = sc.nextInt(), b = sc.nextInt(), tot = 0;
+			while(b-->0)
+			{
+				int k = sc.nextInt(), cur = 1;
+				while(k-->0)
+					cur = (cur * sc.nextInt())%n;
+				tot = (tot + cur)%n;
+			}
+			out.println(tot);
 		}
 		out.flush();
 		out.close();

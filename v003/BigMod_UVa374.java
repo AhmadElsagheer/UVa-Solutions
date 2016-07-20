@@ -1,46 +1,45 @@
-package cp5_5;
+package v003;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 
-public class OceanDeepMakeItShallow_UVa10176 {
+public class BigMod_UVa374 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		int p = 131071;
+
 		while(sc.ready())
 		{
-			ArrayList<Integer> binary = new ArrayList<Integer>();
-			boolean done = false;
-			while(!done)
-			{
-				char[] s = sc.next().toCharArray();
-				for(int i = 0; i < s.length; ++i)
-					if(s[i] == '#')
-					{
-						done = true;
-						break;
-					}
-					else
-						binary.add(s[i] - '0');
-			}
-			int f = 1, mod = 0;
-			for(int i = 0, size = binary.size(); i < size; ++i, f = (f<<1)%p)
-				mod = (mod + f * binary.get(i))%p;
-			out.println(mod == 0 ? "YES":"NO");
+			int B = sc.nextInt(), P = sc.nextInt(), M = sc.nextInt();
+			out.println(fastExp(B, P, M));
 		}
 		out.flush();
 		out.close();
 
 	}
 	
+	static int fastExp(int base, int pow, int mod)
+	{
+		int res = 1;
+		for(int i = 0; i < 32; ++i)
+			if((pow & 1<<i) != 0)
+				res = (res * fastExpHelper(base, i, mod))%mod;
+		return res;
+	}
+	
+	static int fastExpHelper(int base, int idx, int mod)
+	{
+		if(idx == 0)
+			return base%mod;
+		int ans = fastExpHelper(base, idx - 1, mod);
+		return (ans * ans)%mod;
+	}
 	
 	static class Scanner 
 	{

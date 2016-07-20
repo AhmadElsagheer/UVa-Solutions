@@ -1,5 +1,6 @@
-package cp5_5;
+package v110;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -7,35 +8,52 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class Ones_UVa10127 {
-	
-	public static void main(String[] args) throws Exception 
+public class LeadingAndTrailing_UVa11029 {
+
+	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		while(sc.ready())
+
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			int n = sc.nextInt();
-			int mod = 1, f = 10%n, ones = 1;
-			while(mod%n != 0)
-			{
-				mod = (mod + f)%n;
-				f = (f * 10)%n;
-				++ones;
-			}
-			out.println(ones);
+			int n = sc.nextInt(), k = sc.nextInt();
+			double d = Math.log10(n) * k;
+			int leading = (int)(Math.pow(10, (d - (int)d)) * 100);
+			int trailing = fastExp(n, k, 1000);
+			out.printf("%03d...%03d\n", leading, trailing);
 		}
 		out.flush();
 		out.close();
-
 	}
 	
+	static int fastExp(int b, int e, int m)
+	{
+		b %= m;
+		int res = 1;
+		for(int i = 0; i < 30; ++i)
+			if((e & 1<<i) != 0)
+				res = res * fastExp2(b, i, m) % m;
+		return res;
+	}
+	
+	static int fastExp2(int b, int i, int m)
+	{
+		if(i == 0)
+			return b;
+		b = fastExp2(b, i - 1, m);
+		return b * b % m;
+	}
+
 	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+
+		public Scanner(FileReader r){    br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

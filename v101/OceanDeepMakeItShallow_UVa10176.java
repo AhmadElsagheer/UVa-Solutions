@@ -1,58 +1,46 @@
-package cp5_5;
+package v101;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 
-public class TheLastNonZeroDigit_UVa10212 {
+public class OceanDeepMakeItShallow_UVa10176 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
+		int p = 131071;
 		while(sc.ready())
 		{
-			int N = sc.nextInt(), M = sc.nextInt();
-			int countFives = 0, countTwos = 0, res = 1;
-			for(int i = 0; i < M; ++i)
+			ArrayList<Integer> binary = new ArrayList<Integer>();
+			boolean done = false;
+			while(!done)
 			{
-				int x = N - i;
-				while(x%10 == 0)
-					x /= 10;
-				while(x%5 == 0)
-				{
-					x /= 5;
-					++countFives;
-				}
-				while(x%2 == 0)
-				{
-					x /= 2;
-					++countTwos;
-				}
-				res = (res * x)%10;
+				char[] s = sc.next().toCharArray();
+				for(int i = 0; i < s.length; ++i)
+					if(s[i] == '#')
+					{
+						done = true;
+						break;
+					}
+					else
+						binary.add(s[i] - '0');
 			}
-			
-			while(countFives > countTwos)
-			{
-				res = (res * 5)%10;
-				--countFives;
-			}
-			
-			while(countTwos > countFives)
-			{
-				res = (res * 2)%10;
-				--countTwos;
-			}
-			out.println(res);
+			int f = 1, mod = 0;
+			for(int i = 0, size = binary.size(); i < size; ++i, f = (f<<1)%p)
+				mod = (mod + f * binary.get(i))%p;
+			out.println(mod == 0 ? "YES":"NO");
 		}
 		out.flush();
 		out.close();
 
 	}
+	
 	
 	static class Scanner 
 	{

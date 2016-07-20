@@ -1,4 +1,4 @@
-package cp5_5;
+package v102;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,25 +7,47 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class BoxesOfChocolates_UVa10489 {
+public class TheLastNonZeroDigit_UVa10212 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-	
-		int tc = sc.nextInt();
-		while(tc-->0)
+		
+		while(sc.ready())
 		{
-			int n = sc.nextInt(), b = sc.nextInt(), tot = 0;
-			while(b-->0)
+			int N = sc.nextInt(), M = sc.nextInt();
+			int countFives = 0, countTwos = 0, res = 1;
+			for(int i = 0; i < M; ++i)
 			{
-				int k = sc.nextInt(), cur = 1;
-				while(k-->0)
-					cur = (cur * sc.nextInt())%n;
-				tot = (tot + cur)%n;
+				int x = N - i;
+				while(x%10 == 0)
+					x /= 10;
+				while(x%5 == 0)
+				{
+					x /= 5;
+					++countFives;
+				}
+				while(x%2 == 0)
+				{
+					x /= 2;
+					++countTwos;
+				}
+				res = (res * x)%10;
 			}
-			out.println(tot);
+			
+			while(countFives > countTwos)
+			{
+				res = (res * 5)%10;
+				--countFives;
+			}
+			
+			while(countTwos > countFives)
+			{
+				res = (res * 2)%10;
+				--countTwos;
+			}
+			out.println(res);
 		}
 		out.flush();
 		out.close();
