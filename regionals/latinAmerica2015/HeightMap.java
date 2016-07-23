@@ -1,62 +1,83 @@
-package v116;
+package regionals.latinAmerica2015;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
-public class F {
-	
-	static final int INF = (int)1e9;
-	static int[] chunks, f[], memo[];
-	static int N;
-	
-	static int dp(int c, int idx)
+public class HeightMap {
+
+	static int[] dx = new int[] {0, -1, 0, 1};
+	static int[] dy = new int[] {-1, 0, 1, 0};
+	static int[][] top, dfsNum;
+	static int R, C, counter;
+
+	static int count(int x, int y)
 	{
-		if(idx == N)
-			return 0;
-		if(memo[c][idx] != -1)
-			return memo[c][idx];
-		int ret = INF, minus = f[c][idx] != 0 ? 1 : 0, chs = chunks[idx];
-		for(int i = 0; i < 26; ++i)
-			if(f[i][idx] != 0)
-				ret = Math.min(ret, chs - (chs > 1 && i == c || chs == 1 && i != c ? 0 : minus) + dp(i, idx + 1));
-		return memo[c][idx] = ret;
+		dfsNum[x][y] = ++counter;
+		int h = top[x][y];
+
+		int ret = 0;
+		for(int k = 0; k < 4; ++k)
+		{
+			int i = x + dx[k], j = y + dy[k];
+			if(valid(i, j))
+			{
+				int hn = top[i][j];
+				if(h > hn)
+					++ret;			//side face
+
+				if(dfsNum[i][j] == 0)
+					ret += h == hn ? count(i, j) : 0;
+				else if(dfsNum[i][j] < dfsNum[x][y])
+				{
+
+					int minH = Math.min(h, hn);
+					//minus overcounted
+					for(int w = 0; w < 4; ++w)
+						if(((w ^ k) & 1) == 1 && valid(x + dx[w], y + dy[w]))
+						{
+							int h1 = top[x + dx[w]][y + dy[w]];
+							int h2 = top[i + dx[w]][j + dy[w]];
+
+							if(h1 < minH && h2 < minH)
+								--ret;
+						}
+				}
+			}
+
+		}
+
+		return ret;
 	}
-	
+
+	static boolean valid(int x, int y) { return x != -1 && y != -1 && x != R && y != C; }
+
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 
-		int tc = sc.nextInt();
-		while(tc-->0)
+		while(sc.ready())
 		{
-			 int k = sc.nextInt();
-			 String s = sc.next();
-			 N = s.length() / k;
-			 f = new int[27][N];
-			 for(int i = 0; i < N; ++i)
-				 for(int j = 0; j < k; ++j)
-					 f[s.charAt(i * k + j)-'a'][i]++;
-			 chunks = new int[N];
-			 for(int i = 0; i < N; ++i)
-			 {
-				 int count = 0;
-				 for(int j = 0; j < 26; ++j)
-					 if(f[j][i] != 0)
-						 ++count;
-				 chunks[i] = count;
-			 }
-			 
-			 memo = new int[27][N];
-			 for(int i = 0; i < 27; ++i)
-				 Arrays.fill(memo[i], -1);
-			 out.println(dp(26, 0));
+			R = sc.nextInt();
+			C = sc.nextInt();
+			top = new int[R][C];
+			for(int i = 0; i < R; ++i)
+				for(int j = 0; j < C; ++j)
+					top[i][j] = sc.nextInt();
+			dfsNum = new int[R][C];
+			counter = 0;
+			int ans = 5;
+			for(int i = 0; i < R; ++i)
+				for(int j = 0; j < C; ++j)
+					if(dfsNum[i][j] == 0)
+						ans += count(i, j) + 1;
+
+			out.println(ans);
 		}
 		out.flush();
 		out.close();
