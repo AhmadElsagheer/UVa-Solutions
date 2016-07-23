@@ -60,7 +60,7 @@ public class Promotions {
 					++x;
 				if(N - count[i] < B)
 					++y;
-				if(N - countR[i] < N - B)
+				if(countR[i] > B)
 					++z;
 			}
 			out.println(x);
