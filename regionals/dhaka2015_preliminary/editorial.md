@@ -82,7 +82,7 @@ Our decision for each symbol will be as follows:
 
 **Complexity** `O(N * M)` where M is the maximum valu e in a jar.
 
-**Solution 2** Sort all jars and loop on them from smallest one to largest one and multiply the result with the `marbles[i] - i`. This is true because for a jar `i` (0-based indexing) it will have `marbles[i]` values but we can't use `i` of them because they have already been used.
+**Solution 2** Sort all jars and loop on them from smallest one to largest one and multiply the result with the `marbles[i] - i`. This is true because for a jar `i` (0-based indexing) it will have `marbles[i]` values but we can't use `i` of them because they have already been used. [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/MarblesInJars2.java)
 
 **Complexity** `O(N log N)`
 
