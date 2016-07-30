@@ -69,7 +69,6 @@ Our decision for each symbol will be as follows:
 **Solution** Sort power groups and loop from largest to smallest adding to your count all encountered power sources and each iteration, maximize your final answer with the running sum multplied by current (minimum) power rating
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/GeekPowerInc.java)
 
-
 **Complexity** `O(N log N)`
 
 ---
@@ -83,7 +82,7 @@ Our decision for each symbol will be as follows:
 
 **Complexity** `O(N * M)` where M is the maximum valu e in a jar.
 
-**Solution 2** Sort all jars and loop on them from smallest one to largest one a multiply the result with the `marbles[i] - i`. This is true because for a jar `i` it will have `marbles[i]` values but we can't use `i` of them because they have already been used.
+**Solution 2** Sort all jars and loop on them from smallest one to largest one and multiply the result with the `marbles[i] - i`. This is true because for a jar `i` (0-based indexing) it will have `marbles[i]` values but we can't use `i` of them because they have already been used.
 
 **Complexity** `O(N log N)`
 
