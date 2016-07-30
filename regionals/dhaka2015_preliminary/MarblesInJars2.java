@@ -8,24 +8,10 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class MarblesInJars {
+public class MarblesInJars2 {
 
 	static final int mod = (int)1e9 + 7;
-	static int N, M[], memo[][];
-	
-	static int dp(int m, int taken)
-	{
-		if(m == 0)
-			return taken == N ? 1 : 0;
-		if(memo[m][taken] != -1)
-			return memo[m][taken];
-		int ret = dp(m - 1, taken);
-		if(taken < N)
-			ret = (ret + mult(M[m] - taken, dp(m - 1, taken + 1)))%mod;
-		return memo[m][taken] = ret;
-	}
-
-	static int mult(long x, long y) { return (int) ( x * y % mod);  }
+	static int N, M[];
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
@@ -36,15 +22,14 @@ public class MarblesInJars {
 		for(int t = 1; t <= tc; ++t)
 		{
 			N = sc.nextInt();
-			M = new int[101];
-			while(N-->0)
-				++M[sc.nextInt()];
-			for(int i = 99; i >= 0; --i)
-				M[i] += M[i + 1];
-			memo = new int[101][101];
-			for(int i = 0; i <= 100; ++i)
-				Arrays.fill(memo[i], -1);
-			out.printf("Case %d: %d\n", t, dp(100, 0));
+			M = new int[N];
+			for(int i = 0; i < N; ++i)
+				M[i] = sc.nextInt();
+			Arrays.sort(M);
+			long res = 1;
+			for(int i = 0; i < N; ++i)
+				res = (res * (M[i] - i)) % mod;
+			out.printf("Case %d: %d\n", t, res);
 		}
 
 		out.flush();

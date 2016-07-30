@@ -74,14 +74,18 @@ Our decision for each symbol will be as follows:
 
 ---
 ### H - Marbles in Jars
-**Tags** combinatorics, DP
+**Tags** combinatorics, DP or sortings
 
 **Observation** If we can take `y` marbles from one jar, then we can take `x < y` from this jar as well. So the number of jars from which we can take `x` marbles equal to the number of jars from which we can take `x + 1` marbles plus the number of jars with exactly `x` marbles.
 
-**Solution** Count for each value `x` with a suffix sum: from how many jars we can take the value `x`. Obviously, we can't take the same value `x` from two jars because we will not be able to differentiate between them. So for each value `x`, it will either be consider in the weighing process or it will not be considered. If it will be considered, then the number of jars we can take `x` from is equal to the perviously counted value minus the number of jars we have already taken value `y > x` from. Use the counting principle and a simple knapsack function.
+**Solution 1** Count for each value `x` with a suffix sum: from how many jars we can take the value `x`. Obviously, we can't take the same value `x` from two jars because we will not be able to differentiate between them. So for each value `x`, it will either be consider in the weighing process or it will not be considered. If it will be considered, then the number of jars we can take `x` from is equal to the perviously counted value minus the number of jars we have already taken value `y > x` from. Use the counting principle and a simple knapsack function.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/MarblesInJars.java)
 
-**Complexity** `O(N * M)`
+**Complexity** `O(N * M)` where M is the maximum valu e in a jar.
+
+**Solution 2** Sort all jars and loop on them from smallest one to largest one a multiply the result with the `marbles[i] - i`. This is true because for a jar `i` it will have `marbles[i]` values but we can't use `i` of them because they have already been used.
+
+**Complexity** `O(N log N)`
 
 ---
 ### External Links
