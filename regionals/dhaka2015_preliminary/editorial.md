@@ -20,8 +20,7 @@
 ### D - XOR Subset
 **Tags** math (pattern finding)
 
-**Solution** By [Soliman](http://codeforces.com/profile/AhmedSoliman). Analyzing first few output values will yield the pattern `(3^N + 1)/2` (very simple, huh?). Since _N_ is huge, fast exponentiation is needed.
-[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/XORSubset.java)
+**Solution** By [Soliman](http://codeforces.com/profile/AhmedSoliman). Analyzing first few output values will yield the pattern `(3^N + 1)/2` (very simple, huh?). [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/XORSubset.java)
 
 
 **Complexity** `O(log N)`
