@@ -18,9 +18,9 @@
 
 ---
 ### D - XOR Subset
-**Tags** math (pattern finding)
+**Tags** combinatorics
 
-**Solution** By [Soliman](http://codeforces.com/profile/AhmedSoliman). Analyzing first few output values will yield the pattern `(3^N + 1)/2` (very simple, huh?). [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/XORSubset.java)
+**Solution** By [Ahmed Amer](http://codeforces.com/profile/Amerisma). For each element from 1 to N, we have to decide whether it will be in set X or set Y or not in any of the sets, so we have 3 possibilities for each element. So, in total we have 3^N ways to make sets X and Y. Each of these ways has a symmetric way in which (X1 = Y2 and Y1 = X2). We are interested in the way for which XOR(X) <= XOR(Y). So for each pair of ways, we will pick one of them. Only one way is symmetric to itself when X = {} and Y = {}. So the answer is (3^N-1) / 2 + 1 = (3^N+1)/2. [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/XORSubset.java)
 
 
 **Complexity** `O(log N)`
