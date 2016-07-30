@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 public class XORSubset {
 	
 	static final int mod = (int)1e9 + 7;
+	static final BigInteger bigMod = BigInteger.valueOf(mod);
 	
 	public static void main(String[] args) throws IOException 
 	{
@@ -20,28 +21,14 @@ public class XORSubset {
 
 		int tc = sc.nextInt();
 		for(int t = 1; t <= tc; ++t)
-			out.printf("Case %d: %d\n", t, pow(new BigInteger(sc.next())));
+		{	
+			long res = BigInteger.valueOf(3).modPow(new BigInteger(sc.next()), bigMod).longValue();
+			out.printf("Case %d: %d\n", t, (res + 1) % mod * 500000004 % mod);	
+		}
 		out.flush();
 		out.close();
 	}
 	
-	static int pow(BigInteger e)
-	{
-	
-		long res = 1;
-		long b = 3;
-		while(e.compareTo(BigInteger.ZERO) > 0)
-		{
-			if(e.testBit(0))
-				res = res * b % mod;
-			b = b * b % mod;
-			e = e.shiftRight(1);
-		}
-		res = (res + 1) % mod;
-		res = res * 500000004 % mod;
-		return (int) res;
-	}
-
 	static class Scanner 
 	{
 		StringTokenizer st;
