@@ -18,9 +18,9 @@
 
 ---
 ### D - XOR Subset
-**Tags** math (pattern finding)
+**Tags** combinatorics
 
-**Solution** By [Soliman](http://codeforces.com/profile/AhmedSoliman). Analyzing first few output values will yield the pattern `(3^N + 1)/2` (very simple, huh?). [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/XORSubset.java)
+**Solution** By [Ahmed Amer](http://codeforces.com/profile/Amerisma). For each element from 1 to N, we have to decide whether it will be in set X or set Y or not in any of the sets, so we have 3 possibilities for each element. So, in total we have 3^N ways to make sets X and Y. Each of these ways has a symmetric way in which (X1 = Y2 and Y1 = X2). We are interested in the way for which XOR(X) <= XOR(Y). So for each pair of ways, we will pick one of them. Only one way is symmetric to itself when X = {} and Y = {}. So the answer is (3^N-1) / 2 + 1 = (3^N+1)/2. [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/XORSubset.java)
 
 
 **Complexity** `O(log N)`
@@ -69,7 +69,6 @@ Our decision for each symbol will be as follows:
 **Solution** Sort power groups and loop from largest to smallest adding to your count all encountered power sources and each iteration, maximize your final answer with the running sum multplied by current (minimum) power rating
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/GeekPowerInc.java)
 
-
 **Complexity** `O(N log N)`
 
 ---
@@ -79,11 +78,11 @@ Our decision for each symbol will be as follows:
 **Observation** If we can take `y` marbles from one jar, then we can take `x < y` from this jar as well. So the number of jars from which we can take `x` marbles equal to the number of jars from which we can take `x + 1` marbles plus the number of jars with exactly `x` marbles.
 
 **Solution 1** Count for each value `x` with a suffix sum: from how many jars we can take the value `x`. Obviously, we can't take the same value `x` from two jars because we will not be able to differentiate between them. So for each value `x`, it will either be consider in the weighing process or it will not be considered. If it will be considered, then the number of jars we can take `x` from is equal to the perviously counted value minus the number of jars we have already taken value `y > x` from. Use the counting principle and a simple knapsack function.
-[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/MarblesInJars.java)
+[Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/MarblesInJars1.java)
 
 **Complexity** `O(N * M)` where M is the maximum valu e in a jar.
 
-**Solution 2** Sort all jars and loop on them from smallest one to largest one a multiply the result with the `marbles[i] - i`. This is true because for a jar `i` it will have `marbles[i]` values but we can't use `i` of them because they have already been used.
+**Solution 2** Sort all jars and loop on them from smallest one to largest one and multiply the result with the `marbles[i] - i`. This is true because for a jar `i` (0-based indexing) it will have `marbles[i]` values but we can't use `i` of them because they have already been used. [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015_preliminary/MarblesInJars2.java)
 
 **Complexity** `O(N log N)`
 
