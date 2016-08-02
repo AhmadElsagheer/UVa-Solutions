@@ -1,4 +1,4 @@
-package cp5_2;
+package v001;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,28 +8,34 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class CountOnCantor_UVa264 {
+public class StreetNumbers_UVa138 {
 
-	static final int upperBound = (int)1e7;
+
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		int[] num = new int[upperBound], den = new int[upperBound];
-		int di = -1, dj = 1;
-		for(int k = 0, i = 1, j = 1; k < upperBound; ++k)
-		{
-			num[k] = i; den[k] = j;
-			i += di;
-			j += dj;
-			if(i == 0) { i = 1; di *= -1; dj *= -1; }
-			if(j == 0) { j = 1; di *= -1; dj *= -1; }
-		}
 		
-		while(sc.ready())
+		// can be hardcoded
+		long x = 1, h = 2, y = 3, nxt = 4;
+		int i = 10;
+		while(i-- > 0)
 		{
-			int x = sc.nextInt();
-			out.printf("TERM %d IS %d/%d\n", x, num[x-1], den[x-1]);
+			
+			while(x != y)
+			{
+				while(x < y)
+				{
+					x += h++;
+					y -= h;
+				}
+				
+				while(x > y)
+					y += nxt++;
+			}
+			
+			out.printf("%10d%10d\n", h, (nxt - 1));
+			y += nxt++;
 		}
 		out.flush();
 		out.close();
@@ -40,9 +46,9 @@ public class CountOnCantor_UVa264 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

@@ -1,46 +1,41 @@
-package cp5_2;
+package v001;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 
-public class SimplySubsets_UVa496 {
+public class PowerOfCryptography_UVa113 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
+	
 		while(sc.ready())
 		{
-			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			TreeSet<Integer> set = new TreeSet<Integer>();
-			while(st.hasMoreTokens())
-				set.add(Integer.parseInt(st.nextToken()));
-			int missing = 0, intersect = 0;
-			st = new StringTokenizer(sc.nextLine());
-			while(st.hasMoreTokens())
-				if(set.remove(Integer.parseInt(st.nextToken())))
-					++intersect;
+			int n = sc.nextInt();
+			BigInteger p = new BigInteger(sc.next());
+			int lo = 1, hi = (int)1e9;
+			while(lo <= hi)
+			{
+				int mid = lo + hi >> 1;
+				int cmp = BigInteger.valueOf(mid).pow(n).compareTo(p);
+				if(cmp == 0)
+				{
+					lo = mid;
+					break;
+				}
+				else if(cmp > 0)
+					hi = mid - 1;
 				else
-					++missing;
-			if(missing == 0)
-				if(set.isEmpty())
-					out.println("A equals TheTravelingJudgesProblem_UVa1040");
-				else
-					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
-			else 
-				if(set.isEmpty())
-					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
-				else if(intersect == 0)
-					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
-				else
-					out.println("I'm confused!");
+					lo = mid + 1;
+			}
+			out.println(lo);
 		}
 		out.flush();
 		out.close();

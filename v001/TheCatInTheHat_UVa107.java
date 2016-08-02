@@ -1,4 +1,4 @@
-package cp5_2;
+package v001;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,10 +8,7 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class AntOnAChessBoard_UVa10161 {
-
-	static int[] dx = new int[] { 0, 1, 0, -1};
-	static int[] dy = new int[] { 1, 0, -1, 0};
+public class TheCatInTheHat_UVa107 {
 
 	public static void main(String[] args) throws IOException 
 	{
@@ -20,28 +17,49 @@ public class AntOnAChessBoard_UVa10161 {
 
 		while(true)
 		{
-			int M = sc.nextInt() - 1;
-			if(M == -1)
+			int H = sc.nextInt(), W = sc.nextInt();
+			if(H + W == 0)
 				break;
-			int x  = 1, y = 1, cur = 0;
-			int[] dir = {0, 1, 2, 1, 0, 3};
-			int[] steps = {1, 1, 1, 1, 2, 2};
-			while(steps[cur] <= M)
+
+			int N = 2;
+			if(W == 1)
+				N = 1;
+			else
 			{
-				x += steps[cur] * dx[dir[cur]];
-				y += steps[cur] * dy[dir[cur]];
-				M -= steps[cur];
-				if(cur != 0 && cur != 3)
-					steps[cur] += 2;
-				cur = (cur + 1)%6;
+				while(true)
+				{
+					int x = powerOf(N, W), y = powerOf(N + 1, H);
+					if(x != -1 && x == y)
+						break;
+					++N;
+				}
 			}
-			
-			x += M * dx[dir[cur]];
-			y += M * dy[dir[cur]];
-			out.println(x + " " + y);
+
+			int sumH = 0, c = 1, NW = 0;
+			while(H > 0)
+			{	
+				sumH += H * c;
+				if(H > 1)
+					NW += c;
+				c *= N;
+				H /= N + 1;
+			}
+			out.println(NW + " " + sumH);
 		}
 		out.flush();
 		out.close();
+	}
+
+	static int powerOf(int a, int b)
+	{
+		int ret = 1;
+		long c = a;
+		while(c < b)
+		{
+			c *= a;
+			++ret;
+		}
+		return c == b ? ret : -1;
 	}
 
 

@@ -1,74 +1,36 @@
-package cp5_2;
-
+package v109;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-
-public class TheCatInTheHat_UVa107 {
+public class BigChocolate_UVa10970 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 
-		while(true)
+		while(sc.ready())
 		{
-			int H = sc.nextInt(), W = sc.nextInt();
-			if(H + W == 0)
-				break;
-
-			int N = 2;
-			if(W == 1)
-				N = 1;
-			else
-			{
-				while(true)
-				{
-					int x = powerOf(N, W), y = powerOf(N + 1, H);
-					if(x != -1 && x == y)
-						break;
-					++N;
-				}
-			}
-
-			int sumH = 0, c = 1, NW = 0;
-			while(H > 0)
-			{	
-				sumH += H * c;
-				if(H > 1)
-					NW += c;
-				c *= N;
-				H /= N + 1;
-			}
-			out.println(NW + " " + sumH);
+			int V = sc.nextInt(), H = sc.nextInt();
+			out.println(V * H - 1);
 		}
 		out.flush();
 		out.close();
 	}
 
-	static int powerOf(int a, int b)
-	{
-		int ret = 1;
-		long c = a;
-		while(c < b)
-		{
-			c *= a;
-			++ret;
-		}
-		return c == b ? ret : -1;
-	}
-
-
-	static class Scanner
+	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+
+		public Scanner(FileReader r){    br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{
@@ -85,7 +47,31 @@ public class TheCatInTheHat_UVa107 {
 
 		public double nextDouble() throws IOException
 		{
-			return Double.parseDouble(next());
+			String x = next();
+			StringBuilder sb = new StringBuilder("0");
+			double res = 0, f = 1;
+			boolean dec = false, neg = false;
+			int start = 0;
+			if(x.charAt(0) == '-')
+			{
+				neg = true;
+				start++;
+			}
+			for(int i = start; i < x.length(); i++)
+				if(x.charAt(i) == '.')
+				{
+					res = Long.parseLong(sb.toString());
+					sb = new StringBuilder("0");
+					dec = true;
+				}
+				else
+				{
+					sb.append(x.charAt(i));
+					if(dec)
+						f *= 10;
+				}
+			res += Long.parseLong(sb.toString()) / f;
+			return res * (neg?-1:1);
 		}
 
 		public boolean ready() throws IOException {return br.ready();}

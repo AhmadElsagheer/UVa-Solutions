@@ -1,41 +1,39 @@
-package cp5_2;
+package v006;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
 
-public class PowerOfCryptography_UVa113 {
+public class TheCollatzSequence_UVa694 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-	
-		while(sc.ready())
+		
+		int t = 1;
+		while(true)
 		{
-			int n = sc.nextInt();
-			BigInteger p = new BigInteger(sc.next());
-			int lo = 1, hi = (int)1e9;
-			while(lo <= hi)
+			long A = sc.nextLong(), L = sc.nextLong(), B = A;
+			if(A < 0)
+				break;
+			int terms = 1;
+			while(A != 1)
 			{
-				int mid = lo + hi >> 1;
-				int cmp = BigInteger.valueOf(mid).pow(n).compareTo(p);
-				if(cmp == 0)
-				{
-					lo = mid;
-					break;
-				}
-				else if(cmp > 0)
-					hi = mid - 1;
+				if((A & 1) == 1)
+					A = 3 * A + 1;
 				else
-					lo = mid + 1;
+					A >>= 1;
+				
+				if(A > L)
+					break;
+				++terms;
 			}
-			out.println(lo);
+			out.printf("Case %d: A = %d, limit = %d, number of terms = %d\n", t++, B, L, terms);
 		}
 		out.flush();
 		out.close();

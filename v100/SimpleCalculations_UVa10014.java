@@ -1,4 +1,4 @@
-package cp5_2;
+package v100;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,56 +8,28 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class PolynomialShowdown_UVa392 {
+public class SimpleCalculations_UVa10014 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-	
-		while(sc.ready())
+		
+		int tc = sc.nextInt();
+		while(tc-->0)
 		{
-			boolean first = true;
-			String res = "";
-			for(int i = 8; i >= 0; --i)
-			{
-				res += format(i, sc.nextInt(), first);
-				if(!res.isEmpty())
-					first = false;
-			}
-			if(res.isEmpty())
-				res = "0";
-			out.println(res);
+			int n = sc.nextInt();
+			double a = sc.nextDouble(), b = sc.nextDouble();
+			double sumC = 0.0;
+			for(int i = 0; i < n; ++i)
+				sumC += sc.nextDouble() * 2 * (n - i);
+			
+			out.printf("%.2f\n", (a * n + b - sumC) / (n + 1));
+			if(tc != 0)
+				out.println();
 		}
 		out.flush();
 		out.close();
-	}
-	
-	static String format(int deg, int coeff, boolean first)
-	{
-		String term = "";
-		char sign = '+';
-		if(coeff != 0)
-		{
-			sign = coeff < 0 ? '-' : '+';
-			if(deg != 0)
-				term = deg == 1 ? "x" : "x^" + deg;
-			if(Math.abs(coeff) == 1)
-				term = (deg != 0 ? "" : Math.abs(coeff)) + term;
-			else
-				term = Math.abs(coeff) + term;
-			
-			if(first)
-			{
-				if(sign == '-')
-					term = sign + term;
-			}
-			else
-				term = " " + sign + " " + term;
-			
-		}
-		
-		return term;
 	}
 
 	static class Scanner 
@@ -65,9 +37,9 @@ public class PolynomialShowdown_UVa392 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

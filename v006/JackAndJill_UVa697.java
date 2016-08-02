@@ -1,4 +1,4 @@
-package cp5_2;
+package v006;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,37 +8,44 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class CoconutsRevisited_UVa616 {
-
+public class JackAndJill_UVa697 {
+	
+	static final double EPS = 1e-11, g = 32.2;
+	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-
+		
+		int tc = 1;
 		while(true)
 		{
-			int M = sc.nextInt(), N = -1;
-			if(M == -1)
+			double UP = sc.nextDouble();
+			if(UP < EPS)
 				break;
-			for(int i = (int)Math.sqrt(M) + 1; i >= 2; --i)
+			if(tc != 1)
+				out.println();
+			double R = sc.nextDouble() / 24, L = sc.nextDouble() / 12, B = sc.nextDouble(), P = sc.nextDouble() / 12,
+					DOWN  = sc.nextDouble(), V = sc.nextDouble();
+			double V2 = V, L1 = L * 12, ans = 0.0;
+			while(V2 > EPS)
 			{
-				int rem = M;
-				for(int j = 0; j < i; ++j)
-				{
-					if(rem%i != 1) { rem = -1; break; }
-					
-					rem = rem / i * (i - 1);
-				}
-				if(rem%i == 0)
-				{
-					N = i;
-					break;
-				}
+				double t1 = Math.sqrt(2 * L * g) / g;
+				double remV = Math.min(V2, B);
+				double t2 = L / P;
+				L += remV / (Math.PI * R * R);
+				ans += UP + DOWN + t1 + t2;
+				V2 -= remV;
 			}
-			if(N == -1)
-				out.printf("%d coconuts, no solution\n", M);
-			else
-				out.printf("%d coconuts, %d people and 1 monkey\n", M, N);
+			out.printf("Scenario %d:\n", tc++);
+			out.printf("     up hill           %8.2f sec\n", UP);
+			out.printf("     well diameter     %8.2f in\n", R * 24);
+			out.printf("     water level       %8.2f in\n", L1);
+			out.printf("     bucket volume     %8.2f cu ft\n", B);
+			out.printf("     bucket ascent rate%8.2f in/sec\n", P * 12);
+			out.printf("     down hill         %8.2f sec\n", DOWN);
+			out.printf("     required volume   %8.2f cu ft\n", V);
+			out.printf("     TIME REQUIRED     %8.2f sec\n", ans);
 		}
 		out.flush();
 		out.close();
@@ -49,9 +56,9 @@ public class CoconutsRevisited_UVa616 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(FileReader r){ br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

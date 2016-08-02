@@ -1,4 +1,4 @@
-package cp5_2;
+package v004;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
-public class BigChocolate_UVa10970 {
+
+public class SimplySubsets_UVa496 {
 
 	public static void main(String[] args) throws IOException 
 	{
@@ -16,8 +18,29 @@ public class BigChocolate_UVa10970 {
 
 		while(sc.ready())
 		{
-			int V = sc.nextInt(), H = sc.nextInt();
-			out.println(V * H - 1);
+			StringTokenizer st = new StringTokenizer(sc.nextLine());
+			TreeSet<Integer> set = new TreeSet<Integer>();
+			while(st.hasMoreTokens())
+				set.add(Integer.parseInt(st.nextToken()));
+			int missing = 0, intersect = 0;
+			st = new StringTokenizer(sc.nextLine());
+			while(st.hasMoreTokens())
+				if(set.remove(Integer.parseInt(st.nextToken())))
+					++intersect;
+				else
+					++missing;
+			if(missing == 0)
+				if(set.isEmpty())
+					out.println("A equals TheTravelingJudgesProblem_UVa1040");
+				else
+					out.println("TheTravelingJudgesProblem_UVa1040 is a proper subset of A");
+			else 
+				if(set.isEmpty())
+					out.println("A is a proper subset of TheTravelingJudgesProblem_UVa1040");
+				else if(intersect == 0)
+					out.println("A and TheTravelingJudgesProblem_UVa1040 are disjoint");
+				else
+					out.println("I'm confused!");
 		}
 		out.flush();
 		out.close();

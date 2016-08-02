@@ -10,11 +10,22 @@ import java.util.StringTokenizer;
 
 public class Stones_UVa12469 {
 
+	static Boolean[][] memo;
+	
+	static boolean win(int rem, int max)
+	{
+		if(max == 0)
+			return false;
+		if(memo[rem][max] != null)
+			return memo[rem][max];
+		return memo[rem][max] = !win(rem - max, Math.min(rem - max, max * 2)) || win(rem, max - 1);
+	}
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 	
+//		memo = new Boolean[1001][1001];
 		boolean[] isFib = new boolean[1001];
 		int f1 = 1, f2 = 1;
 		while(f1 + f2 <= 1000)
@@ -29,6 +40,7 @@ public class Stones_UVa12469 {
 			int n = sc.nextInt();
 			if(n == 0)
 				break;
+//			out.println(win(n, n - 1) ? "Alicia" : "Roberto");
 			out.println(isFib[n]?"Roberto":"Alicia");
 		}
 		out.flush();

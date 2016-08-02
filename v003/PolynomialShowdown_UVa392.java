@@ -1,4 +1,4 @@
-package cp5_2;
+package v003;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,24 +8,56 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class SkewBinary_UVa575 {
+public class PolynomialShowdown_UVa392 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		while(true)
+	
+		while(sc.ready())
 		{
-			char[] s = sc.next().toCharArray();
-			if(s.length == 1 && s[0] == '0')
-				break;
-			int res = 0;
-			for(int k = 1; k <= s.length; ++k)
-				res += (s[s.length-k] - '0') * ((1<<k) - 1);
+			boolean first = true;
+			String res = "";
+			for(int i = 8; i >= 0; --i)
+			{
+				res += format(i, sc.nextInt(), first);
+				if(!res.isEmpty())
+					first = false;
+			}
+			if(res.isEmpty())
+				res = "0";
 			out.println(res);
 		}
 		out.flush();
 		out.close();
+	}
+	
+	static String format(int deg, int coeff, boolean first)
+	{
+		String term = "";
+		char sign = '+';
+		if(coeff != 0)
+		{
+			sign = coeff < 0 ? '-' : '+';
+			if(deg != 0)
+				term = deg == 1 ? "x" : "x^" + deg;
+			if(Math.abs(coeff) == 1)
+				term = (deg != 0 ? "" : Math.abs(coeff)) + term;
+			else
+				term = Math.abs(coeff) + term;
+			
+			if(first)
+			{
+				if(sign == '-')
+					term = sign + term;
+			}
+			else
+				term = " " + sign + " " + term;
+			
+		}
+		
+		return term;
 	}
 
 	static class Scanner 

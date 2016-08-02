@@ -1,4 +1,4 @@
-package cp5_2;
+package v106;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,25 +8,19 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class SimpleCalculations_UVa10014 {
+public class F91_UVa10696 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		int tc = sc.nextInt();
-		while(tc-->0)
+
+		while(true)
 		{
 			int n = sc.nextInt();
-			double a = sc.nextDouble(), b = sc.nextDouble();
-			double sumC = 0.0;
-			for(int i = 0; i < n; ++i)
-				sumC += sc.nextDouble() * 2 * (n - i);
-			
-			out.printf("%.2f\n", (a * n + b - sumC) / (n + 1));
-			if(tc != 0)
-				out.println();
+			if(n == 0)
+				break;
+			out.printf("f91(%d) = %d\n", n, n > 100 ? n - 10 : 91);
 		}
 		out.flush();
 		out.close();
@@ -37,9 +31,9 @@ public class SimpleCalculations_UVa10014 {
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){ br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
 
-		public Scanner(FileReader r){ br = new BufferedReader(r);}
+		public Scanner(FileReader r){    br = new BufferedReader(r);}
 
 		public String next() throws IOException 
 		{

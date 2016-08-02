@@ -1,4 +1,4 @@
-package cp5_2;
+package v005;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,32 +8,21 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class TheCollatzSequence_UVa694 {
+public class SkewBinary_UVa575 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
-		
-		int t = 1;
 		while(true)
 		{
-			long A = sc.nextLong(), L = sc.nextLong(), B = A;
-			if(A < 0)
+			char[] s = sc.next().toCharArray();
+			if(s.length == 1 && s[0] == '0')
 				break;
-			int terms = 1;
-			while(A != 1)
-			{
-				if((A & 1) == 1)
-					A = 3 * A + 1;
-				else
-					A >>= 1;
-				
-				if(A > L)
-					break;
-				++terms;
-			}
-			out.printf("Case %d: A = %d, limit = %d, number of terms = %d\n", t++, B, L, terms);
+			int res = 0;
+			for(int k = 1; k <= s.length; ++k)
+				res += (s[s.length-k] - '0') * ((1<<k) - 1);
+			out.println(res);
 		}
 		out.flush();
 		out.close();

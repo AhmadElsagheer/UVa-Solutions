@@ -1,6 +1,6 @@
-package cp5_2;
+package v102;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,32 +8,53 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 
-public class F91_UVa10696 {
+public class DickAndJane_UVa10257 {
 
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 
-		while(true)
+		while(sc.ready())
 		{
-			int n = sc.nextInt();
-			if(n == 0)
-				break;
-			out.printf("f91(%d) = %d\n", n, n > 100 ? n - 10 : 91);
+			int s = sc.nextInt(), p = sc.nextInt(), y = sc.nextInt(), j = sc.nextInt() + 12;
+			boolean done = false;
+			for(int X = 1; !done && X <= j; ++X)
+				for(int Y = 1; !done && X + Y <= j; ++Y)
+				{
+					int Z = j - X - Y;
+					int xy = 0, xz = 0, yz = 0;
+					if(X == Y + s + 1)
+						xy = 1;
+					else if(X != Y + s)
+						continue;
+					if(X == Z + y + 1)
+						xz = 1;
+					else if(X != Z + y)
+						continue;
+					if(Y == Z + p + 1)
+						xy = 1;
+					else if(Y != Z + p)
+						continue;
+					if(xy == 1 && yz == 1 && xz != 1)
+						continue;
+
+					out.println(X + " " + Y + " " + Z);
+					done = true;
+
+				}
 		}
 		out.flush();
 		out.close();
 	}
 
-	static class Scanner 
+
+	static class Scanner
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(InputStream s){    br = new BufferedReader(new InputStreamReader(s));}
-
-		public Scanner(FileReader r){    br = new BufferedReader(r);}
+		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
 
 		public String next() throws IOException 
 		{
@@ -50,31 +71,7 @@ public class F91_UVa10696 {
 
 		public double nextDouble() throws IOException
 		{
-			String x = next();
-			StringBuilder sb = new StringBuilder("0");
-			double res = 0, f = 1;
-			boolean dec = false, neg = false;
-			int start = 0;
-			if(x.charAt(0) == '-')
-			{
-				neg = true;
-				start++;
-			}
-			for(int i = start; i < x.length(); i++)
-				if(x.charAt(i) == '.')
-				{
-					res = Long.parseLong(sb.toString());
-					sb = new StringBuilder("0");
-					dec = true;
-				}
-				else
-				{
-					sb.append(x.charAt(i));
-					if(dec)
-						f *= 10;
-				}
-			res += Long.parseLong(sb.toString()) / f;
-			return res * (neg?-1:1);
+			return Double.parseDouble(next());
 		}
 
 		public boolean ready() throws IOException {return br.ready();}
