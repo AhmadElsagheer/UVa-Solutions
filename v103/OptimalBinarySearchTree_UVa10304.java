@@ -4,36 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
 public class OptimalBinarySearchTree_UVa10304 {
 
-	static final int INF = (int)1e9;
-	static int[] f, prefix;
-	static int[][] memo;
-	
-	static int dp(int l, int r)
-	{
-		if(l >= r)
-			return 0;
-		if(memo[l][r] != -1)
-			return memo[l][r];
-		int ret = INF;
-		for(int k = l; k <= r; ++k)
-			ret = Math.min(ret, getSum(l, k, r) + dp(l, k-1) + dp(k + 1, r));
-		return memo[l][r] = ret;
-	}
-	
-	static int getSum(int l, int k, int r)
-	{
-		int sum = prefix[r] - f[k];
-		if(l > 0)
-			sum -= prefix[l-1];
-		return sum;
-	}
-	
+	/*
+	 * Knuth's Optimization
+	 */
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
@@ -41,23 +19,41 @@ public class OptimalBinarySearchTree_UVa10304 {
 
 		while(sc.ready())
 		{
-			int N = sc.nextInt();
-			f = new int[N];
-			prefix = new int[N];
-			for(int i = 0; i < N; ++i)
-			{
-				prefix[i] = f[i] = sc.nextInt();
-				if(i > 0)
-					prefix[i] += prefix[i-1];
-			}
-			memo = new int[N][N];
-			for(int i = 0; i < N; ++i)
-				Arrays.fill(memo[i], -1);
-			out.println(dp(0, N - 1));
+			int n = sc.nextInt(), f[] = new int[n];
+			for(int i = 0; i < n; ++i)
+				f[i] = sc.nextInt();
+			int[] prefix = new int[n];
+			prefix[0] = f[0];
+			for(int i = 1; i < n; ++i)
+				prefix[i] = prefix[i - 1] + f[i];
+			int[][] dp = new int[n][n], p = new int[n][n];
+			for(int i = 0; i < n; ++i)
+				p[i][i] = i;
+			for(int len = 2; len <= n; ++len)
+				for(int i = 0, j = i + len - 1; j < n; ++i, ++j)
+				{
+					int left = p[i][j - 1], right = p[i + 1][j], ret = (int)1e9;
+					for(int k = left; k <= right; ++k)
+					{
+						int w = prefix[j] - f[k] - (i > 0 ? prefix[i - 1] : 0);
+						if(k > i)
+							w += dp[i][k - 1];
+						if(k < j)
+							w += dp[k + 1][j];
+						if(w < ret)
+						{
+							ret = w;
+							p[i][j] = k;
+						}
+					}
+					dp[i][j] = ret;
+				}
+			out.println(dp[0][n-1]);
 		}
 		out.flush();
 		out.close();
 	}
+
 	
 	static class Scanner 
 	{
