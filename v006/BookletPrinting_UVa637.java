@@ -1,4 +1,4 @@
-package cp1_4;
+package v006;
 
 import java.io.BufferedReader;
 import java.io.IOException;
