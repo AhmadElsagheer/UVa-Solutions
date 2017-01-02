@@ -1,71 +1,39 @@
-package cp4_7;
-
+package v012;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class MachineScheduling_UVa1194 {
+public class GuardianOfDecency_UVa12083 {
 
-	static int V, n, m;	//n(left) + m(right) = V
-	static ArrayList<Integer>[] adjList;	//size = n, idx = [1, n], val = [1, m]
-
-	public static void main(String[] args) throws IOException {
-
-		Scanner sc = new Scanner(System.in);
-		PrintWriter out = new PrintWriter(System.out);
-
-		while(true)
-		{
-			n = sc.nextInt();
-			if(n == 0)
-				break;
-			m = sc.nextInt();
-			int k = sc.nextInt();
-			adjList = new ArrayList[n + 1];
-			for(int i = 1; i <= n; ++i)
-				adjList[i] = new ArrayList<Integer>();
-			while(k-->0)
-			{
-				sc.nextInt();
-				int u = sc.nextInt(), v = sc.nextInt();
-				if(u != 0 && v != 0)
-					adjList[u].add(v);
-			}
-			int ans = hopcroftKarp();
-			out.println(ans);
-			
-		}
-
-		out.flush();
-		out.close();
-
-
-	}
-
+	static int V, n, m, match[];
+	static ArrayList<Integer>[] adjList;	//size = n, idx = [0, n-1], val = [0, m-1]
+	
 	static int[] pair_U, pair_V, dist;
 	static final int NIL = 0, INF = (int)1e9;
 	static int hopcroftKarp()
 	{
-		pair_U = new int[n + 1];	//filled with NIL
-		pair_V = new int[m + 1];	//filled with NIL
+		pair_U = new int[n + 1];
+		pair_V = new int[m + 1];
 		dist = new int[n + 1];
-
+		Arrays.fill(pair_U, NIL);
+		Arrays.fill(pair_V, NIL);
+		
 		int matching = 0;
 		while(bfs())
 			for(int u = 1; u <= n; ++u)
 				if(pair_U[u] == NIL && dfs(u))
 					++matching;
+		
 		return matching;
 	}
-
+	
 	static boolean bfs()
 	{
 		Queue<Integer> q = new LinkedList<Integer>();
@@ -82,23 +50,21 @@ public class MachineScheduling_UVa1194 {
 		{
 			int u = q.remove();
 			if(dist[u] < dist[NIL])
-			{
 				for(int v : adjList[u])
 					if(dist[pair_V[v]] == INF)
 					{
 						dist[pair_V[v]] = dist[u] + 1;
 						q.add(pair_V[v]);
 					}
-			}
 		}
 		return dist[NIL] != INF;
 	}
-
+	
 	static boolean dfs(int u)
 	{
 		if(u == NIL)
 			return true;
-
+		
 		for(int v : adjList[u])
 			if(dist[pair_V[v]] == dist[u] + 1 && dfs(pair_V[v]))
 			{
@@ -108,19 +74,51 @@ public class MachineScheduling_UVa1194 {
 			}
 		dist[u] = INF;
 		return false;
-
-
+		
+					
 	}
-
-
+	
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(System.out);
+		int tc = sc.nextInt();
+		while(tc-->0)
+		{
+			n = 0; m = 0;
+			V = sc.nextInt();
+			int[] h = new int[V];
+			String[] music = new String[V], sport = new String[V];
+			while(n + m < V)
+			{
+				int hh = sc.nextInt(), idx;
+				if(sc.next().charAt(0) == 'M')
+					idx = n++;
+				else
+					idx = V - 1 - m++;
+				h[idx] = hh;
+				music[idx] = sc.next();
+				sport[idx] = sc.next();
+			}
+			adjList = new ArrayList[n + 1];
+			for(int i = 0; i < n; ++i)
+			{
+				adjList[i + 1] = new ArrayList<Integer>();
+				for(int j = 0; j < m; ++j)
+					if(Math.abs(h[i] - h[n + j]) <= 40 && music[i].equals(music[n + j]) && !sport[i].equals(sport[n + j]))
+						adjList[i + 1].add(j + 1);
+			}
+			out.println(V - hopcroftKarp());
+		}
+		
+		out.flush();
+	}
+	
 	static class Scanner 
 	{
 		StringTokenizer st;
 		BufferedReader br;
 
-		public Scanner(FileReader fileReader) throws FileNotFoundException{	br = new BufferedReader(fileReader);}
-
-		public Scanner(InputStream s) throws FileNotFoundException{	br = new BufferedReader(new InputStreamReader(s));}
+		public Scanner(InputStream s){	br = new BufferedReader(new InputStreamReader(s));}
 
 		public String next() throws IOException 
 		{
@@ -128,36 +126,6 @@ public class MachineScheduling_UVa1194 {
 				st = new StringTokenizer(br.readLine());
 			return st.nextToken();
 		}
-
-		public double nextDouble() throws IOException
-		{
-			String x = next();
-			StringBuilder sb = new StringBuilder("0");
-			double res = 0, f = 1;
-			boolean dec = false, neg = false;
-			int start = 0;
-			if(x.charAt(0) == '-')
-			{
-				neg = true;
-				start++;
-			}
-			for(int i = start; i < x.length(); i++)
-				if(x.charAt(i) == '.')
-				{
-					res = Long.parseLong(sb.toString());
-					sb = new StringBuilder("0");
-					dec = true;
-				}
-				else
-				{
-					sb.append(x.charAt(i));
-					if(dec)
-						f *= 10;
-				}
-			res += Long.parseLong(sb.toString()) / f;
-			return res * (neg?-1:1);
-		}
-
 
 		public int nextInt() throws IOException {return Integer.parseInt(next());}
 
@@ -169,7 +137,4 @@ public class MachineScheduling_UVa1194 {
 
 
 	}
-
 }
-
-
