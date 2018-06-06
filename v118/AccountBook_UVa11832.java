@@ -70,7 +70,7 @@ public class AccountBook_UVa11832 {
 			for(int i = 0; i < N; ++i)
 				T[i] = sc.nextInt();
 			
-			if(solve() != 1)
+			if(Math.abs(F) > OFFSET || solve() != 1)
 				out.println("*");
 			else
 			{
