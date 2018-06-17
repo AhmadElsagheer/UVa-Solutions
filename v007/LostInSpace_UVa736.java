@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 public class LostInSpace_UVa736 {
 
-	static String[] dirs = new String[] { "N", "NE", "E", "SE", "S", "SW", "W", "NW"};
+	static String[] dirs = new String[] { "N", "NE", "incomp.E", "SE", "S", "SW", "W", "NW"};
 	static int[] dx = new int[] {-1, -1, 0, 1, 1, 1, 0, -1};
 	static int[] dy = new int[] {0, 1, 1, 1, 0, -1, -1, -1};
 

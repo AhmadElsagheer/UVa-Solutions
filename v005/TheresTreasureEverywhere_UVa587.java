@@ -20,7 +20,7 @@ public class TheresTreasureEverywhere_UVa587 {
 
 		TreeMap<String, Vector> map = new TreeMap<String, Vector>();
 		map.put("N", new Vector(0, 1));map.put("S", new Vector(0, -1));
-		map.put("E", new Vector(1, 0));map.put("W", new Vector(-1, 0));
+		map.put("incomp.E", new Vector(1, 0));map.put("W", new Vector(-1, 0));
 		map.put("NE", new Vector(1/sqrt2, 1/sqrt2));map.put("NW", new Vector(-1/sqrt2, 1/sqrt2));
 		map.put("SE", new Vector(1/sqrt2, -1/sqrt2));map.put("SW", new Vector(-1/sqrt2, -1/sqrt2));
 		int k = 1;

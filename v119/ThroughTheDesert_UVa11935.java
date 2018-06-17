@@ -25,7 +25,7 @@ public class ThroughTheDesert_UVa11935 {
 //				return false;
 //			switch(cur.event)
 //			{
-//			case 'F':	cons = cur.fuel;break;
+//			case 'j_package.Main':	cons = cur.fuel;break;
 //			case 'G':	fuel = V;break;
 //			case 'M':	leaks = 0;break;
 //				default:	leaks++;

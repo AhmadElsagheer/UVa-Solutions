@@ -69,7 +69,7 @@ public class FindingNemo_UVa1202 {
 			int N = sc.nextInt(), M = sc.nextInt();
 			if(N + M == -2)
 				break;
-			grid = new int[200][200];	// 0 -> 7 (2 bits each): N, E, S, W (0 nth, 1 door, 2 wall)
+			grid = new int[200][200];	// 0 -> 7 (2 bits each): N, incomp.E, S, W (0 nth, 1 door, 2 wall)
 			while(N-->0)
 			{
 				int x = sc.nextInt(), y = sc.nextInt(), d = sc.nextInt(), t = sc.nextInt();

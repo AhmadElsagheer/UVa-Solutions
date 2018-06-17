@@ -85,7 +85,7 @@ public class StringComputer_UVa164 {
 			for(int i = 0; i < s.length; ++i)
 				Arrays.fill(memo[i], -1);
 			print(0, 0);
-			sb.append("E\n");
+			sb.append("incomp.E\n");
 		}
 		out.print(sb);
 		out.flush();

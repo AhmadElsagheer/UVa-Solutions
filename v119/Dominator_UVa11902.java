@@ -40,7 +40,7 @@ public class Dominator_UVa11902 {
 	
 	
 	
-	public static void dfs(int u, int x)	//O(V+E) for adjList and O(V^2) for adjList
+	public static void dfs(int u, int x)	//O(V+incomp.E) for adjList and O(V^2) for adjList
 	{
 		
 		if(u==x)

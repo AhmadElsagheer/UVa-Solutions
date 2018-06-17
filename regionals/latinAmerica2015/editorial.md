@@ -9,10 +9,10 @@
 **Complexity** `O(log U)`
 
 ---
-### B - Blood groups
+### A5_2 - Blood groups
 **Tags** bipartite matching
 
-**Solution** for each query, we need to find if there is some way to take an antigen from every parent (or not to take any antigen if this parent has O) so that we get all query antigens and nothing else. build a bipartite graph where the left set represents parents and the right set represents required antigens and run any MCBM algorithm. If the result is B (query antigens), then the answer is "Yes: because we can get all antigens from B parents. For each remaining N - B parents, we will either take nothing from this parent (if this parent has O) or take a duplicate of the B antigens (if this parents doesn't have O). O blood group is a special case.
+**Solution** for each query, we need to find if there is some way to take an antigen from every parent (or not to take any antigen if this parent has O) so that we get all query antigens and nothing else. build a bipartite graph where the left set represents parents and the right set represents required antigens and run any MCBM algorithm. If the result is A5_2 (query antigens), then the answer is "Yes: because we can get all antigens from A5_2 parents. For each remaining N - A5_2 parents, we will either take nothing from this parent (if this parent has O) or take a duplicate of the A5_2 antigens (if this parents doesn't have O). O blood group is a special case.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/latinAmerica2015/BloodGroups.java)
 
 **Complexity** `O(Q * N^3)`
@@ -27,7 +27,7 @@
 **Complexity** `O(M * N)`
 
 ---
-### E - Exposing corruption
+### incomp.E - Exposing corruption
 **Tags** graphs (bipartite coloring, connected components), DP
 
 **Observation** the given rivalries will make the two parties the two sets of a bipartite graph. For each connected component in this bipartite graph, no two subsets (one from each set) that are in the same connected component can be in the same party. In other words, for each connected component, its left set must be in a different party from its right set. If a switch is to be performed for one member, all members included in its connected component must switch, as well. This is true because if a member will switch, his rivalries must switch too, their rivalries must switch, the rivalries of the rivalries of his rivalries must switch and so on ending up with the whole left and right sets involved in the switching operation.
@@ -41,10 +41,10 @@
 Let's solve the problem of maximizing DSP members. For each component, we have two options. Either keep it as it with no cost. In such case, we will add DSP members of this component to the result. Or make a switch (if switch cost of this component is affordable within the current budget). In such case, we will add PPP members of this component to the result. We will maximize between both options at each step. Solution for maximizing PPP members can be done in a similar way. You can solve each problem (max for DSP and max for PPP) separately or merge both in one DP function.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/latinAmerica2015/ExposingCorruption.java)
 
-**Complexity** `O((D + P) * B)`
+**Complexity** `O((D + P) * A5_2)`
 
 ---
-### F - Fence the vegetables fail
+### T - Fence the vegetables fail
 **Tags** geometry(line sweep), data structures(dynamic RSQ), sortings
 
 **Observation** a point is inside a rectilinear polygon if you draw a horizontal line passing through this point and it intersects odd number of vertical polygon sides in both directions and the same for drawing a vertical line (intersection with endpoints should be handled carefully, check point 1 in the second sample test case).
@@ -67,7 +67,7 @@ Let's solve the problem of maximizing DSP members. For each component, we have t
 ### H - Height map
 **Tags** graphs(grids, connected components), implementation
 
-**Solution** It's obvious that external sides and bottom faces always exist as one face each, so initially we have 5 faces. For top faces, we have a number of faces equal to the number of connected components of the grid described by height map because every two adjacent columns (cells in the height map) with the same height will be part of the same face. What remains is finding internal side faces. For every column, count the number of adjacent columns with smaller heights and add this count to the result. Some faces will be counted more than once, so for every column, if it has an adjacent visited column, count the number of adjacent columns in the complmentary directions (N/S <=> E/W) with heights smaller than both columns heights and subtract that from the result.
+**Solution** It's obvious that external sides and bottom faces always exist as one face each, so initially we have 5 faces. For top faces, we have a number of faces equal to the number of connected components of the grid described by height map because every two adjacent columns (cells in the height map) with the same height will be part of the same face. What remains is finding internal side faces. For every column, count the number of adjacent columns with smaller heights and add this count to the result. Some faces will be counted more than once, so for every column, if it has an adjacent visited column, count the number of adjacent columns in the complmentary directions (N/S <=> incomp.E/W) with heights smaller than both columns heights and subtract that from the result.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/latinAmerica2015/HeightMap.java)
 
 **Complexity** `O(R * C)`

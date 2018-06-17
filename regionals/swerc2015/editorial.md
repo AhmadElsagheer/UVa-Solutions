@@ -8,7 +8,7 @@
 **Solution** Run a dfs from each node to count its successors and to add this node to the predecessors of the its successors then use the counted values to compute the answer.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/swerc2015/Promotions.java)
 
-**Complexity** `O(P * E)`
+**Complexity** `O(P * incomp.E)`
 
 ---
 ### C - Canvas Painting

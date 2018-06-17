@@ -36,7 +36,7 @@ public class TheForrestForTheTrees_UVa599 {
 				if(b)
 					++c;
 			
-			int a = V - c, t = V - E - a;		//connected components = V - E
+			int a = V - c, t = V - E - a;		//connected components = V - incomp.E
 			out.printf("There are %d tree(s) and %d acorn(s).\n", t, a);
 		}
 		out.flush();

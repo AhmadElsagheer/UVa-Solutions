@@ -8,7 +8,7 @@
 **Complexity** `O(1)`
 
 ---
-### B - Search the Khoj
+### A5_2 - Search the Khoj
 **Tags** brute force
 
 **Solution** Print phone numbers that mismatch with the number Jalil can recall in at most 1 digit.
@@ -26,7 +26,7 @@
 **Complexity** `O(log N)`
 
 ---
-### E - Emoticons
+### incomp.E - Emoticons
 **Tags** greedy
 
 **Solution** Consider `^_^` as `[_]`. So `^` can be either matched/unmatched `[` or matched `]`. It's not optimal to have unmatched `]` because it will never be matched if considered. Let's loop from left to right trying to make use of all symbols we have in a way similar to bracket matching. As we go further, we will count four things
@@ -47,7 +47,7 @@ Our decision for each symbol will be as follows:
 **Complexity** `O(N)`
 
 ---
-### F - Brain Fry
+### T - Brain Fry
 **Tags** graphs (SSSP on weighted graphs, DAGs), Probablities, DP
 
 **Solution** First of all, we need to find the shortest path from all restaurants to the university. This can be done by running Dijkstra's aglorithm from the source only once, so now we have all distances needed. Also, let's count for each node its neighbours. All adjacent nodes of the univeristy are its neighbours, but neighbours of restaurants are restaurants only (university is not included). The strategy described is obviously finite because time keeps increasing. The state of the judges can be described by two parameters (current location, elapsed time). Let's denoted our answer for each state by {prob, exp}.

@@ -60,8 +60,6 @@ public class HideAndSeek {
 		
 		Vector(Point p, Point q) { x = q.x - p.x; y = q.y - p.y; }
 		
-		Vector(int a, int b) { x = a; y = b; }
-		
 		long cross(Vector v) { return (long) x * v.y - (long) y * v.x; }
 		
 		long dot(Vector v) { return (long) x * v.x + (long) y * v.y; }

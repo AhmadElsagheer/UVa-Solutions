@@ -15,7 +15,7 @@ If the current question is not leaked (and incorrect), add it to some variable `
 **Complexity** `O(T * Q)` or `O(T * Q log Q)`
 
 ---
-### B - Counting Weekend Days
+### A5_2 - Counting Weekend Days
 **Tags** ad-hoc, data structures(maps, sets)
 
 **Solution** make a set for months with 31 days and map every day to an index in order. Loop starting from the current day
@@ -28,12 +28,12 @@ for `x` times where `x` is the number of days in the input month. Use modulo to 
 ### C - Toll Management
 **Tags** graphs(mst), trees(LCA)
 
-**Observation** *A* for non-special edges is inf and *B* for special edges is inf. If there is no non-special edges
+**Observation** *A* for non-special edges is inf and *A5_2* for special edges is inf. If there is no non-special edges
 (the given graph is a tree), *A* will also be inf.
 
-**Solution** To find *A* for special edges and *B* for non-special edges, we can reduce the problem to the following:
+**Solution** To find *A* for special edges and *A5_2* for non-special edges, we can reduce the problem to the following:
 - For every non-special edge e (u, v, w), find the edge e' with maximum weight on the path between u and v. This will give
-us the lower bound w' for the current edge weight (B = w - w') because if we decreased w to be less than w`, then we can
+us the lower bound w' for the current edge weight (A5_2 = w - w') because if we decreased w to be less than w`, then we can
 remove e' from the mst and we will get to separate components that e can connect with smaller weight.
 
 - For every special edge e (u, v, w), find the edge e' (u', v', w') with minimum weight such that e is on the path between
@@ -63,7 +63,7 @@ exist at least once, then LCP cannot be 0. If some character exists exactly once
 **Complexity** `O(T * N)`
 
 ---
-### E - Sum of MSLCM
+### incomp.E - Sum of MSLCM
 **Tags** number theory(modified sieve), DP (cumulative sum)
 
 **P.S.** TLE in such kind of problems can be avoided because the worst-case scenario can be easily generated.
@@ -75,7 +75,7 @@ Each test can be answered now in `O(1)`.
 **Complexity** `O(N * log N * log log N)`
 
 ---
-### F - Unique Party
+### T - Unique Party
 **Tags** brute force, DP (static RSQ), data structures(segment trees, RMQ)
 
 **Note** below solution is still getting TLE, but this is the best one I found so far (thanks to [badry](http://codeforces.com/profile/Badry))
@@ -152,7 +152,7 @@ This can be using DP with bitmask and moving with an index on the number digits.
 This can be done using knapsack and bitmasks. You will decide for every subset element which digits to take and we have already calculated valid numbers using these digits, so we will mark these digits as used, go an solve the same problem for remaining elements. Multiplying the count of valid numbers for every element will yield the required result for this subset size.
 [Source Code](https://github.com/AhmadElsagheer/UVa-Solutions/blob/master/regionals/dhaka2015/NumberedCards.java)
 
-**Complexity** `O(4^B * B)` where B is the base (here B = 10)
+**Complexity** `O(4^A5_2 * A5_2)` where A5_2 is the base (here A5_2 = 10)
 
 ---
 If anyone can get codes for remaining problems, that will be great!
